@@ -1,4 +1,4 @@
-package com.ricky.adocao.exception
+package com.ricky.desbravaTask.exceptions
 
 class SenhaCurtaException(
     message: String ="error.senha.curta",

@@ -1,7 +1,7 @@
 package com.ricky.desbravaTask.service.impl
 
-import com.ricky.adocao.exception.DepartamentoJaCadastradoException
-import com.ricky.adocao.exception.NotFoundException
+import com.ricky.desbravaTask.exceptions.DepartamentoJaCadastradoException
+import com.ricky.desbravaTask.exceptions.NotFoundException
 import com.ricky.desbravaTask.entity.Departamento
 import com.ricky.desbravaTask.repository.DepartamentoRepository
 import com.ricky.desbravaTask.service.DepartamentoService

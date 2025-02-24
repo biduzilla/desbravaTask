@@ -1,6 +1,6 @@
 package com.ricky.desbravaTask.service.impl
 
-import com.ricky.adocao.exception.NotFoundException
+import com.ricky.desbravaTask.exceptions.NotFoundException
 import com.ricky.desbravaTask.entity.Comentario
 import com.ricky.desbravaTask.repository.ComentarioRepository
 import com.ricky.desbravaTask.service.ComentarioService

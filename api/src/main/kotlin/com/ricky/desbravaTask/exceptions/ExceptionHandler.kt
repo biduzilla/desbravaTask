@@ -1,8 +1,7 @@
-package com.ricky.adocao.exception
+package com.ricky.desbravaTask.exceptions
 
-import com.ricky.adocao.dto.ErrorView
-import com.ricky.adocao.utils.I18n
-import io.jsonwebtoken.ExpiredJwtException
+import com.ricky.desbravaTask.dto.ErrorView
+import com.ricky.desbravaTask.utils.I18n
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.MethodArgumentNotValidException
@@ -97,19 +96,19 @@ class ExceptionHandler(private val i18n: I18n) {
         )
     }
 
-    @ExceptionHandler(ExpiredJwtException::class)
-    @ResponseStatus(HttpStatus.FORBIDDEN)
-    fun handleExpiredJwt(
-        exception: ExpiredJwtException,
-        request: HttpServletRequest
-    ): ErrorView {
-        return ErrorView(
-            status = HttpStatus.FORBIDDEN.value(),
-            error = HttpStatus.FORBIDDEN.name,
-            message = i18n.getMessage("token.invalido"),
-            path = request.servletPath
-        )
-    }
+//    @ExceptionHandler(ExpiredJwtException::class)
+//    @ResponseStatus(HttpStatus.FORBIDDEN)
+//    fun handleExpiredJwt(
+//        exception: ExpiredJwtException,
+//        request: HttpServletRequest
+//    ): ErrorView {
+//        return ErrorView(
+//            status = HttpStatus.FORBIDDEN.value(),
+//            error = HttpStatus.FORBIDDEN.name,
+//            message = i18n.getMessage("token.invalido"),
+//            path = request.servletPath
+//        )
+//    }
 
     @ExceptionHandler(CodVerificacaoInvalidoException::class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

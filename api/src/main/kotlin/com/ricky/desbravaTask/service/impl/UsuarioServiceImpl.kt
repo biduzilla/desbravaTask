@@ -1,8 +1,8 @@
 package com.ricky.desbravaTask.service.impl
 
-import com.ricky.adocao.exception.EmailJaCadastradoException
-import com.ricky.adocao.exception.NotFoundException
-import com.ricky.adocao.exception.SenhaCurtaException
+import com.ricky.desbravaTask.exceptions.EmailJaCadastradoException
+import com.ricky.desbravaTask.exceptions.NotFoundException
+import com.ricky.desbravaTask.exceptions.SenhaCurtaException
 import com.ricky.desbravaTask.entity.Usuario
 import com.ricky.desbravaTask.repository.UsuarioRepository
 import com.ricky.desbravaTask.service.TarefaService
