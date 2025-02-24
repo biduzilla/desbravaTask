@@ -7,9 +7,9 @@ import java.util.UUID
 @Table(name = "DEPARTAMENTO")
 data class Departamento(
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "ID")
-    var id: String="",
+    @GeneratedValue(strategy = GenerationType.UUID)
+    var id: String? = null,
     @Column(name = "NOME", length = 20)
     var nome: String = "",
     @Column(name = "COR", length = 10)

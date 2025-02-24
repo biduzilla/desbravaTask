@@ -6,15 +6,15 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Table
-import java.util.UUID
+import java.util.*
 
 @Entity
-@Table(name = "USER")
-data class User(
+@Table(name = "USUARIO")
+data class Usuario(
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.UUID)
-    var id: String = "",
+    var id: String? = null,
     @Column(name = "NAME", length = 20)
     var name: String = "",
     @Column(name = "DESCRIPTION", length = 250)

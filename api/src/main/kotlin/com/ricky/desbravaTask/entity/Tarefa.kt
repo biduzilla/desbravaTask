@@ -8,9 +8,9 @@ import java.util.*
 @Table(name = "TAREFA")
 data class Tarefa(
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "ID")
-    var id: String = "",
+    @GeneratedValue(strategy = GenerationType.UUID)
+    var id: String? = null,
     @Column(name = "NAME", length = 50)
     var name: String = "",
     @Column(name = "DESCRIPTION", length = 250)
@@ -21,8 +21,10 @@ data class Tarefa(
     @ManyToOne
     @JoinColumn(name = "DEPARTAMENTO_ID", nullable = false)
     var departamento: Departamento = Departamento(),
-    @Column(name = "CRIADOR_ID")
-    var criadoPor: User = User(),
-    @Column(name = "RESPONSAVEL_ID")
-    var responsavel: User = User()
+    @ManyToOne
+    @JoinColumn(name = "CRIADOR_ID")
+    var criadoPor: Usuario? = null,
+    @ManyToOne
+    @JoinColumn(name = "RESPONSAVEL_ID")
+    var responsavel: Usuario? = null
 ) : BaseEntity()

@@ -1,17 +1,18 @@
 package com.ricky.desbravaTask.entity
 
 import jakarta.persistence.*
+import java.util.*
 
 @Entity
 @Table(name = "COMENTARIO")
 data class Comentario(
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "ID")
-    var id: String = "",
+    @GeneratedValue(strategy = GenerationType.UUID)
+    var id: String? = null,
     @ManyToOne
     @JoinColumn(name = "USUARIO_ID")
-    var usuario: User = User(),
+    var usuario: Usuario = Usuario(),
     @ManyToOne
     @JoinColumn(name = "TAREFA_ID")
     var tarefa: Tarefa = Tarefa(),
