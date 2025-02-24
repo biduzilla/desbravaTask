@@ -17,4 +17,18 @@ interface ComentarioRepository : JpaRepository<Comentario, String> {
     @Transactional
     @Query("delete from Comentario c where c.tarefa.id = :tarefaId")
     fun deleteByTarefaId(@Param("tarefaId") tarefaId: String)
+
+    @Modifying
+    @Transactional
+    @Query("""
+    delete from Comentario c 
+    where c.tarefa.criadoPor.id = :usuarioId 
+       or c.tarefa.responsavel.id = :usuarioId
+""")
+    fun deleteByUsuarioId(@Param("usuarioId") usuarioId: String)
+
+    @Modifying
+    @Transactional
+    @Query("delete from Comentario c where c.tarefa.departamento.id = :departamentoId")
+    fun deleteByDepartamentoId(@Param("departamentoId") departamentoId: String)
 }

@@ -4,5 +4,7 @@ import com.ricky.desbravaTask.entity.Comentario
 
 interface ComentarioService : BaseService<Comentario> {
     fun findAllByIdTarefa(id: String): List<Comentario>
-    fun deleteByTarefa(id:String)
+    fun deleteByIdTarefa(id:String)
+    fun deleteByIdDepartamento(id: String)
+    fun deleteByIdUsuario(idUsuario: String)
 }
