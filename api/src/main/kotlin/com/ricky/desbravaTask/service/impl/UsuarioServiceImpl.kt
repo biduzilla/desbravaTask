@@ -5,6 +5,7 @@ import com.ricky.adocao.exception.NotFoundException
 import com.ricky.adocao.exception.SenhaCurtaException
 import com.ricky.desbravaTask.entity.Usuario
 import com.ricky.desbravaTask.repository.UsuarioRepository
+import com.ricky.desbravaTask.service.TarefaService
 import com.ricky.desbravaTask.service.UsuarioService
 import com.ricky.desbravaTask.utils.I18n
 import com.ricky.desbravaTask.utils.getPageable
@@ -14,7 +15,8 @@ import org.springframework.stereotype.Service
 @Service
 class UsuarioServiceImpl(
     private val repository: UsuarioRepository,
-    private val i18n: I18n
+    private val i18n: I18n,
+    private val tarefaService: TarefaService
 ) : UsuarioService {
     override fun save(entidade: Usuario): Usuario {
         if (repository.existsByEmail(entidade.email)) {
@@ -42,6 +44,7 @@ class UsuarioServiceImpl(
     }
 
     override fun deleteById(id: String) {
+        tarefaService.deleteByIdUsuario(id)
         repository.deleteById(id)
     }
 
