@@ -17,8 +17,6 @@ data class Usuario(
     var id: String? = null,
     @Column(name = "NAME", length = 20)
     var name: String = "",
-    @Column(name = "DESCRIPTION", length = 250)
-    var description: String = "",
     @Column(name = "EMAIL", length = 50)
     var email: String = "",
     @Column(name = "SENHA", length = 250)

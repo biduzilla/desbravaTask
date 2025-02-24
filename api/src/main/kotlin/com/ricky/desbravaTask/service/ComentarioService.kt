@@ -2,5 +2,6 @@ package com.ricky.desbravaTask.service
 
 import com.ricky.desbravaTask.entity.Comentario
 
-interface ComentarioService:BaseService<Comentario> {
+interface ComentarioService : BaseService<Comentario> {
+    fun findAllByIdTarefa(id: String): List<Comentario>
 }

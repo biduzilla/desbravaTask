@@ -7,6 +7,7 @@ import com.ricky.desbravaTask.entity.Usuario
 import com.ricky.desbravaTask.repository.UsuarioRepository
 import com.ricky.desbravaTask.service.UsuarioService
 import com.ricky.desbravaTask.utils.I18n
+import com.ricky.desbravaTask.utils.getPageable
 import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service
 
@@ -26,15 +27,22 @@ class UsuarioServiceImpl(
     override fun findById(id: String): Usuario {
         return repository
             .findById(id)
-            .orElseThrow { NotFoundException(i18n.getMessage("error.usuario.nao.encotrado")) }
+            .orElseThrow { NotFoundException(i18n.getMessage("error.usuario.nao.encontrado")) }
     }
 
-    override fun findAll(search: String,qtd: Int, pagina: Int): Page<Usuario> {
-        TODO("Not yet implemented")
+    override fun findAll(search: String?, qtd: Int, pagina: Int): Page<Usuario> {
+        val pageable = getPageable(
+            page = pagina,
+            size = qtd
+        )
+        return repository.findAll(
+            search = search,
+            pageable = pageable
+        )
     }
 
     override fun deleteById(id: String) {
-        TODO("Not yet implemented")
+        repository.deleteById(id)
     }
 
     private fun verificarSenha(senha: String) {
