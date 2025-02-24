@@ -16,6 +16,10 @@ class ComentarioServiceImpl(private val repository: ComentarioRepository) : Come
         return repository.findAllByIdTarefa(id)
     }
 
+    override fun deleteByTarefa(id: String) {
+        repository.deleteByTarefaId(id)
+    }
+
     override fun findById(id: String): Comentario {
         return repository.findById(id)
             .orElseThrow {
