@@ -1,12 +1,7 @@
 package com.ricky.desbravaTask.entity
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.Table
-import java.util.*
+import com.ricky.desbravaTask.dto.UsuarioDTO
+import jakarta.persistence.*
 
 @Entity
 @Table(name = "USUARIO")
@@ -20,5 +15,16 @@ data class Usuario(
     @Column(name = "EMAIL", length = 50)
     var email: String = "",
     @Column(name = "SENHA", length = 250)
-    var senha: String = ""
-) : BaseEntity()
+    var senha: String = "",
+    @Column(name = "CODVERIFICACAO")
+    var codVerificacao: Int = 0,
+) : BaseEntity() {
+    fun toDTO(): UsuarioDTO {
+        return UsuarioDTO(
+            id = id,
+            name = name,
+            email = email,
+            codVerificacao = codVerificacao
+        )
+    }
+}

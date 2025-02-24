@@ -20,10 +20,6 @@ class ComentarioServiceImpl(
         return repository.findAllByIdTarefa(id)
     }
 
-    override fun deleteByIdTarefa(id: String) {
-        repository.deleteByTarefaId(id)
-    }
-
     override fun findById(id: String): Comentario {
         return repository.findById(id)
             .orElseThrow {
@@ -33,6 +29,10 @@ class ComentarioServiceImpl(
 
     override fun deleteById(id: String) {
         repository.deleteById(id)
+    }
+
+    override fun deleteByIdTarefa(id: String) {
+        repository.deleteByTarefaId(id)
     }
 
     override fun deleteByIdDepartamento(id: String) {

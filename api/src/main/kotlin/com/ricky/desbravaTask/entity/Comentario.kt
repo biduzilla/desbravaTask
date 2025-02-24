@@ -1,7 +1,7 @@
 package com.ricky.desbravaTask.entity
 
+import com.ricky.desbravaTask.dto.ComentarioDTO
 import jakarta.persistence.*
-import java.util.*
 
 @Entity
 @Table(name = "COMENTARIO")
@@ -18,4 +18,13 @@ data class Comentario(
     var tarefa: Tarefa = Tarefa(),
     @Column(name = "COMENTARIO", length = 250)
     var comentario: String = ""
-) : BaseEntity()
+) : BaseEntity() {
+    fun toDTO(): ComentarioDTO {
+        return ComentarioDTO(
+            id = id,
+            usuario = usuario.toDTO(),
+            tarefa = tarefa.toDTO(),
+            comentario = comentario
+        )
+    }
+}

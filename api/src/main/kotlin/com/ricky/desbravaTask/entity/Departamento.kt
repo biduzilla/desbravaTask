@@ -1,5 +1,6 @@
 package com.ricky.desbravaTask.entity
 
+import com.ricky.desbravaTask.dto.DepartamentoDTO
 import jakarta.persistence.*
 import java.util.UUID
 
@@ -14,4 +15,12 @@ data class Departamento(
     var nome: String = "",
     @Column(name = "COR", length = 10)
     var cor: String = ""
-):BaseEntity()
+) : BaseEntity() {
+    fun toDTO(): DepartamentoDTO {
+        return DepartamentoDTO(
+            id = id,
+            nome = nome,
+            cor = cor
+        )
+    }
+}

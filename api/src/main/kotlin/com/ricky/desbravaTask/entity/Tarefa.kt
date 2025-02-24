@@ -1,8 +1,8 @@
 package com.ricky.desbravaTask.entity
 
+import com.ricky.desbravaTask.dto.TarefaDTO
 import com.ricky.desbravaTask.enums.TarefaStatusEnum
 import jakarta.persistence.*
-import java.util.*
 
 @Entity
 @Table(name = "TAREFA")
@@ -27,4 +27,16 @@ data class Tarefa(
     @ManyToOne
     @JoinColumn(name = "RESPONSAVEL_ID")
     var responsavel: Usuario? = null
-) : BaseEntity()
+) : BaseEntity() {
+    fun toDTO(): TarefaDTO {
+        return TarefaDTO(
+            id = id,
+            name = name,
+            description = description,
+            status = status,
+            departamento = departamento.toDTO(),
+            criadoPor = criadoPor?.toDTO(),
+            responsavel = responsavel?.toDTO()
+        )
+    }
+}
