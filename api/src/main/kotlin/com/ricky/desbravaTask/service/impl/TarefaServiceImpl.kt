@@ -5,6 +5,7 @@ import com.ricky.desbravaTask.exceptions.NotFoundException
 import com.ricky.desbravaTask.repository.TarefaRepository
 import com.ricky.desbravaTask.service.ComentarioService
 import com.ricky.desbravaTask.service.TarefaService
+import com.ricky.desbravaTask.service.UsuarioService
 import com.ricky.desbravaTask.utils.I18n
 import com.ricky.desbravaTask.utils.getPageable
 import org.springframework.data.domain.Page
@@ -14,10 +15,18 @@ import org.springframework.stereotype.Service
 class TarefaServiceImpl(
     private val repository: TarefaRepository,
     private val comentarioService: ComentarioService,
+    private val usuarioService: UsuarioService,
     private val i18n: I18n
 ) : TarefaService {
 
     override fun save(entidade: Tarefa): Tarefa {
+        entidade.responsavel?.id?.let {
+            entidade.responsavel = usuarioService.findById(it)
+        }
+        entidade.criadoPor?.id?.let {
+            entidade.criadoPor = usuarioService.findById(it)
+        }
+
         return repository.save(entidade)
     }
 
