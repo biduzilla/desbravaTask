@@ -15,6 +15,10 @@ class DepartamentoServiceImpl(
     private val tarefaService: TarefaService,
     private val i18n: I18n
 ) : DepartamentoService {
+    override fun findAll(): List<Departamento> {
+        return repository.findAll()
+    }
+
     override fun save(entidade: Departamento): Departamento {
         if (repository.existsByNome(entidade.nome)) {
             throw DepartamentoJaCadastradoException()
