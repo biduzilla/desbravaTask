@@ -2,7 +2,6 @@ package com.ricky.desbravaTask.entity
 
 import com.ricky.desbravaTask.dto.DepartamentoDTO
 import jakarta.persistence.*
-import java.util.UUID
 
 @Entity
 @Table(name = "DEPARTAMENTO")

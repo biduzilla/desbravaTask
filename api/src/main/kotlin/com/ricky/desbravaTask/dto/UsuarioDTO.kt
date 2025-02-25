@@ -1,7 +1,6 @@
 package com.ricky.desbravaTask.dto
 
 import com.ricky.desbravaTask.entity.Usuario
-import jakarta.persistence.Column
 
 data class UsuarioDTO(
     var id: String? = null,

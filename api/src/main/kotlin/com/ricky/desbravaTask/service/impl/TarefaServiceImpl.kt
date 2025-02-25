@@ -1,7 +1,7 @@
 package com.ricky.desbravaTask.service.impl
 
-import com.ricky.desbravaTask.exceptions.NotFoundException
 import com.ricky.desbravaTask.entity.Tarefa
+import com.ricky.desbravaTask.exceptions.NotFoundException
 import com.ricky.desbravaTask.repository.TarefaRepository
 import com.ricky.desbravaTask.service.ComentarioService
 import com.ricky.desbravaTask.service.TarefaService

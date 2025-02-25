@@ -1,8 +1,8 @@
 package com.ricky.desbravaTask.service.impl
 
-import com.ricky.desbravaTask.exceptions.NotFoundException
 import com.ricky.desbravaTask.entity.Configuracao
 import com.ricky.desbravaTask.enums.ConfiguracaoEnum
+import com.ricky.desbravaTask.exceptions.NotFoundException
 import com.ricky.desbravaTask.repository.ConfiguracaoRepository
 import com.ricky.desbravaTask.service.ConfiguracaoService
 import com.ricky.desbravaTask.utils.I18n

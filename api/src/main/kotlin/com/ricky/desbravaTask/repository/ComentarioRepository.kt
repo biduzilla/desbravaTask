@@ -1,7 +1,6 @@
 package com.ricky.desbravaTask.repository
 
 import com.ricky.desbravaTask.entity.Comentario
-import com.ricky.desbravaTask.entity.Tarefa
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query

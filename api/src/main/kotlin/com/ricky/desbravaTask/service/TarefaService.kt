@@ -1,6 +1,5 @@
 package com.ricky.desbravaTask.service
 
-import com.ricky.desbravaTask.entity.Departamento
 import com.ricky.desbravaTask.entity.Tarefa
 import org.springframework.data.domain.Page
 
