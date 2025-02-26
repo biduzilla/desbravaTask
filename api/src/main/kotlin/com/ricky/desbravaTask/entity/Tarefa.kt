@@ -10,7 +10,7 @@ data class Tarefa(
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.UUID)
-    var id: String? = null,
+    var id: String = "",
     @Column(name = "NAME", length = 50)
     var name: String = "",
     @Column(name = "DESCRIPTION", length = 250)

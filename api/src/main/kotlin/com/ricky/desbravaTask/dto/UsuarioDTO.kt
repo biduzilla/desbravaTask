@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 
 data class UsuarioDTO(
-    var id: String? = null,
+    var id: String = "",
     @field:NotBlank(message = "{comentario.obrigatorio}")
     var name: String = "",
     @field:NotBlank(message = "{email.obrigatorio}")

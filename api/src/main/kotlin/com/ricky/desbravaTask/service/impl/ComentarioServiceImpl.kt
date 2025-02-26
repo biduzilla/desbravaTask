@@ -6,6 +6,7 @@ import com.ricky.desbravaTask.repository.ComentarioRepository
 import com.ricky.desbravaTask.service.ComentarioService
 import com.ricky.desbravaTask.service.UsuarioService
 import com.ricky.desbravaTask.utils.I18n
+import org.springframework.beans.BeanUtils
 import org.springframework.stereotype.Service
 
 @Service
@@ -19,6 +20,12 @@ class ComentarioServiceImpl(
             entidade.usuario = usuarioService.findById(it)
         }
         return repository.save(entidade)
+    }
+
+    override fun update(entitade: Comentario): Comentario {
+        val data = findById(entitade.id)
+        BeanUtils.copyProperties(entitade, data)
+        return repository.save(data)
     }
 
     override fun findAllByIdTarefa(id: String): List<Comentario> {

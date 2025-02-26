@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 
 data class TarefaDTO(
-    var id: String? = null,
+    var id: String = "",
     @field:NotBlank(message = "{comentario.obrigatorio}")
     var name: String = "",
     @field:NotBlank(message = "{descricao.obrigatorio}")

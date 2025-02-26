@@ -21,7 +21,7 @@ abstract class BaseEntity(
 
     @field:CreatedBy
     @Column(updatable = false)
-    var createdBy: String = "",
+    var createdBy: String? = null,
 
     @field:LastModifiedDate
     @Column(insertable = false)

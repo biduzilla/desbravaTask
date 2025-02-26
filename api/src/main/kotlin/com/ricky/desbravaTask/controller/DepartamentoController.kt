@@ -32,7 +32,7 @@ class DepartamentoController(private val departamentoService: DepartamentoServic
 
     @PutMapping
     fun update(@RequestBody @Valid data: DepartamentoDTO): DepartamentoDTO {
-        return departamentoService.save(data.toModel()).toDTO()
+        return departamentoService.update(data.toModel()).toDTO()
     }
 
     @DeleteMapping("/{id}")

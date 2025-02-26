@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
 
 data class ComentarioDTO(
-    var id: String? = null,
+    var id: String = "",
     @field:NotNull(message = "{usuario.obrigatorio}")
     var usuario: UsuarioDTO = UsuarioDTO(),
     @field:NotNull(message = "{tarefa.obrigatorio}")

@@ -39,7 +39,7 @@ class TarefaController(private val tarefaService: TarefaService) {
 
     @PutMapping
     fun update(@RequestBody @Valid data: TarefaDTO): TarefaDTO {
-        return tarefaService.save(data.toModel()).toDTO()
+        return tarefaService.update(data.toModel()).toDTO()
     }
 
     @DeleteMapping("/{id}")

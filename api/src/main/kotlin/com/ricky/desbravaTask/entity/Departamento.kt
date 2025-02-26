@@ -9,7 +9,7 @@ data class Departamento(
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.UUID)
-    var id: String? = null,
+    var id: String = "",
     @Column(name = "NOME", length = 20)
     var nome: String = "",
     @Column(name = "COR", length = 10)

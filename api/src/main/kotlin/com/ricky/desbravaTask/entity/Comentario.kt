@@ -9,7 +9,7 @@ data class Comentario(
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.UUID)
-    var id: String? = null,
+    var id: String = "",
     @ManyToOne
     @JoinColumn(name = "USUARIO_ID")
     var usuario: Usuario = Usuario(),

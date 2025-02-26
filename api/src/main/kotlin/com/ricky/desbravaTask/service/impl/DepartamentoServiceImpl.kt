@@ -7,6 +7,7 @@ import com.ricky.desbravaTask.repository.DepartamentoRepository
 import com.ricky.desbravaTask.service.DepartamentoService
 import com.ricky.desbravaTask.service.TarefaService
 import com.ricky.desbravaTask.utils.I18n
+import org.springframework.beans.BeanUtils
 import org.springframework.stereotype.Service
 
 @Service
@@ -24,6 +25,12 @@ class DepartamentoServiceImpl(
             throw DepartamentoJaCadastradoException()
         }
         return repository.save(entidade)
+    }
+
+    override fun update(entitade: Departamento): Departamento {
+        val data = findById(entitade.id)
+        BeanUtils.copyProperties(entitade, data)
+        return repository.save(data)
     }
 
     override fun findById(id: String): Departamento {
