@@ -63,6 +63,10 @@ class WebSecurityConfiguration(
             }
         }.authorizeHttpRequests { authorize ->
             authorize
+                .requestMatchers("/usuario/login")?.permitAll()
+                ?.requestMatchers("/usuario/alterar-senha")?.permitAll()
+                ?.requestMatchers("/usuario/verificar-cod/**")?.permitAll()
+                ?.requestMatchers("/usuario/verificar-cod/**")?.permitAll()
                 ?.requestMatchers("/h2-console/**")?.permitAll()
                 ?.requestMatchers("/h2-console/")?.permitAll()
                 ?.requestMatchers("/h2-console")?.permitAll()
