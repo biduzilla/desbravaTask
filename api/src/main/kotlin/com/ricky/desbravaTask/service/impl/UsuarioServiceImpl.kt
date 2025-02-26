@@ -14,6 +14,7 @@ import com.ricky.desbravaTask.utils.getPageable
 import org.springframework.beans.BeanUtils
 import org.springframework.data.domain.Page
 import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import kotlin.random.Random
@@ -132,10 +133,11 @@ class UsuarioServiceImpl(
     }
 
     override fun loadUserByUsername(username: String?): UserDetails {
-        username?.let { email ->
-            val usuario = findByEmail(email)
-            return UserDetail(usuario)
+        if (username.isNullOrBlank()) {
+            throw UsernameNotFoundException("Usuário não pode ser nulo ou vazio")
         }
+        val usuario = findByEmail(username)
+        return UserDetail(usuario)
     }
 
     private fun verificarSenha(senha: String) {
