@@ -1,6 +1,7 @@
 package com.ricky.desbravaTask.configuration
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.ricky.desbravaTask.security.JwtAuthEntryPoint
 import com.ricky.desbravaTask.security.JwtAuthFilter
 import com.ricky.desbravaTask.security.JwtService
 import com.ricky.desbravaTask.service.UsuarioService
@@ -25,7 +26,8 @@ class WebSecurityConfiguration(
     @Lazy private val usuarioService: UsuarioService,
     private val jwtService: JwtService,
     private val i18n: I18n,
-    private val objectMapper: ObjectMapper
+    private val objectMapper: ObjectMapper,
+    private val jwtAuthEntryPoint: JwtAuthEntryPoint
 ) {
     @Bean
     fun passwordEncoder(): PasswordEncoder {
@@ -77,6 +79,8 @@ class WebSecurityConfiguration(
                 ?.authenticated()
         }.sessionManagement {
             it?.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        }.exceptionHandling{
+            it.authenticationEntryPoint(jwtAuthEntryPoint)
         }.formLogin {
             it?.disable()
         }.addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter::class.java)
