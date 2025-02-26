@@ -63,6 +63,12 @@ class WebSecurityConfiguration(
             }
         }.authorizeHttpRequests { authorize ->
             authorize
+                .requestMatchers(
+                    "/swagger-ui/index.html",
+                    "/swagger-ui.html",
+                    "/v3/api-docs/**",
+                    "/swagger-ui/**"
+                ).permitAll()
                 .requestMatchers("/usuario/login")?.permitAll()
                 ?.requestMatchers("/usuario/alterar-senha")?.permitAll()
                 ?.requestMatchers("/usuario/verificar-cod/**")?.permitAll()

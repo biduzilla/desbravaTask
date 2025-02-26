@@ -19,7 +19,8 @@ data class Departamento(
         return DepartamentoDTO(
             id = id,
             nome = nome,
-            cor = cor
+            cor = cor,
+            createdAt = createdAt
         )
     }
 }

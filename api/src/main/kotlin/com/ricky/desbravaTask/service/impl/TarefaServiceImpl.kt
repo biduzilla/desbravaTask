@@ -9,6 +9,7 @@ import com.ricky.desbravaTask.service.UsuarioService
 import com.ricky.desbravaTask.utils.I18n
 import com.ricky.desbravaTask.utils.getPageable
 import org.springframework.beans.BeanUtils
+import org.springframework.context.annotation.Lazy
 import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service
 
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Service
 class TarefaServiceImpl(
     private val repository: TarefaRepository,
     private val comentarioService: ComentarioService,
-    private val usuarioService: UsuarioService,
+    @Lazy private val usuarioService: UsuarioService,
     private val i18n: I18n
 ) : TarefaService {
 

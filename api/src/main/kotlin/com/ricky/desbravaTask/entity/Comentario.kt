@@ -24,7 +24,8 @@ data class Comentario(
             id = id,
             usuario = usuario.toDTO(),
             tarefa = tarefa.toDTO(),
-            comentario = comentario
+            comentario = comentario,
+            createdAt = createdAt
         )
     }
 }

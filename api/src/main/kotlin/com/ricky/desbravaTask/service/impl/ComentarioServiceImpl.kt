@@ -7,12 +7,13 @@ import com.ricky.desbravaTask.service.ComentarioService
 import com.ricky.desbravaTask.service.UsuarioService
 import com.ricky.desbravaTask.utils.I18n
 import org.springframework.beans.BeanUtils
+import org.springframework.context.annotation.Lazy
 import org.springframework.stereotype.Service
 
 @Service
 class ComentarioServiceImpl(
     private val repository: ComentarioRepository,
-    private val usuarioService: UsuarioService,
+    @Lazy private val usuarioService: UsuarioService,
     private val i18n: I18n
 ) : ComentarioService {
     override fun save(entidade: Comentario): Comentario {

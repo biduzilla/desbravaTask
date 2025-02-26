@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetailsService
 interface UsuarioService : BaseService<Usuario>,UserDetailsService {
     fun findAll(search: String?, qtd: Int, pagina: Int): Page<Usuario>
     fun login(loginDTO: LoginDTO): TokenDTO
-    fun update(usuario: Usuario): Usuario
     fun findByEmail(login: String): Usuario
     fun gerarCodVerificacao(): Int
     fun findByCodVerificacao(cod: Int): Usuario

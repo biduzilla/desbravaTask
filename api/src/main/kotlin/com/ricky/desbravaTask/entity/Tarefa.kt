@@ -36,7 +36,8 @@ data class Tarefa(
             status = status,
             departamento = departamento.toDTO(),
             criadoPor = criadoPor?.toDTO(),
-            responsavel = responsavel?.toDTO()
+            responsavel = responsavel?.toDTO(),
+            createdAt = createdAt
         )
     }
 }

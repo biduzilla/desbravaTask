@@ -16,8 +16,9 @@ interface UsuarioRepository : JpaRepository<Usuario, String> {
     fun existsByCodVerificacaoAndEmail(id: Int, email: String): Boolean
     fun existsByCodVerificacao(id: Int): Boolean
     @Query(
-        "select a from Usuario a" +
-                "where (:search is null or a.email like %:search% or a.name like %:pesquisa%) "
+        "select a from Usuario a " +
+                "where (:search is null or a.email like %:search% or a.name like %:search%)"
     )
     fun findAll(@Param("search") search: String?, pageable: Pageable): Page<Usuario>
+
 }

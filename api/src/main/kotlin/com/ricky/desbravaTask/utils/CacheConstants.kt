@@ -5,6 +5,9 @@ enum class CacheConstants {
 
     companion object {
         const val USUARIOS_CACHE = "usuarios"
+        const val TAREFAS_CACHE = "tarefas"
+        const val COMENTARIOS_CACHE = "comentarios"
+        const val DEPARTAMENTOS_CACHE = "departamentos"
 
     }
 }
