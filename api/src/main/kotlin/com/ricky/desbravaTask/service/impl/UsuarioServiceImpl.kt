@@ -70,9 +70,9 @@ class UsuarioServiceImpl(
         return userDetails
     }
 
-    override fun update(usuario: Usuario): Usuario {
-        val user = findById(usuario.id)
-        BeanUtils.copyProperties(usuario, user)
+    override fun update(entitade: Usuario): Usuario {
+        val user = findById(entitade.id)
+        BeanUtils.copyProperties(entitade, user)
         return save(user)
     }
 

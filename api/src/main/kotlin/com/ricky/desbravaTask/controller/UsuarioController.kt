@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/usuario")
+@CrossOrigin
 @Tag(
     name = "Usuário",
     description = "Operações relacionadas ao gerenciamento de usuários"

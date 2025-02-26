@@ -17,7 +17,7 @@ class ComentarioServiceImpl(
     private val i18n: I18n
 ) : ComentarioService {
     override fun save(entidade: Comentario): Comentario {
-        entidade.usuario.id?.let {
+        entidade.usuario.id.let {
             entidade.usuario = usuarioService.findById(it)
         }
         return repository.save(entidade)

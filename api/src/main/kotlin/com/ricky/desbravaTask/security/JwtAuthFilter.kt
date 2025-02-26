@@ -16,12 +16,14 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.web.filter.OncePerRequestFilter
 import java.io.IOException
 
+
 class JwtAuthFilter(
     private val jwtService: JwtService,
     private val usuarioService: UsuarioService,
     private val i18n: I18n,
     private val objectMapper: ObjectMapper
 ) : OncePerRequestFilter() {
+    @Throws(ExpiredJwtException::class)
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
@@ -52,7 +54,7 @@ class JwtAuthFilter(
                 }
 
             }
-
+        filterChain.doFilter(request, response)
     }
 
     @Throws(IOException::class)
