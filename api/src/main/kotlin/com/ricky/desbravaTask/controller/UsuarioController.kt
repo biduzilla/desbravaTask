@@ -1,9 +1,8 @@
 package com.ricky.desbravaTask.controller
 
-import com.ricky.desbravaTask.dto.LoginDTO
-import com.ricky.desbravaTask.dto.ResetSenhaDTO
-import com.ricky.desbravaTask.dto.TokenDTO
-import com.ricky.desbravaTask.dto.UsuarioDTO
+import com.google.gson.Gson
+import com.ricky.desbravaTask.dto.*
+import com.ricky.desbravaTask.service.RabbitMQProducer
 import com.ricky.desbravaTask.service.UsuarioService
 import com.ricky.desbravaTask.utils.CacheConstants
 import jakarta.transaction.Transactional
@@ -18,7 +17,8 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/usuario")
 class UsuarioController(
-    private val usuarioService: UsuarioService
+    private val usuarioService: UsuarioService,
+    private val mensageriaService: RabbitMQProducer
 ) {
 
     @PostMapping
@@ -55,6 +55,7 @@ class UsuarioController(
     fun refreshToken(@RequestBody token: TokenDTO): TokenDTO {
         return usuarioService.refreshToken(token)
     }
+
     @PutMapping
     @CacheEvict(value = [CacheConstants.USUARIOS_CACHE], allEntries = true)
     fun update(@RequestBody @Valid usuarioDTO: UsuarioDTO): ResponseEntity<UsuarioDTO> {
@@ -78,6 +79,17 @@ class UsuarioController(
             cod = cod,
             email = email
         )
+    }
+
+    @PostMapping("/reset-senha/{email}")
+    @Transactional
+    fun enviarEmailSenha(@PathVariable email: String) {
+        val user = usuarioService.findByEmail(email)
+        val cod = usuarioService.gerarCodVerificacao()
+        user.codVerificacao = cod
+        usuarioService.save(entidade = user)
+        val json = Gson().toJson(EmailVerificacaoDTO(email = user.email, cod = cod.toString()))
+        mensageriaService.sendMessage(json)
     }
 
     @PutMapping("/alterar-senha")
