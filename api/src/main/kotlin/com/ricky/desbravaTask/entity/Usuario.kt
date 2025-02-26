@@ -9,7 +9,7 @@ data class Usuario(
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.UUID)
-    var id: String? = null,
+    var id: String = "",
     @Column(name = "NAME", length = 20)
     var name: String = "",
     @Column(name = "EMAIL", length = 50)
