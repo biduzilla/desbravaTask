@@ -18,6 +18,7 @@ import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -28,8 +29,7 @@ import org.springframework.web.bind.annotation.*
     description = "Operações relacionadas ao gerenciamento de usuários"
 )
 class UsuarioController(
-    private val usuarioService: UsuarioService,
-    private val mensageriaService: RabbitMQProducer
+    private val usuarioService: UsuarioService
 ) {
 
     @Operation(
@@ -44,7 +44,7 @@ class UsuarioController(
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @CacheEvict(value = [CacheConstants.USUARIOS_CACHE], allEntries = true)
-    fun save(@RequestBody @Valid data: UsuarioDTO): UsuarioDTO {
+    fun save(@Valid @RequestBody data: UsuarioDTO): UsuarioUpdateDTO {
         return usuarioService.save(data.toModel()).toDTO()
     }
 
@@ -58,7 +58,7 @@ class UsuarioController(
         ]
     )
     @GetMapping("/{id}")
-    fun findById(@PathVariable id: String): UsuarioDTO {
+    fun findById(@PathVariable id: String): UsuarioUpdateDTO {
         return usuarioService.findById(id).toDTO()
     }
 
@@ -77,7 +77,7 @@ class UsuarioController(
         @RequestParam(required = false) search: String?,
         @RequestParam(defaultValue = "15") size: Int,
         @RequestParam(defaultValue = "0") page: Int
-    ): Page<UsuarioDTO> {
+    ): Page<UsuarioUpdateDTO> {
         return usuarioService.findAll(
             search = search,
             qtd = size,
@@ -124,7 +124,7 @@ class UsuarioController(
             ApiResponse(responseCode = "200", description = "Usuário atualizado com sucesso"),
         ]
     )
-    fun update(@RequestBody @Valid usuarioDTO: UsuarioDTO): ResponseEntity<UsuarioDTO> {
+    fun update(@RequestBody @Valid usuarioDTO: UsuarioUpdateDTO): ResponseEntity<UsuarioUpdateDTO> {
         val usuario = usuarioService.update(usuarioDTO.toModel())
         return ResponseEntity.status(HttpStatus.OK).body(usuario.toDTO())
     }
@@ -166,7 +166,7 @@ class UsuarioController(
         )
     }
 
-    @PostMapping("/reset-senha/{email}")
+    @PutMapping("/reset-senha/{email}")
     @Operation(
         summary = "Enviar e-mail para resetar senha",
         description = "API para gerar um código de verificação e enviar um e-mail para resetar a senha."
@@ -177,12 +177,7 @@ class UsuarioController(
         ]
     )
     fun enviarEmailSenha(@PathVariable email: String) {
-        val user = usuarioService.findByEmail(email)
-        val cod = usuarioService.gerarCodVerificacao()
-        user.codVerificacao = cod
-        usuarioService.save(entidade = user)
-        val json = Gson().toJson(EmailVerificacaoDTO(email = user.email, cod = cod.toString()))
-        mensageriaService.sendMessage(json)
+        usuarioService.enviarEmailSenha(email)
     }
 
     @PutMapping("/alterar-senha")

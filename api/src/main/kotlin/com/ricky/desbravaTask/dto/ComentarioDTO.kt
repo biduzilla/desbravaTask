@@ -12,7 +12,7 @@ data class ComentarioDTO(
     var id: String = "",
     @field:NotNull(message = "{usuario.obrigatorio}")
     @Schema(description = "Usuário associado ao comentário", required = true)
-    var usuario: UsuarioDTO = UsuarioDTO(),
+    var usuario: UsuarioUpdateDTO = UsuarioUpdateDTO(),
     @field:NotNull(message = "{tarefa.obrigatorio}")
     @Schema(description = "Tarefa associada ao comentário", required = true)
     var tarefa: TarefaDTO = TarefaDTO(),

@@ -1,11 +1,14 @@
 package com.ricky.desbravaTask.service.impl
 
+import com.google.gson.Gson
+import com.ricky.desbravaTask.dto.EmailVerificacaoDTO
 import com.ricky.desbravaTask.dto.LoginDTO
 import com.ricky.desbravaTask.dto.TokenDTO
 import com.ricky.desbravaTask.entity.Usuario
 import com.ricky.desbravaTask.exceptions.*
 import com.ricky.desbravaTask.repository.UsuarioRepository
 import com.ricky.desbravaTask.security.JwtService
+import com.ricky.desbravaTask.service.RabbitMQProducer
 import com.ricky.desbravaTask.service.TarefaService
 import com.ricky.desbravaTask.service.UserDetail
 import com.ricky.desbravaTask.service.UsuarioService
@@ -13,6 +16,7 @@ import com.ricky.desbravaTask.utils.I18n
 import com.ricky.desbravaTask.utils.getPageable
 import org.springframework.beans.BeanUtils
 import org.springframework.data.domain.Page
+import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -25,13 +29,13 @@ class UsuarioServiceImpl(
     private val i18n: I18n,
     private val tarefaService: TarefaService,
     private val passwordEncoder: PasswordEncoder,
-    private val jwtService: JwtService
+    private val jwtService: JwtService,
+    private val mensageriaService: RabbitMQProducer
 ) : UsuarioService {
     override fun save(entidade: Usuario): Usuario {
         if (repository.existsByEmail(entidade.email)) {
             throw EmailJaCadastradoException(i18n.getMessage("error.email.cadastrado"))
         }
-        verificarSenha(entidade.senha)
         entidade.senha = passwordEncoder.encode(entidade.senha)
         return repository.save(entidade)
     }
@@ -55,7 +59,7 @@ class UsuarioServiceImpl(
 
     override fun login(loginDTO: LoginDTO): TokenDTO {
         val usuario = repository.findByEmail(loginDTO.login)
-            .orElseThrow { throw NotFoundException(i18n.getMessage("usuario.nao.encotrado")) }
+            .orElseThrow { throw NotFoundException(i18n.getMessage("error.usuario.nao.encontrado")) }
         val userAuth = autentificar(usuario, loginDTO.senha)
         val token = jwtService.generateToken(userAuth)
         return TokenDTO(token = token, idUser = usuario.id, nome = usuario.name)
@@ -63,6 +67,7 @@ class UsuarioServiceImpl(
 
     private fun autentificar(usuario: Usuario, senha: String): UserDetails {
         val userDetails = loadUserByUsername(usuario.email)
+        val senhaGerada  = passwordEncoder.encode(senha)
         if (!passwordEncoder.matches(senha, userDetails.password)) {
             throw SenhaIncorretaException(i18n.getMessage("error.senha.invalida"))
         }
@@ -73,7 +78,8 @@ class UsuarioServiceImpl(
     override fun update(entitade: Usuario): Usuario {
         val user = findById(entitade.id)
         BeanUtils.copyProperties(entitade, user)
-        return save(user)
+
+        return repository.save(user)
     }
 
     override fun findByEmail(login: String): Usuario {
@@ -103,7 +109,6 @@ class UsuarioServiceImpl(
         val user = repository.findByEmailAndCodVerificacao(email, cod)
             .orElseThrow { NotFoundException(i18n.getMessage("usuario.nao.encotrad")) }
 
-        verificarSenha(senha)
         user.codVerificacao = 0
         user.senha = passwordEncoder.encode(senha)
         repository.save(user)
@@ -127,6 +132,15 @@ class UsuarioServiceImpl(
         )
     }
 
+    override fun enviarEmailSenha(email: String) {
+        val user = findByEmail(email)
+        val cod = gerarCodVerificacao()
+        user.codVerificacao = cod
+        repository.save(user)
+        val json = Gson().toJson(EmailVerificacaoDTO(email = user.email, cod = cod.toString()))
+        mensageriaService.sendMessage(json)
+    }
+
     override fun deleteById(id: String) {
         tarefaService.deleteByIdUsuario(id)
         repository.deleteById(id)
@@ -137,12 +151,15 @@ class UsuarioServiceImpl(
             throw UsernameNotFoundException("Usuário não pode ser nulo ou vazio")
         }
         val usuario = findByEmail(username)
-        return UserDetail(usuario)
-    }
-
-    private fun verificarSenha(senha: String) {
-        if (senha.toCharArray().size <= 7) {
-            throw SenhaCurtaException(i18n.getMessage("error.senha.curta"))
-        }
+        return User(
+            usuario.email,
+            usuario.senha,
+            true,
+            true,
+            true,
+            true,
+            emptyList()
+        )
+//        return UserDetail(usuario)
     }
 }

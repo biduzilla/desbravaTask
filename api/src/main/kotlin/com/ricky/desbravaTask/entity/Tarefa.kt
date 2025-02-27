@@ -23,10 +23,10 @@ data class Tarefa(
     var departamento: Departamento = Departamento(),
     @ManyToOne
     @JoinColumn(name = "CRIADOR_ID")
-    var criadoPor: Usuario? = null,
+    var criadoPor: Usuario = Usuario(),
     @ManyToOne
     @JoinColumn(name = "RESPONSAVEL_ID")
-    var responsavel: Usuario? = null
+    var responsavel: Usuario = Usuario()
 ) : BaseEntity() {
     fun toDTO(): TarefaDTO {
         return TarefaDTO(
@@ -35,8 +35,8 @@ data class Tarefa(
             description = description,
             status = status,
             departamento = departamento.toDTO(),
-            criadoPor = criadoPor?.toDTO(),
-            responsavel = responsavel?.toDTO(),
+            criadoPor = criadoPor.toDTO(),
+            responsavel = responsavel.toDTO(),
             createdAt = createdAt
         )
     }

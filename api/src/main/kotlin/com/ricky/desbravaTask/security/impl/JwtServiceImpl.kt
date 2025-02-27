@@ -47,15 +47,10 @@ class JwtServiceImpl(private val i18n: I18n) : JwtService {
         return claims.expiration.after(Date())
     }
 
-    private fun getClaims(token: String): Claims? {
-        return try {
-            Jwts.parser()
-                .setSigningKey(key)
-                .parseClaimsJwt(token)
-                .body
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
+    private fun getClaims(token: String?): Claims {
+        return Jwts.parser()
+            .setSigningKey(key)
+            .parseClaimsJws(token)
+            .body;
     }
 }

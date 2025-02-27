@@ -9,6 +9,7 @@ import com.ricky.desbravaTask.utils.I18n
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Lazy
+import org.springframework.http.HttpMethod
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -65,13 +66,14 @@ class WebSecurityConfiguration(
             }
         }.authorizeHttpRequests { authorize ->
             authorize
-                .requestMatchers("/usuario/login")?.permitAll()
+                ?.requestMatchers(HttpMethod.POST, "/usuario")?.permitAll()
+                ?.requestMatchers("/usuario/alterar-senha")?.permitAll()
+                ?.requestMatchers("/usuario/verificar-cod/**")?.permitAll()
+                ?.requestMatchers("/usuario/reset-senha/**")?.permitAll()
+                ?.requestMatchers("/usuario/login")?.permitAll()
                 ?.requestMatchers("/swagger-ui/index.html")?.permitAll()
                 ?.requestMatchers("/swagger-ui/**")?.permitAll()
                 ?.requestMatchers("/v3/api-docs/**")?.permitAll()
-                ?.requestMatchers("/usuario/alterar-senha")?.permitAll()
-                ?.requestMatchers("/usuario/verificar-cod/**")?.permitAll()
-                ?.requestMatchers("/usuario/verificar-cod/**")?.permitAll()
                 ?.requestMatchers("/h2-console/**")?.permitAll()
                 ?.requestMatchers("/h2-console/")?.permitAll()
                 ?.requestMatchers("/h2-console")?.permitAll()
@@ -79,7 +81,7 @@ class WebSecurityConfiguration(
                 ?.authenticated()
         }.sessionManagement {
             it?.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        }.exceptionHandling{
+        }.exceptionHandling {
             it.authenticationEntryPoint(jwtAuthEntryPoint)
         }.formLogin {
             it?.disable()

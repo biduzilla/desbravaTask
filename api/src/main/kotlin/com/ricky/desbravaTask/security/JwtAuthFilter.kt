@@ -45,11 +45,11 @@ class JwtAuthFilter(
                     }
                 } catch (e: ExpiredJwtException) {
                     logger.warn("Token expirado: ${e.message}")
-                    handleInvalidAuthorization(request, response, "token.expirado")
+                    handleInvalidAuthorization(request, response, "error.token.invalido")
                     return
                 } catch (e: Exception) {
                     logger.error("Erro ao validar token: ${e.message}", e)
-                    handleInvalidAuthorization(request, response, "token.invalido")
+                    handleInvalidAuthorization(request, response, "error.token.invalido")
                     return
                 }
 

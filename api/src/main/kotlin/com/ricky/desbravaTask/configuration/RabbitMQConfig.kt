@@ -1,6 +1,7 @@
 package com.ricky.desbravaTask.configuration
 
 import com.ricky.desbravaTask.utils.RabbitMQConstants
+import jakarta.annotation.PostConstruct
 import org.springframework.amqp.core.*
 import org.springframework.amqp.rabbit.connection.ConnectionFactory
 import org.springframework.amqp.rabbit.core.RabbitTemplate
@@ -10,7 +11,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class RabbitMQConfig {
+class RabbitMQConfig(private val amqpAdmin: AmqpAdmin) {
 
     @Bean
     fun queue(): Queue = Queue(RabbitMQConstants.EMAIL_FILA, true)
@@ -26,5 +27,11 @@ class RabbitMQConfig {
     @Bean
     fun rabbitTemplate(connectionFactory: ConnectionFactory): RabbitTemplate {
         return RabbitTemplate(connectionFactory)
+    }
+
+    @PostConstruct
+    fun init() {
+        amqpAdmin.declareExchange(DirectExchange(RabbitMQConstants.EXCHANGE))
+        amqpAdmin.declareQueue(Queue(RabbitMQConstants.EMAIL_FILA, true))
     }
 }

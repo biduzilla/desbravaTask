@@ -19,7 +19,6 @@ data class TarefaDTO(
     @Schema(description = "Descrição detalhada da tarefa", example = "Revisar o documento para enviar ao cliente", required = true)
     var description: String = "",
 
-    @NotNull(message = "{status.obrigatorio}")
     @Schema(description = "Status atual da tarefa", example = "A_FAZER", required = true)
     var status: TarefaStatusEnum = TarefaStatusEnum.A_FAZER,
 
@@ -29,11 +28,11 @@ data class TarefaDTO(
 
     @NotNull(message = "{criadorPor.obrigatorio}")
     @Schema(description = "Usuário que criou a tarefa", required = true)
-    var criadoPor: UsuarioDTO? = null,
+    var criadoPor: UsuarioUpdateDTO = UsuarioUpdateDTO(),
 
     @NotNull(message = "{responsavel.obrigatorio}")
     @Schema(description = "Usuário responsável pela execução da tarefa", required = true)
-    var responsavel: UsuarioDTO? = null,
+    var responsavel: UsuarioUpdateDTO = UsuarioUpdateDTO(),
 
     @Schema(description = "Data e hora de criação da tarefa", example = "2025-02-26T10:00:00")
     var createdAt: LocalDateTime? = null
@@ -45,8 +44,8 @@ data class TarefaDTO(
             description = description,
             status = status,
             departamento = departamento.toModel(),
-            criadoPor = criadoPor?.toModel(),
-            responsavel = responsavel?.toModel()
+            criadoPor = criadoPor.toModel(),
+            responsavel = responsavel.toModel()
         )
     }
 }

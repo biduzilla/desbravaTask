@@ -1,6 +1,7 @@
 package com.ricky.desbravaTask.entity
 
 import com.ricky.desbravaTask.dto.UsuarioDTO
+import com.ricky.desbravaTask.dto.UsuarioUpdateDTO
 import jakarta.persistence.*
 
 @Entity
@@ -19,12 +20,11 @@ data class Usuario(
     @Column(name = "CODVERIFICACAO")
     var codVerificacao: Int = 0,
 ) : BaseEntity() {
-    fun toDTO(): UsuarioDTO {
-        return UsuarioDTO(
+    fun toDTO(): UsuarioUpdateDTO {
+        return UsuarioUpdateDTO(
             id = id,
             name = name,
             email = email,
-            codVerificacao = codVerificacao
         )
     }
 }
