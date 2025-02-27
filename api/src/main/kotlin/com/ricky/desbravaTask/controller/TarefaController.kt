@@ -115,8 +115,8 @@ class TarefaController(private val tarefaService: TarefaService) {
     )
     @PutMapping
     @CacheEvict(value = [CacheConstants.USUARIOS_CACHE], allEntries = true)
-    fun update(@RequestBody @Valid data: TarefaDTO): TarefaDTO {
-        return tarefaService.update(data.toModel()).toDTO()
+    fun update(@RequestBody @Valid data: TarefaDTO): TarefaDTO? {
+        return tarefaService.update(data.toModel())?.toDTO()
     }
 
     @Operation(

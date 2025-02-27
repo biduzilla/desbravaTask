@@ -1,6 +1,7 @@
 package com.ricky.desbravaTask.service.impl
 
 import com.ricky.desbravaTask.entity.Tarefa
+import com.ricky.desbravaTask.enums.TarefaStatusEnum
 import com.ricky.desbravaTask.exceptions.NotFoundException
 import com.ricky.desbravaTask.repository.TarefaRepository
 import com.ricky.desbravaTask.service.ComentarioService
@@ -22,20 +23,22 @@ class TarefaServiceImpl(
 ) : TarefaService {
 
     override fun save(entidade: Tarefa): Tarefa {
-        entidade.responsavel?.id?.let {
-            entidade.responsavel = usuarioService.findById(it)
-        }
-        entidade.criadoPor?.id?.let {
-            entidade.criadoPor = usuarioService.findById(it)
-        }
+        entidade.responsavel = usuarioService.findById(entidade.responsavel.id)
+        entidade.criadoPor = usuarioService.findById(entidade.criadoPor.id)
 
         return repository.save(entidade)
     }
 
-    override fun update(entitade: Tarefa): Tarefa {
+    override fun update(entitade: Tarefa): Tarefa? {
         val data = findById(entitade.id)
         BeanUtils.copyProperties(entitade, data)
-        return repository.save(data)
+        if (data.status == TarefaStatusEnum.CONCLUIDA) {
+            comentarioService.deleteByIdTarefa(data.id)
+            repository.delete(data)
+           return null
+        } else {
+            return repository.save(data)
+        }
     }
 
     override fun findAll(search: String?, qtd: Int, pagina: Int): Page<Tarefa> {

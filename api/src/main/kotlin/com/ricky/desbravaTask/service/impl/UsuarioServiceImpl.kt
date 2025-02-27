@@ -68,7 +68,6 @@ class UsuarioServiceImpl(
 
     private fun autentificar(usuario: Usuario, senha: String): UserDetails {
         val userDetails = loadUserByUsername(usuario.email)
-        val senhaGerada  = passwordEncoder.encode(senha)
         if (!passwordEncoder.matches(senha, userDetails.password)) {
             throw SenhaIncorretaException(i18n.getMessage("error.senha.invalida"))
         }
@@ -108,7 +107,7 @@ class UsuarioServiceImpl(
 
     override fun alterarSenha(email: String, senha: String, cod: Int) {
         val user = repository.findByEmailAndCodVerificacao(email, cod)
-            .orElseThrow { NotFoundException(i18n.getMessage("usuario.nao.encotrad")) }
+            .orElseThrow { NotFoundException(i18n.getMessage("usuario.nao.encotrado")) }
 
         user.codVerificacao = 0
         user.senha = passwordEncoder.encode(senha)
@@ -138,7 +137,6 @@ class UsuarioServiceImpl(
         val cod = gerarCodVerificacao()
         user.codVerificacao = cod
         repository.save(user)
-
         mensageriaService.sendMessage(EmailVerificacaoDTO(email = user.email, cod = cod.toString()))
     }
 

@@ -124,9 +124,9 @@ class UsuarioController(
             ApiResponse(responseCode = "200", description = "Usuário atualizado com sucesso"),
         ]
     )
-    fun update(@RequestBody @Valid usuarioDTO: UsuarioUpdateDTO): ResponseEntity<UsuarioUpdateDTO> {
+    fun update(@RequestBody @Valid usuarioDTO: UsuarioUpdateDTO): ResponseEntity<UsuarioUpdateDTO?> {
         val usuario = usuarioService.update(usuarioDTO.toModel())
-        return ResponseEntity.status(HttpStatus.OK).body(usuario.toDTO())
+        return ResponseEntity.status(HttpStatus.OK).body(usuario?.toDTO())
     }
 
     @DeleteMapping("/{idUsuario}")

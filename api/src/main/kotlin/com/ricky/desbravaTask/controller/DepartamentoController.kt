@@ -94,8 +94,8 @@ class DepartamentoController(private val departamentoService: DepartamentoServic
     )
     @PutMapping
     @CacheEvict(value = [CacheConstants.DEPARTAMENTOS_CACHE], allEntries = true)
-    fun update(@RequestBody @Valid data: DepartamentoDTO): DepartamentoDTO {
-        return departamentoService.update(data.toModel()).toDTO()
+    fun update(@RequestBody @Valid data: DepartamentoDTO): DepartamentoDTO? {
+        return departamentoService.update(data.toModel())?.toDTO()
     }
 
     @Operation(
