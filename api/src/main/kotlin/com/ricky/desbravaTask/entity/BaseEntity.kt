@@ -15,19 +15,19 @@ import java.time.LocalDateTime
 @Data
 @EntityListeners(AuditingEntityListener::class)
 abstract class BaseEntity(
-    @Column(updatable = false)
+    @Column(updatable = false, name = "CREATED_AT")
     @field:CreatedDate
     var createdAt: LocalDateTime? = null,
 
     @field:CreatedBy
-    @Column(updatable = false)
+    @Column(updatable = false, name = "CREATED_BY")
     var createdBy: String? = null,
 
     @field:LastModifiedDate
-    @Column(insertable = false)
+    @Column(insertable = false, name = "UPDATED_AT")
     var updatedAt: LocalDateTime? = null,
 
     @field:LastModifiedBy
-    @Column(insertable = false)
+    @Column(insertable = false, name = "UPDATED_BY")
     var updatedBy: String? = null,
 )
