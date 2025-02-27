@@ -1,16 +1,17 @@
 package com.ricky.desbravaTask.service.impl
 
-import com.google.gson.Gson
 import com.ricky.desbravaTask.dto.EmailVerificacaoDTO
 import com.ricky.desbravaTask.dto.LoginDTO
 import com.ricky.desbravaTask.dto.TokenDTO
 import com.ricky.desbravaTask.entity.Usuario
-import com.ricky.desbravaTask.exceptions.*
+import com.ricky.desbravaTask.exceptions.CodVerificacaoInvalidoException
+import com.ricky.desbravaTask.exceptions.EmailJaCadastradoException
+import com.ricky.desbravaTask.exceptions.NotFoundException
+import com.ricky.desbravaTask.exceptions.SenhaIncorretaException
 import com.ricky.desbravaTask.repository.UsuarioRepository
 import com.ricky.desbravaTask.security.JwtService
 import com.ricky.desbravaTask.service.RabbitMQProducer
 import com.ricky.desbravaTask.service.TarefaService
-import com.ricky.desbravaTask.service.UserDetail
 import com.ricky.desbravaTask.service.UsuarioService
 import com.ricky.desbravaTask.utils.I18n
 import com.ricky.desbravaTask.utils.getPageable
@@ -137,8 +138,8 @@ class UsuarioServiceImpl(
         val cod = gerarCodVerificacao()
         user.codVerificacao = cod
         repository.save(user)
-        val json = Gson().toJson(EmailVerificacaoDTO(email = user.email, cod = cod.toString()))
-        mensageriaService.sendMessage(json)
+
+        mensageriaService.sendMessage(EmailVerificacaoDTO(email = user.email, cod = cod.toString()))
     }
 
     override fun deleteById(id: String) {
