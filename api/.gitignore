@@ -7,8 +7,6 @@ target/
 src/main/resources/db/migration/V5__create_configuracao.sql
 src/main/resources/application.yml
 /src/main/resources/application.yml
-docker/docker-compose.yml
-/docker/docker-compose.yml
 
 ### STS ###
 .apt_generated
