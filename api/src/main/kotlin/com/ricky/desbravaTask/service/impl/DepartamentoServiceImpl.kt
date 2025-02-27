@@ -8,7 +8,6 @@ import com.ricky.desbravaTask.service.DepartamentoService
 import com.ricky.desbravaTask.service.TarefaService
 import com.ricky.desbravaTask.utils.I18n
 import org.springframework.beans.BeanUtils
-import org.springframework.context.annotation.Lazy
 import org.springframework.stereotype.Service
 
 @Service

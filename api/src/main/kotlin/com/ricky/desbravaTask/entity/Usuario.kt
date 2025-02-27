@@ -1,6 +1,5 @@
 package com.ricky.desbravaTask.entity
 
-import com.ricky.desbravaTask.dto.UsuarioDTO
 import com.ricky.desbravaTask.dto.UsuarioUpdateDTO
 import jakarta.persistence.*
 
