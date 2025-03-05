@@ -20,18 +20,21 @@ interface UsuarioAPI {
     @POST(Constants.USER_ENDPOINT)
     suspend fun save(@Body usuario: Usuario): Response<UsuarioUpdate>
 
-    @GET
+    @GET(Constants.USER_ENDPOINT)
     suspend fun getAll(
         @Query("search") search: String?,
         @Query("size") size: Int = 0,
         @Query("page") page: Int = 0
     ): Response<PageModel<UsuarioUpdate>>
 
+    @GET("${Constants.USER_ENDPOINT}/{id}")
+    suspend fun getById(@Path("id") id: String): Response<UsuarioUpdate>
+
     @POST(Constants.USER_LOGIN_ENDPOINT)
     suspend fun login(@Body login: Login): Response<Token>
 
     @POST(Constants.USER_REFRESH_TOKEN_ENDPOINT)
-    suspend fun refreshToken(token: Token): Response<Token>
+    suspend fun refreshToken(@Body token: Token): Response<Token>
 
     @PUT(Constants.USER_ENDPOINT)
     suspend fun update(@Body usuario: UsuarioUpdate): Response<UsuarioUpdate>
@@ -47,6 +50,4 @@ interface UsuarioAPI {
 
     @PUT(Constants.USER_ALTERAR_SENHA_ENDPOINT)
     suspend fun alterarSenha(@Body resetSenha: ResetSenha): Response<Void>
-
-
 }
