@@ -1,4 +1,4 @@
-package com.ricky.desbravatask.data.network.repositoryImpl
+package com.ricky.desbravatask.data.repositoryImpl
 
 import com.ricky.desbravatask.data.network.api.UsuarioAPI
 import com.ricky.desbravatask.domain.models.Login
