@@ -1,4 +1,8 @@
 package com.ricky.desbravatask
 
-class DesbravaTaskApplication {
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
+
+@HiltAndroidApp
+class DesbravaTaskApplication:Application() {
 }
