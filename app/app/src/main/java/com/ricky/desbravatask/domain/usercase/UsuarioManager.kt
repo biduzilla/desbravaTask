@@ -35,7 +35,6 @@ class UsuarioManager @Inject constructor(
     fun delete(id: String): Flow<Resource<Boolean>> = useCaseDelete(id)
     fun getById(id: String): Flow<Resource<UsuarioUpdate>> = useCaseGetById(id)
     fun login(login: Login): Flow<Resource<Token>> = useCaseLogin(login)
-    fun refreshToken(token: Token): Flow<Resource<Token>> = useCaseRefreshToken(token)
     fun resetSenha(email: String): Flow<Resource<Boolean>> = useCaseResetSenha(email)
     fun save(usuario: Usuario): Flow<Resource<UsuarioUpdate>> = usercaseSave(usuario)
     fun update(usuario: UsuarioUpdate): Flow<Resource<UsuarioUpdate>> = useCaseUpdate(usuario)
