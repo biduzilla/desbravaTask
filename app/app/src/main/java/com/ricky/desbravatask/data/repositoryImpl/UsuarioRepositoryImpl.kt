@@ -16,9 +16,6 @@ class UsuarioRepositoryImpl @Inject constructor(
     override suspend fun login(login: Login): Response<Token> =
         usuarioAPI.login(login)
 
-    override suspend fun refreshToken(token: Token): Response<Token> =
-        usuarioAPI.refreshToken(token)
-
     override suspend fun verificarCod(cod: Int, email: String): Response<Void> =
         usuarioAPI.verificarCod(cod, email)
 
