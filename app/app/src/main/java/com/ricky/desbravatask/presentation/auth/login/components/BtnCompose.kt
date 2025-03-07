@@ -6,9 +6,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Anchor
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -27,6 +30,8 @@ fun BtnCompose(
     @StringRes text: Int? = null,
     icon: ImageVector? = null,
     onClick: () -> Unit,
+    enabled: Boolean = true,
+    loading: Boolean = false,
     colors: ButtonColors = ButtonDefaults.buttonColors(
         containerColor = MaterialTheme.colorScheme.primary
     )
@@ -35,24 +40,30 @@ fun BtnCompose(
         onClick = onClick,
         modifier = modifier,
         colors = colors,
-        shape = RoundedCornerShape(10.dp)
+        shape = RoundedCornerShape(10.dp),
+        enabled = enabled
     ) {
         Row(horizontalArrangement = Arrangement.Center) {
-            if (icon != null) {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = if (text != null) stringResource(text) else null
-                )
-            }
-            Spacer(Modifier.width(8.dp))
-            if (text != null) {
-                Text(
-                    text = stringResource(id = text),
-                    style = MaterialTheme.typography.bodyLarge.copy(
-                        fontWeight = FontWeight.Bold
+            if (loading) {
+                CircularProgressIndicator()
+            } else {
+                if (icon != null) {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = if (text != null) stringResource(text) else null
                     )
-                )
+                }
+                Spacer(Modifier.width(8.dp))
+                if (text != null) {
+                    Text(
+                        text = stringResource(id = text),
+                        style = MaterialTheme.typography.titleLarge.copy(
+                            fontWeight = FontWeight.Bold
+                        )
+                    )
+                }
             }
+
         }
     }
 }
@@ -62,6 +73,7 @@ fun BtnCompose(
 private fun BtnComposePrev() {
     BtnCompose(
         text = R.string.app_name,
-        onClick = {}
+        onClick = {},
+        icon = Icons.Default.Anchor
     )
 }

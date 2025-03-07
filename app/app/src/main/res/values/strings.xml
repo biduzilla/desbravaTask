@@ -2,6 +2,11 @@
     <string name="app_name">DesbravaTask</string>
     <string name="email">E-mail</string>
     <string name="senha">Senha</string>
+    <string name="login">Login</string>
+    <string name="esqueci_senha">Esqueci a senha</string>
+    <string name="lembrar_senha">Lembrar a senha</string>
+    <string name="nao_tem_conta">Ainda não tem conta?</string>
+    <string name="criar_conta">Criar conta</string>
 
     //error
     <string name="error_campo_obrigatorio">Campo obrigatório</string>
