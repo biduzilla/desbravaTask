@@ -56,6 +56,16 @@ fun TextFieldCompose(
     colors: TextFieldColors = TextFieldDefaults.colors(
         focusedContainerColor = Color.Transparent,
         unfocusedContainerColor = Color.Transparent,
+        focusedIndicatorColor = MaterialTheme.colorScheme.primary,
+        unfocusedIndicatorColor = MaterialTheme.colorScheme.primary,
+        focusedLeadingIconColor = MaterialTheme.colorScheme.primary,
+        unfocusedLeadingIconColor = MaterialTheme.colorScheme.primary,
+        focusedLabelColor = MaterialTheme.colorScheme.primary,
+        unfocusedLabelColor = MaterialTheme.colorScheme.primary,
+        focusedTextColor = MaterialTheme.colorScheme.primary,
+        unfocusedTextColor = MaterialTheme.colorScheme.primary,
+        focusedTrailingIconColor = MaterialTheme.colorScheme.primary,
+        unfocusedTrailingIconColor = MaterialTheme.colorScheme.primary,
     ),
     onChange: (String) -> Unit,
 ) {

@@ -31,13 +31,16 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.ricky.desbravatask.R
+import com.ricky.desbravatask.navigation.Screens
 import com.ricky.desbravatask.presentation.auth.login.components.BtnCompose
 import com.ricky.desbravatask.presentation.auth.login.components.TextFieldCompose
 
 @Composable
 fun LoginScreen(
     state: LoginState,
+    navController: NavController,
     onEvent: (LoginEvent) -> Unit
 ) {
 
@@ -47,6 +50,14 @@ fun LoginScreen(
     if (state.error.isNotBlank()) {
         Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
         onEvent(LoginEvent.ClearError)
+    }
+
+    if (state.onLogin) {
+        navController.navigate(Screens.LoginScreen.route) {
+            popUpTo(navController.graph.startDestinationId) {
+                inclusive = true
+            }
+        }
     }
 
     Column(
@@ -127,6 +138,7 @@ fun LoginScreen(
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             TextButton(onClick = {
                 focusManager.clearFocus()
+                navController.navigate(Screens.ForgetPasswordScreen.route)
             }) {
                 Text(
                     text = stringResource(id = R.string.esqueci_senha),
@@ -145,7 +157,7 @@ fun LoginScreen(
                 )
                 TextButton(onClick = {
                     focusManager.clearFocus()
-
+                    navController.navigate(Screens.RegisterScreen.route)
                 }) {
                     Text(
                         text = stringResource(id = R.string.criar_conta),
@@ -162,5 +174,7 @@ fun LoginScreen(
 @Preview(showSystemUi = true)
 @Composable
 private fun LoginScreenPrev() {
-    LoginScreen(LoginState()) { }
+    val context = LocalContext.current
+    val navController = NavController(context)
+    LoginScreen(LoginState(), navController) { }
 }
