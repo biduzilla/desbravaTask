@@ -5,6 +5,8 @@ data class LoginState(
     var email: String = "",
     var senha: String = "",
     var isLembrarSenha: Boolean = false,
+    var onLogin: Boolean = false,
     var onErrorEmail: Boolean = false,
     var onErrorSenha: Boolean = false,
+    var error:String = "",
 )

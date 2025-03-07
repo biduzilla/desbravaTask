@@ -1,5 +1,6 @@
 package com.ricky.desbravatask.presentation.auth.login
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,6 +22,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -40,6 +42,12 @@ fun LoginScreen(
 ) {
 
     val focusManager = LocalFocusManager.current
+    val context = LocalContext.current
+
+    if (state.error.isNotBlank()) {
+        Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
+        onEvent(LoginEvent.ClearError)
+    }
 
     Column(
         modifier = Modifier
@@ -51,7 +59,7 @@ fun LoginScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Spacer(Modifier.height(32.dp))
+        Spacer(Modifier.height(46.dp))
         Image(
             modifier = Modifier.size(250.dp),
             painter = painterResource(R.drawable.logo),
@@ -62,7 +70,7 @@ fun LoginScreen(
             style = MaterialTheme.typography.headlineLarge.copy(
                 fontWeight = FontWeight.Bold
             ),
-            color = MaterialTheme.colorScheme.primaryContainer
+            color = MaterialTheme.colorScheme.primary
         )
         Spacer(Modifier.height(16.dp))
         TextFieldCompose(
@@ -110,7 +118,10 @@ fun LoginScreen(
                 .width(200.dp)
                 .height(50.dp),
             text = R.string.login,
-            onClick = {}
+            enabled = !state.isLoading,
+            onClick = {
+                onEvent(LoginEvent.OnLogin)
+            }
         )
         Spacer(Modifier.height(16.dp))
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -148,7 +159,7 @@ fun LoginScreen(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun LoginScreenPrev() {
     LoginScreen(LoginState()) { }

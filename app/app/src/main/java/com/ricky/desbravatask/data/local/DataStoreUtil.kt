@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.google.gson.Gson
+import com.ricky.desbravatask.domain.models.Login
 import com.ricky.desbravatask.domain.models.Token
 import com.ricky.desbravatask.utils.Constants
 import kotlinx.coroutines.flow.Flow
@@ -20,6 +21,7 @@ class DataStoreUtil(private val context: Context) {
 
         val THEME_KEY = booleanPreferencesKey(Constants.IS_DARK_MODE)
         val TOKEN = stringPreferencesKey(Constants.USER_TOKEN)
+        val LOGIN = stringPreferencesKey(Constants.USER_LOGIN)
     }
 
     suspend fun saveTheme(isDark: Boolean) {
@@ -33,6 +35,11 @@ class DataStoreUtil(private val context: Context) {
         context.dataStore.edit { p -> p[TOKEN] = json }
     }
 
+    suspend fun saveLogin(login: Login) {
+        val json = Gson().toJson(login)
+        context.dataStore.edit { p -> p[LOGIN] = json }
+    }
+
     fun getTheme(): Flow<Boolean> {
         return context.dataStore.data.map { preferences ->
             preferences[THEME_KEY] ?: false
@@ -44,6 +51,17 @@ class DataStoreUtil(private val context: Context) {
             val json = preferences[TOKEN] ?: ""
             if (json.isNotEmpty()) {
                 Gson().fromJson(json, Token::class.java)
+            } else {
+                null
+            }
+        }
+    }
+
+    fun getLogin(): Flow<Login?> {
+        return context.dataStore.data.map { preferences ->
+            val json = preferences[LOGIN] ?: ""
+            if (json.isNotEmpty()) {
+                Gson().fromJson(json, Login::class.java)
             } else {
                 null
             }
