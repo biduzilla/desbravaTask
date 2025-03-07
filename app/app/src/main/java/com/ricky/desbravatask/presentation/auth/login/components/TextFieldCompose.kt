@@ -23,6 +23,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalFocusManager
@@ -51,7 +52,7 @@ fun TextFieldCompose(
     ime: ImeAction = ImeAction.Next,
     onDone: () -> Unit = {},
     onNext: () -> Unit = {},
-    enable:Boolean = true,
+    enable: Boolean = true,
     colors: TextFieldColors = TextFieldDefaults.colors(
         focusedContainerColor = Color.Transparent,
         unfocusedContainerColor = Color.Transparent,
@@ -85,7 +86,10 @@ fun TextFieldCompose(
                     focusManager.clearFocus()
                     onDone()
                 },
-                onNext = { onNext() }),
+                onNext = {
+                    focusManager.moveFocus(FocusDirection.Down)
+                    onNext()
+                }),
             label = {
                 if (label != null) {
                     Text(
