@@ -35,6 +35,7 @@ import androidx.navigation.NavController
 import com.ricky.desbravatask.R
 import com.ricky.desbravatask.navigation.Screens
 import com.ricky.desbravatask.presentation.auth.login.components.BtnCompose
+import com.ricky.desbravatask.presentation.auth.login.components.ErrorToast
 import com.ricky.desbravatask.presentation.auth.login.components.TextFieldCompose
 
 @Composable
@@ -45,10 +46,8 @@ fun LoginScreen(
 ) {
 
     val focusManager = LocalFocusManager.current
-    val context = LocalContext.current
 
-    if (state.error.isNotBlank()) {
-        Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
+    ErrorToast(error = state.error) {
         onEvent(LoginEvent.ClearError)
     }
 

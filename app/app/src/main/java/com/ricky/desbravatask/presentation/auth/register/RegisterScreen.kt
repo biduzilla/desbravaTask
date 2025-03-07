@@ -17,7 +17,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,7 +28,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ricky.desbravatask.R
+import com.ricky.desbravatask.navigation.Screens
 import com.ricky.desbravatask.presentation.auth.login.components.BtnCompose
+import com.ricky.desbravatask.presentation.auth.login.components.ErrorToast
 import com.ricky.desbravatask.presentation.auth.login.components.TextFieldCompose
 
 @Composable
@@ -38,8 +39,16 @@ fun RegisterScreen(
     navController: NavController,
     onEvent: (RegisterEvent) -> Unit
 ) {
-    Column(
-    ) {
+
+    ErrorToast(error = state.error) {
+        onEvent(RegisterEvent.ClearError)
+    }
+
+    if (state.onRegister) {
+        navController.navigate(Screens.LoginScreen.route)
+    }
+
+    Column {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
@@ -78,7 +87,7 @@ fun RegisterScreen(
                 icon = Icons.Default.Person,
                 ime = ImeAction.Next,
 
-            ) {
+                ) {
                 onEvent(RegisterEvent.OnChangeNome(it))
             }
             TextFieldCompose(

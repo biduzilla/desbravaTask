@@ -127,7 +127,7 @@ class LoginViewModel @Inject constructor(
                 if (_state.value.senha.isBlank()) {
                     _state.update {
                         it.copy(
-                            onErrorEmail = true
+                            onErrorSenha = true
                         )
                     }
                     return
