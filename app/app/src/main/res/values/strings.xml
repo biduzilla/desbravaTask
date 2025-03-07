@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">DesbravaTask</string>
+
+    //error
+    <string name="error_campo_obrigatorio">Campo obrigatório</string>
+    <string name="error_confirma_senha">As senhas devem ser iguais</string>
 </resources>
