@@ -1,6 +1,5 @@
 package com.ricky.desbravatask.presentation.auth.login
 
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

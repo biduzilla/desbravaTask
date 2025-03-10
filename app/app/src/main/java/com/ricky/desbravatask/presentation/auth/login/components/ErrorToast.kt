@@ -3,7 +3,6 @@ package com.ricky.desbravatask.presentation.auth.login.components
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import com.ricky.desbravatask.presentation.auth.login.LoginEvent
 
 @Composable
 fun ErrorToast(

@@ -1,5 +1,6 @@
 package com.ricky.desbravatask.presentation.auth.register
 
+import androidx.lifecycle.ViewModel
 import com.ricky.desbravatask.domain.models.Usuario
 import com.ricky.desbravatask.domain.usercase.UsuarioManager
 import com.ricky.desbravatask.utils.Resource
@@ -13,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
     private val usuarioManager: UsuarioManager
-) {
+): ViewModel() {
     private val _state = MutableStateFlow(RegisterState())
     val state = _state.asStateFlow()
 
