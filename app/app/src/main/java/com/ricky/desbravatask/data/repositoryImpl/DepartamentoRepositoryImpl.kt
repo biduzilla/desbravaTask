@@ -9,6 +9,10 @@ import javax.inject.Inject
 class DepartamentoRepositoryImpl @Inject constructor(
     private val api: DepartamentoAPI
 ) : DepartamentoRepository {
+    override suspend fun getAll(): Response<List<Departamento>> {
+        return api.getAll()
+    }
+
     override suspend fun save(model: Departamento): Response<Departamento> {
         return api.save(model)
     }
@@ -24,5 +28,4 @@ class DepartamentoRepositoryImpl @Inject constructor(
     override suspend fun delete(id: String): Response<Void> {
         return api.deleteById(id)
     }
-
 }

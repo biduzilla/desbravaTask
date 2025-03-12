@@ -2,11 +2,14 @@ package com.ricky.desbravatask.di
 
 import android.content.Context
 import com.ricky.desbravatask.data.local.DataStoreUtil
+import com.ricky.desbravatask.data.network.api.DepartamentoAPI
 import com.ricky.desbravatask.data.network.api.RefreshTokenAPI
 import com.ricky.desbravatask.data.network.api.UsuarioAPI
 import com.ricky.desbravatask.data.network.interceptor.AuthInterceptor
+import com.ricky.desbravatask.data.repositoryImpl.DepartamentoRepositoryImpl
 import com.ricky.desbravatask.data.repositoryImpl.TokenRepositoryImpl
 import com.ricky.desbravatask.data.repositoryImpl.UsuarioRepositoryImpl
+import com.ricky.desbravatask.domain.repository.DepartamentoRepository
 import com.ricky.desbravatask.domain.repository.TokenRepository
 import com.ricky.desbravatask.domain.repository.UsuarioRepository
 import com.ricky.desbravatask.utils.Constants
@@ -41,6 +44,21 @@ object AppModule {
 
     @Singleton
     @Provides
+    fun provideDepartamentoApi(authInterceptor: AuthInterceptor): DepartamentoAPI {
+        val okHttpClient = OkHttpClient.Builder()
+            .addInterceptor(authInterceptor)
+            .build()
+
+        return Retrofit.Builder()
+            .baseUrl(Constants.BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(DepartamentoAPI::class.java)
+    }
+
+    @Singleton
+    @Provides
     fun provideUserApi(authInterceptor: AuthInterceptor): UsuarioAPI {
         val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(authInterceptor)
@@ -65,4 +83,12 @@ object AppModule {
     fun provideTokenRepository(
         api: RefreshTokenAPI,
     ): TokenRepository = TokenRepositoryImpl(api)
+
+    @Singleton
+    @Provides
+    fun provideDepartamentoRepository(
+        api: DepartamentoAPI,
+    ): DepartamentoRepository = DepartamentoRepositoryImpl(api)
+
+
 }
