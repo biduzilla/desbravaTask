@@ -22,14 +22,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ricky.desbravatask.R
+import com.ricky.desbravatask.navigation.Screens
 
 @Composable
 fun SplashScreen(
-    navController: NavController
+    navController: NavController,
+    state: SplashState
 ) {
-//    if (state.isLoading) {
-//        navController.navigate(Screens.LoginScreen.route)
-//    }
+    if (state.isLoaded) {
+        navController.navigate(Screens.LoginScreen.route)
+    }
     Box(
         Modifier
             .fillMaxSize()
@@ -62,5 +64,5 @@ fun SplashScreen(
 private fun SplashPreview() {
     val context = LocalContext.current
     val navController = NavController(context)
-    SplashScreen(navController)
+    SplashScreen(navController, SplashState())
 }

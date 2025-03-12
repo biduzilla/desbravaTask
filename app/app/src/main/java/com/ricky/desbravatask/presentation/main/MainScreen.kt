@@ -1,5 +1,6 @@
 package com.ricky.desbravatask.presentation.main
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -48,6 +49,11 @@ fun MainScreen(
     state: MainState,
     onEvent: (MainEvent) -> Unit
 ) {
+
+    BackHandler(enabled = true) {
+        // Não faz nada, bloqueando o botão de voltar
+    }
+
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background

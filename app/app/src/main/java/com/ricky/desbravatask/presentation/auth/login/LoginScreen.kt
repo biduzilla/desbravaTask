@@ -1,5 +1,6 @@
 package com.ricky.desbravatask.presentation.auth.login
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -43,7 +44,8 @@ fun LoginScreen(
     navController: NavController,
     onEvent: (LoginEvent) -> Unit
 ) {
-
+    BackHandler(enabled = true) {
+    }
     val focusManager = LocalFocusManager.current
 
     ErrorToast(error = state.error) {
@@ -51,7 +53,7 @@ fun LoginScreen(
     }
 
     if (state.onLogin) {
-        navController.navigate(Screens.LoginScreen.route) {
+        navController.navigate(Screens.MainScreen.route) {
             popUpTo(navController.graph.startDestinationId) {
                 inclusive = true
             }
