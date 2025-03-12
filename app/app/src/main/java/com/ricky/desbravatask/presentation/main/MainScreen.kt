@@ -39,6 +39,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ricky.desbravatask.R
 import com.ricky.desbravatask.presentation.auth.login.components.BtnCompose
+import com.ricky.desbravatask.presentation.main.components.DialogAddDepartamento
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -51,7 +52,7 @@ fun MainScreen(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        val drawerState = rememberDrawerState(initialValue = DrawerValue.Open)
+        val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
         val scope = rememberCoroutineScope()
         var selectedItemIndex by rememberSaveable {
             mutableIntStateOf(0)
@@ -117,6 +118,21 @@ fun MainScreen(
                 }
             }
         ) {
+
+            if (state.isDialogDepartamento) {
+                DialogAddDepartamento(
+                    value = state.nomeDepartamento,
+                    color = state.corDepartamento,
+                    isUpdate = state.isUpdateDepartamento,
+                    isLoading = state.isLoading,
+                    onErrorValue = state.onErrorNomeDepartamento,
+                    error = state.error,
+                    onChangeColor = { onEvent(MainEvent.OnChangeCorDepartamento(it)) },
+                    onChangeValue = { onEvent(MainEvent.OnChangeNomeDepartamento(it)) },
+                    onDismissRequest = { onEvent(MainEvent.OnDismissDialogDepartamento) },
+                    onSave = { onEvent(MainEvent.AddDepartamento) }
+                )
+            }
             Scaffold(
                 topBar = {
                     TopAppBar(

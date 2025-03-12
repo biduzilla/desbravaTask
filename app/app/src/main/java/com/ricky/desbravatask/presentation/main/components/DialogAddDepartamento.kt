@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.ricky.desbravatask.R
 import com.ricky.desbravatask.presentation.auth.login.components.BtnCompose
+import com.ricky.desbravatask.presentation.auth.login.components.ErrorToast
 import com.ricky.desbravatask.presentation.auth.login.components.TextFieldCompose
 
 @Preview
@@ -54,12 +55,15 @@ fun DialogAddDepartamento(
     isLoading: Boolean = false,
     isUpdate: Boolean = false,
     onErrorValue: Boolean = false,
+    error: String = "",
     onChangeValue: (String) -> Unit = {},
-    onChangeColor: (String) -> Unit = {},
+    onChangeColor: (Color) -> Unit = {},
     onDismissRequest: () -> Unit = {},
     onSave: () -> Unit = {}
 ) {
     var selectedColor by remember { mutableStateOf<Color?>(color) }
+
+    ErrorToast(error) { }
 
     Dialog(onDismissRequest = onDismissRequest) {
         Card(
@@ -110,6 +114,7 @@ fun DialogAddDepartamento(
                     color = selectedColor,
                     onColorSelected = { color ->
                         selectedColor = color
+                        onChangeColor(color)
                     })
 
                 BtnCompose(
