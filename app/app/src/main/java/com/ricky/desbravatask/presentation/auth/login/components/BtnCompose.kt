@@ -52,8 +52,9 @@ fun BtnCompose(
                         imageVector = icon,
                         contentDescription = if (text != null) stringResource(text) else null
                     )
+                    Spacer(Modifier.width(8.dp))
                 }
-                Spacer(Modifier.width(8.dp))
+
                 if (text != null) {
                     Text(
                         text = stringResource(id = text),
@@ -74,6 +75,6 @@ private fun BtnComposePrev() {
     BtnCompose(
         text = R.string.app_name,
         onClick = {},
-        icon = Icons.Default.Anchor
+//        icon = Icons.Default.Anchor
     )
 }
