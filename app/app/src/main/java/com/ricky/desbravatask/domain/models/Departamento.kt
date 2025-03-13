@@ -7,4 +7,5 @@ data class Departamento(
     var nome: String = "",
     var cor: Int = 0,
     var createdAt: LocalDateTime? = null,
+    var qtdTarefas: Int = 0,
 )

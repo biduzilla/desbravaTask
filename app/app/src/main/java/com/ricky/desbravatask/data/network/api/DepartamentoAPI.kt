@@ -9,13 +9,14 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface DepartamentoAPI {
     @POST(Constants.DEPARTAMENTO_ENDPOINT)
     suspend fun save(@Body departamento: Departamento): Response<Departamento>
 
     @GET(Constants.DEPARTAMENTO_ENDPOINT)
-    suspend fun getAll(): Response<List<Departamento>>
+    suspend fun getAll(@Query("userId") userId: String): Response<List<Departamento>>
 
     @GET("${Constants.DEPARTAMENTO_ENDPOINT}/{id}")
     suspend fun getById(@Path("id") id: String): Response<Departamento>

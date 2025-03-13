@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -40,6 +42,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -47,6 +52,7 @@ import com.ricky.desbravatask.R
 import com.ricky.desbravatask.presentation.auth.login.components.BtnCompose
 import com.ricky.desbravatask.presentation.main.components.DialogAddDepartamento
 import com.ricky.desbravatask.presentation.main.components.DialogRemover
+import com.ricky.desbravatask.sample.DepartamentoSample.departamentosSample
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -65,7 +71,7 @@ fun MainScreen(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+        val drawerState = rememberDrawerState(initialValue = DrawerValue.Open)
         val scope = rememberCoroutineScope()
         var selectedItemIndex by rememberSaveable {
             mutableIntStateOf(0)
@@ -74,27 +80,42 @@ fun MainScreen(
         ModalNavigationDrawer(
             drawerState = drawerState,
             drawerContent = {
-                ModalDrawerSheet(
-
-                ) {
+                ModalDrawerSheet {
                     Spacer(Modifier.height(16.dp))
                     Text(
                         stringResource(R.string.departamentos),
                         modifier = Modifier.padding(16.dp),
-                        style = MaterialTheme.typography.titleLarge
+                        style = MaterialTheme.typography.titleLarge.copy(
+                            fontWeight = FontWeight.Bold
+                        )
                     )
                     if (state.departamentos.isNotEmpty()) {
                         HorizontalDivider()
                     }
                     Spacer(Modifier.height(8.dp))
-                    state.departamentos.forEachIndexed { index, departamento ->
+                    departamentosSample.forEachIndexed { index, departamento ->
                         NavigationDrawerItem(modifier = Modifier.padding(horizontal = 16.dp),
                             colors = NavigationDrawerItemDefaults.colors(
                                 selectedContainerColor = Color(departamento.cor),
                                 unselectedContainerColor = Color(departamento.cor),
                             ),
                             badge = {
-                                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Spacer(Modifier.width(8.dp))
+                                    Surface(
+                                        shape = CircleShape,
+                                        color = MaterialTheme.colorScheme.onPrimary
+                                    ) {
+                                        Text(
+                                            text = departamento.qtdTarefas.toString(),
+                                            modifier = Modifier.padding(
+                                                vertical = 4.dp,
+                                                horizontal = 8.dp
+                                            ),
+                                        )
+                                    }
                                     IconButton(onClick = {
                                         onEvent(MainEvent.OnUpdateDepartamento(departamento))
                                     }) {
@@ -120,8 +141,12 @@ fun MainScreen(
                             label = {
                                 Text(
                                     text = departamento.nome,
-                                    color = MaterialTheme.colorScheme.onPrimary
+                                    style = TextStyle(
+                                        fontWeight = FontWeight.Bold,
+                                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                                    ),
                                 )
+
                             },
                             selected = index == selectedItemIndex,
                             onClick = {
@@ -129,6 +154,7 @@ fun MainScreen(
                                 onEvent(MainEvent.OnChangeDepartamento(departamento))
                             }
                         )
+                        Spacer(Modifier.height(8.dp))
                     }
                     HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
                     BtnCompose(

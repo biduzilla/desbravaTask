@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -45,14 +47,15 @@ fun BtnCompose(
         shape = RoundedCornerShape(10.dp),
         enabled = enabled
     ) {
-        Row(horizontalArrangement = Arrangement.Center) {
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             if (loading) {
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    CircularProgressIndicator(modifier = Modifier.padding(8.dp))
-                }
+                CircularProgressIndicator(
+                    modifier = Modifier.size(20.dp),
+                    strokeWidth = 6.dp
+                )
             } else {
                 if (icon != null) {
                     Icon(
@@ -82,6 +85,8 @@ private fun BtnComposePrev() {
     BtnCompose(
         text = R.string.app_name,
         onClick = {},
+        loading = true,
+        enabled = false
 //        icon = Icons.Default.Anchor
     )
 }

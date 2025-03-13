@@ -100,7 +100,9 @@ fun LoginScreen(
             label = R.string.senha,
             icon = Icons.Default.Key,
             ime = ImeAction.Done,
-            onDone = {},
+            onDone = {
+                onEvent(LoginEvent.OnLogin)
+            },
             onChange = { onEvent(LoginEvent.OnChangeSenha(it)) }
         )
 
@@ -114,8 +116,8 @@ fun LoginScreen(
                     onEvent(LoginEvent.OnToggleLembrarSenha(it))
                 },
                 colors = CheckboxDefaults.colors(
-                    checkedColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    uncheckedColor = MaterialTheme.colorScheme.onPrimaryContainer
+                    checkedColor = MaterialTheme.colorScheme.primaryContainer,
+                    uncheckedColor = MaterialTheme.colorScheme.primaryContainer
                 )
             )
 

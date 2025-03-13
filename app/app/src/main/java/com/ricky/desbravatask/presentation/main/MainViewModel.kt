@@ -1,10 +1,12 @@
 package com.ricky.desbravatask.presentation.main
 
 import android.content.Context
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ricky.desbravatask.R
+import com.ricky.desbravatask.data.local.DataStoreUtil
 import com.ricky.desbravatask.domain.models.Departamento
 import com.ricky.desbravatask.domain.usercase.DepartamentoManager
 import com.ricky.desbravatask.utils.Resource
@@ -12,14 +14,17 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val departamentoManager: DepartamentoManager,
+    private val dataStoreUtil: DataStoreUtil,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
     private val _state = MutableStateFlow(MainState())
@@ -27,11 +32,22 @@ class MainViewModel @Inject constructor(
 
 
     init {
-        getDepartamentos()
+        viewModelScope.launch {
+            dataStoreUtil.getToken()
+                .filterNotNull()
+                .collect { token ->
+                    _state.update {currentState ->
+                        currentState.copy(
+                            userId = token.idUser
+                        )
+                    }
+                    getDepartamentos()
+                }
+        }
     }
 
     private fun getDepartamentos() {
-        departamentoManager.getAll().onEach { result ->
+        departamentoManager.getAll(_state.value.userId).onEach { result ->
             when (result) {
                 is Resource.Error -> {
                     _state.value = _state.value.copy(
@@ -87,7 +103,10 @@ class MainViewModel @Inject constructor(
                         _state.update {
                             it.copy(
                                 isLoading = false,
-                                departamentos = _state.value.departamentos + result.data
+                                departamentos = _state.value.departamentos + result.data,
+                                isDialogDepartamento = false,
+                                corDepartamento = null,
+                                nomeDepartamento = ""
                             )
                         }
                     }
@@ -126,7 +145,10 @@ class MainViewModel @Inject constructor(
                                     isLoading = false,
                                     departamentos = currentState.departamentos.map {
                                         if (it.id == result.data.id) result.data else it
-                                    }
+                                    },
+                                    isDialogDepartamento = false,
+                                    corDepartamento = null,
+                                    nomeDepartamento = ""
                                 )
                             }
                         }
@@ -224,7 +246,9 @@ class MainViewModel @Inject constructor(
                     it.copy(
                         isDialogDepartamento = true,
                         isUpdateDepartamento = true,
-                        departamentoEscolhido = event.departamento
+                        departamentoEscolhido = event.departamento,
+                        nomeDepartamento = event.departamento.nome,
+                        corDepartamento = Color(event.departamento.cor)
                     )
                 }
             }

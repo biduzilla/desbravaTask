@@ -5,6 +5,7 @@ import com.ricky.desbravatask.domain.models.Departamento
 
 data class MainState(
     var error: String = "",
+    var userId: String = "",
     var nomeDepartamento: String = "",
     var corDepartamento: Color? = null,
     var onErrorNomeDepartamento: Boolean = false,

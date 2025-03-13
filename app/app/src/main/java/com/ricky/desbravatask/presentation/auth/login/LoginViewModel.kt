@@ -10,6 +10,7 @@ import com.ricky.desbravatask.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
@@ -26,8 +27,9 @@ class LoginViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            dataStoreUtil.getLogin().collect {
-                it?.let { login ->
+            dataStoreUtil.getLogin()
+                .filterNotNull()
+                .collect { login ->
                     if (login.login.isNotBlank() && login.senha.isNotBlank()) {
                         _state.update { currentState ->
                             currentState.copy(
@@ -39,7 +41,6 @@ class LoginViewModel @Inject constructor(
                         login()
                     }
                 }
-            }
         }
     }
 

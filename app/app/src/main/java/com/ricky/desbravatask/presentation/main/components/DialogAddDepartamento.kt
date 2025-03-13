@@ -106,7 +106,8 @@ fun DialogAddDepartamento(
                 BtnCompose(
                     text = if (isUpdate) R.string.atualizar else R.string.salvar,
                     enabled = !isLoading,
-                    onClick = onSave
+                    onClick = onSave,
+                    loading = isLoading
                 )
 
             }

@@ -35,7 +35,7 @@ class TarefaServiceImpl(
         if (data.status == TarefaStatusEnum.CONCLUIDA) {
             comentarioService.deleteByIdTarefa(data.id)
             repository.delete(data)
-           return null
+            return null
         } else {
             return repository.save(data)
         }
@@ -47,6 +47,13 @@ class TarefaServiceImpl(
             size = qtd
         )
         return repository.findAll(search, pageable)
+    }
+
+    override fun findByDepartamentoIdAndUsuarioId(departamentoId: String, usuarioId: String): List<Tarefa> {
+        return repository.findByDepartamentoIdAndUsuarioId(
+            departamentoId = departamentoId,
+            usuarioId = usuarioId
+        )
     }
 
     override fun findAllByIdDepartamento(idDepartamento: String): List<Tarefa> {

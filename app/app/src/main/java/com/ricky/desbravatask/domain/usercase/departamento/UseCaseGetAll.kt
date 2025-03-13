@@ -15,10 +15,10 @@ class UseCaseGetAll @Inject constructor(
     private val repository: DepartamentoRepository
 
 ) {
-    operator fun invoke(): Flow<Resource<List<Departamento>>> = flow {
+    operator fun invoke(userId: String): Flow<Resource<List<Departamento>>> = flow {
         try {
             emit(Resource.Loading())
-            repository.getAll().let { result ->
+            repository.getAll(userId).let { result ->
                 if (result.isSuccessful) {
                     result.body()?.let { response ->
                         emit(Resource.Success(response))

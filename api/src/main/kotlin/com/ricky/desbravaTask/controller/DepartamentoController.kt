@@ -1,7 +1,9 @@
 package com.ricky.desbravaTask.controller
 
 import com.ricky.desbravaTask.dto.DepartamentoDTO
+import com.ricky.desbravaTask.entity.Usuario
 import com.ricky.desbravaTask.service.DepartamentoService
+import com.ricky.desbravaTask.service.TarefaService
 import com.ricky.desbravaTask.utils.CacheConstants
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -10,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.http.HttpStatus
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
@@ -26,7 +30,10 @@ import org.springframework.web.bind.annotation.RestController
     name = "Departamentos",
     description = "Operações relacionadas ao gerenciamento de departamentos"
 )
-class DepartamentoController(private val departamentoService: DepartamentoService) {
+class DepartamentoController(
+    private val departamentoService: DepartamentoService,
+    private val tarefaService: TarefaService
+) {
     @Operation(
         summary = "Obter todos os Departamentos",
         description = "API REST para buscar todos os departamentos"
@@ -40,8 +47,16 @@ class DepartamentoController(private val departamentoService: DepartamentoServic
         ]
     )
     @GetMapping
-    fun findAll(): List<DepartamentoDTO> {
-        return departamentoService.findAll().map { it.toDTO() }
+    fun findAll(@RequestParam userId:String): List<DepartamentoDTO> {
+        val result = departamentoService.findAll().map { it.toDTO() }
+        return result.map { departamento ->
+            departamento.copy(
+                qtdTarefas = tarefaService.findByDepartamentoIdAndUsuarioId(
+                    departamento.id,
+                    userId
+                ).size
+            )
+        }
     }
 
     @Operation(

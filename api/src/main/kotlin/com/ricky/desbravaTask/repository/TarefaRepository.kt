@@ -37,4 +37,12 @@ interface TarefaRepository : JpaRepository<Tarefa, String> {
     """
     )
     fun deleteByUsuarioId(@Param("usuarioId") usuarioId: String)
+
+    @Query(
+        "select t from Tarefa t " +
+                " where t.departamento.id = :idDepartamento " +
+                " and t.responsavel.id = :usuarioId"
+    )
+    fun findByDepartamentoIdAndUsuarioId(@Param("departamentoId") departamentoId: String,@Param("usuarioId") usuarioId:String):List<Tarefa>
+
 }

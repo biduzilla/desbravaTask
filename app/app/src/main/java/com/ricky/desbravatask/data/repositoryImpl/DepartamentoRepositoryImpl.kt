@@ -9,8 +9,8 @@ import javax.inject.Inject
 class DepartamentoRepositoryImpl @Inject constructor(
     private val api: DepartamentoAPI
 ) : DepartamentoRepository {
-    override suspend fun getAll(): Response<List<Departamento>> {
-        return api.getAll()
+    override suspend fun getAll(userId: String): Response<List<Departamento>> {
+        return api.getAll(userId)
     }
 
     override suspend fun save(model: Departamento): Response<Departamento> {

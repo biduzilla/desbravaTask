@@ -20,6 +20,9 @@ data class DepartamentoDTO(
 
     @Schema(description = "Data de criação do departamento")
     var createdAt: LocalDateTime? = null,
+
+    @Schema(description = "Quantidade de tarefas atribuídas ao responsável")
+    var qtdTarefas: Int = 0,
 ) {
     fun toModel(): Departamento {
         return Departamento(

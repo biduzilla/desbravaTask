@@ -20,7 +20,7 @@ class DepartamentoManager @Inject constructor(
 ) {
     fun delete(id: String): Flow<Resource<Boolean>> = useCaseDelete(id)
     fun getById(id: String): Flow<Resource<Departamento>> = useCaseGetById(id)
-    fun getAll(): Flow<Resource<List<Departamento>>> = useCaseGetAll()
+    fun getAll(userId: String): Flow<Resource<List<Departamento>>> = useCaseGetAll(userId)
     fun save(departamento: Departamento): Flow<Resource<Departamento>> = usercaseSave(departamento)
     fun update(departamento: Departamento): Flow<Resource<Departamento>> =
         useCaseUpdate(departamento)
