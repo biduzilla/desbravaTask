@@ -130,6 +130,7 @@ fun RegisterScreen(
                     .height(50.dp),
                 text = if (state.isUpdate) R.string.atualizar_conta else R.string.criar_conta,
                 onClick = { onEvent(RegisterEvent.OnRegister) },
+                loading = state.isLoading,
                 enabled = !state.isLoading,
             )
         }

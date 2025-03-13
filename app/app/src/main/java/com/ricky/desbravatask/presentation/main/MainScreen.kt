@@ -38,9 +38,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.ricky.desbravatask.R
 import com.ricky.desbravatask.presentation.auth.login.components.BtnCompose
 import com.ricky.desbravatask.presentation.main.components.DialogAddDepartamento
@@ -51,7 +53,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun MainScreen(
     state: MainState,
-    onEvent: (MainEvent) -> Unit
+    onEvent: (MainEvent) -> Unit,
+    navController: NavController
 ) {
 
     BackHandler(enabled = true) {
@@ -71,7 +74,9 @@ fun MainScreen(
         ModalNavigationDrawer(
             drawerState = drawerState,
             drawerContent = {
-                ModalDrawerSheet {
+                ModalDrawerSheet(
+
+                ) {
                     Spacer(Modifier.height(16.dp))
                     Text(
                         stringResource(R.string.departamentos),
@@ -81,19 +86,12 @@ fun MainScreen(
                     if (state.departamentos.isNotEmpty()) {
                         HorizontalDivider()
                     }
+                    Spacer(Modifier.height(8.dp))
                     state.departamentos.forEachIndexed { index, departamento ->
-                        NavigationDrawerItem(
+                        NavigationDrawerItem(modifier = Modifier.padding(horizontal = 16.dp),
                             colors = NavigationDrawerItemDefaults.colors(
-                                selectedContainerColor = Color(
-                                    android.graphics.Color.parseColor(
-                                        departamento.cor
-                                    )
-                                ),
-                                unselectedContainerColor = Color(
-                                    android.graphics.Color.parseColor(
-                                        departamento.cor
-                                    )
-                                ),
+                                selectedContainerColor = Color(departamento.cor),
+                                unselectedContainerColor = Color(departamento.cor),
                             ),
                             badge = {
                                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -102,7 +100,8 @@ fun MainScreen(
                                     }) {
                                         Icon(
                                             Icons.Default.Edit,
-                                            contentDescription = null
+                                            contentDescription = null,
+                                            tint = MaterialTheme.colorScheme.onPrimary
                                         )
                                     }
                                     IconButton(onClick = {
@@ -110,7 +109,8 @@ fun MainScreen(
                                     }) {
                                         Icon(
                                             Icons.Default.Delete,
-                                            contentDescription = null
+                                            contentDescription = null,
+                                            tint = MaterialTheme.colorScheme.onPrimary
                                         )
                                     }
 
@@ -118,7 +118,10 @@ fun MainScreen(
                             },
                             shape = RoundedCornerShape(10.dp),
                             label = {
-                                Text(text = departamento.nome)
+                                Text(
+                                    text = departamento.nome,
+                                    color = MaterialTheme.colorScheme.onPrimary
+                                )
                             },
                             selected = index == selectedItemIndex,
                             onClick = {
@@ -134,6 +137,7 @@ fun MainScreen(
                             onEvent(MainEvent.AddDepartamento)
                         },
                         text = R.string.add_novo,
+                        loading = state.isLoading,
                         icon = Icons.Default.Add
                     )
                 }
@@ -155,7 +159,7 @@ fun MainScreen(
                 )
             }
 
-            if(state.isDialogDeleteDepartamento){
+            if (state.isDialogDeleteDepartamento) {
                 DialogRemover(
                     onDimiss = {
                         onEvent(MainEvent.OnDialogDeleteDepartamento)
@@ -201,5 +205,6 @@ fun MainScreen(
 @Preview
 @Composable
 private fun MainScreenPrev() {
-    MainScreen(MainState(), {})
+    val context = LocalContext.current
+    MainScreen(MainState(), {}, NavController(context))
 }

@@ -16,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Key
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -111,7 +112,11 @@ fun LoginScreen(
                 checked = state.isLembrarSenha,
                 onCheckedChange = {
                     onEvent(LoginEvent.OnToggleLembrarSenha(it))
-                }
+                },
+                colors = CheckboxDefaults.colors(
+                    checkedColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    uncheckedColor = MaterialTheme.colorScheme.onPrimaryContainer
+                )
             )
 
             Text(
@@ -130,10 +135,12 @@ fun LoginScreen(
                 .height(50.dp),
             text = R.string.login,
             enabled = !state.isLoading,
+            loading = state.isLoading,
             onClick = {
                 onEvent(LoginEvent.OnLogin)
             }
         )
+
         Spacer(Modifier.height(16.dp))
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             TextButton(onClick = {

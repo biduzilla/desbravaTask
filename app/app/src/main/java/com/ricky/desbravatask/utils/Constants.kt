@@ -3,7 +3,7 @@ package com.ricky.desbravatask.utils
 object Constants {
     const val SETTINGS: String = "settings"
     const val IS_DARK_MODE: String = "darkMode"
-    private const val IP: String = "192.168.215.76"
+    private const val IP: String = "192.168.0.11"
     const val BASE_URL: String = "http://$IP:8080"
     const val USER_TOKEN: String = "user_token"
     const val USER_LOGIN: String = "user_token"

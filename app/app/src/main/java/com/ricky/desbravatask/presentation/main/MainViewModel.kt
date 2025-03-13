@@ -1,6 +1,7 @@
 package com.ricky.desbravatask.presentation.main
 
 import android.content.Context
+import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ricky.desbravatask.R
@@ -64,7 +65,7 @@ class MainViewModel @Inject constructor(
         departamentoManager.save(
             Departamento(
                 nome = _state.value.nomeDepartamento,
-                cor = _state.value.corDepartamento.toString()
+                cor = _state.value.corDepartamento!!.toArgb()
             )
         ).onEach { result ->
             when (result) {
@@ -236,6 +237,7 @@ class MainViewModel @Inject constructor(
                             error = context.getString(R.string.error_selecione_cor)
                         )
                     }
+                    return
                 }
 
                 if (_state.value.nomeDepartamento.trim().isBlank()) {
@@ -244,10 +246,11 @@ class MainViewModel @Inject constructor(
                             onErrorNomeDepartamento = true
                         )
                     }
+                    return
                 }
 
                 if (_state.value.isUpdateDepartamento) {
-                    _state.value.departamentoEscolhido.cor = _state.value.corDepartamento.toString()
+                    _state.value.departamentoEscolhido.cor = _state.value.corDepartamento!!.toArgb()
                     _state.value.departamentoEscolhido.nome = _state.value.nomeDepartamento
                     updateDepartarmento()
                 } else {

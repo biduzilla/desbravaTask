@@ -13,7 +13,7 @@ data class Departamento(
     @Column(name = "NOME", length = 20)
     var nome: String = "",
     @Column(name = "COR", length = 10)
-    var cor: String = ""
+    var cor: Int = 0,
 ) : BaseEntity() {
     fun toDTO(): DepartamentoDTO {
         return DepartamentoDTO(

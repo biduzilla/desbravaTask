@@ -89,20 +89,6 @@ fun DialogAddDepartamento(
                     icon = Icons.Default.Description,
                     keyboardType = KeyboardType.Text,
                     ime = ImeAction.Next,
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                        unfocusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                        focusedIndicatorColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                        unfocusedIndicatorColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                        focusedLeadingIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                        unfocusedLeadingIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                        focusedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                        unfocusedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                        focusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                        unfocusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                        focusedTrailingIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                        unfocusedTrailingIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    )
                 ) { onChangeValue(it) }
 
                 Text(

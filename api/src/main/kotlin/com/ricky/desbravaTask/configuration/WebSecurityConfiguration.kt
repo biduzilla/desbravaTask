@@ -68,6 +68,7 @@ class WebSecurityConfiguration(
             authorize
                 ?.requestMatchers(HttpMethod.POST, "/usuario")?.permitAll()
                 ?.requestMatchers("/usuario/alterar-senha")?.permitAll()
+                ?.requestMatchers("/usuario/refresh-token")?.permitAll()
                 ?.requestMatchers("/usuario/verificar-cod/**")?.permitAll()
                 ?.requestMatchers("/usuario/reset-senha/**")?.permitAll()
                 ?.requestMatchers("/usuario/login")?.permitAll()

@@ -3,6 +3,7 @@ package com.ricky.desbravaTask.dto
 import com.ricky.desbravaTask.entity.Departamento
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotNull
 import java.time.LocalDateTime
 
 data class DepartamentoDTO(
@@ -13,9 +14,9 @@ data class DepartamentoDTO(
     @Schema(description = "Nome do departamento", required = true, example = "Departamento de TI")
     var nome: String = "",
 
-    @field:NotBlank(message = "{cor.obrigatorio}")
+    @field:NotNull(message = "{cor.obrigatorio}")
     @Schema(description = "Cor associada ao departamento", required = true, example = "#FF5733")
-    var cor: String = "",
+    var cor: Int = 0,
 
     @Schema(description = "Data de criação do departamento")
     var createdAt: LocalDateTime? = null,

@@ -110,6 +110,7 @@ fun ForgetPasswordScreen(
                     focusManager.clearFocus()
                     onEvent(ForgetPasswordEvent.OnSendEmail)
                 },
+                loading = state.isLoading,
                 enabled = !state.isLoading,
             )
 

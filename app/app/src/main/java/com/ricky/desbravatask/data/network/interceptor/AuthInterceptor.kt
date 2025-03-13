@@ -1,5 +1,6 @@
 package com.ricky.desbravatask.data.network.interceptor
 
+import android.util.Log
 import com.ricky.desbravatask.data.local.DataStoreUtil
 import com.ricky.desbravatask.domain.usercase.usuario.UseCaseRefreshToken
 import kotlinx.coroutines.CoroutineScope
@@ -31,7 +32,7 @@ class AuthInterceptor @Inject constructor(
         val request = chain.request()
         val response = chain.proceed(request)
 
-        if (response.isSuccessful || response.code != 403) {
+        if (response.isSuccessful || (response.code != 403 && response.code != 401)) {
             return response
         }
 
@@ -43,7 +44,7 @@ class AuthInterceptor @Inject constructor(
                 .addHeader("Authorization", token)
                 .build()
             val responseToken = chain.proceed(newRequest)
-            return if (responseToken.code == 403) {
+            return if (responseToken.code == 403 || responseToken.code == 401) {
                 responseToken.close()
                 return refreshToken(chain)
             } else {

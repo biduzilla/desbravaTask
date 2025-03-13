@@ -53,7 +53,7 @@ fun SplashScreen(
                 style = MaterialTheme.typography.headlineLarge.copy(
                     fontWeight = FontWeight.Bold
                 ),
-                color = MaterialTheme.colorScheme.primaryContainer
+                color = MaterialTheme.colorScheme.onPrimary
             )
         }
     }

@@ -11,7 +11,10 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class UseCaseGetAll @Inject constructor(private val repository: DepartamentoRepository) {
+class UseCaseGetAll @Inject constructor(
+    private val repository: DepartamentoRepository
+
+) {
     operator fun invoke(): Flow<Resource<List<Departamento>>> = flow {
         try {
             emit(Resource.Loading())

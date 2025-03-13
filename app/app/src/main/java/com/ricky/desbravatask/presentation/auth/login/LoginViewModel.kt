@@ -1,5 +1,6 @@
 package com.ricky.desbravatask.presentation.auth.login
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ricky.desbravatask.data.local.DataStoreUtil
@@ -27,11 +28,15 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             dataStoreUtil.getLogin().collect {
                 it?.let { login ->
-                    _state.update { currentState ->
-                        currentState.copy(
-                            email = login.login,
-                            senha = login.senha,
-                        )
+                    if (login.login.isNotBlank() && login.senha.isNotBlank()) {
+                        _state.update { currentState ->
+                            currentState.copy(
+                                email = login.login,
+                                senha = login.senha,
+                                isLembrarSenha = true
+                            )
+                        }
+                        login()
                     }
                 }
             }
@@ -43,7 +48,6 @@ class LoginViewModel @Inject constructor(
             login = _state.value.email,
             senha = _state.value.senha
         )
-
         userManager
             .login(login)
             .onEach { result ->
@@ -67,8 +71,10 @@ class LoginViewModel @Inject constructor(
                         }
 
                         result.data?.let {
+                            Log.i("infoteste", "login: result.data")
                             dataStoreUtil.saveToken(result.data)
                         }
+
                         _state.value = _state.value.copy(
                             isLoading = false,
                             onLogin = true
@@ -92,7 +98,7 @@ class LoginViewModel @Inject constructor(
             is LoginEvent.OnChangeSenha -> {
                 _state.update {
                     it.copy(
-                        email = event.senha,
+                        senha = event.senha,
                         onErrorSenha = false
                     )
                 }

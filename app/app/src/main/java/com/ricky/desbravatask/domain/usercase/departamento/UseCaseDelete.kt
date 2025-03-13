@@ -10,7 +10,9 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class UseCaseDelete @Inject constructor(private val repository: DepartamentoRepository) {
+class UseCaseDelete @Inject constructor(
+    private val repository: DepartamentoRepository
+) {
     operator fun invoke(id: String): Flow<Resource<Boolean>> = flow {
         try {
             emit(Resource.Loading())
