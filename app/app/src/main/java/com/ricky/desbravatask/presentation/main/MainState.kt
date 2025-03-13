@@ -12,6 +12,7 @@ data class MainState(
     var departamentos: List<Departamento> = emptyList(),
     var departamentoEscolhido: Departamento = Departamento(),
     var isDialogDepartamento: Boolean = false,
+    var isDialogDeleteDepartamento: Boolean = false,
     var isUpdateDepartamento: Boolean = false,
     var isLoading: Boolean = false,
 )

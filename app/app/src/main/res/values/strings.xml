@@ -23,8 +23,12 @@
     <string name="escolher_cor">Escolha uma cor:</string>
     <string name="salvar">Salvar</string>
     <string name="atualizar">Atualizar</string>
+    <string name="titulo_apagar">Deseja apagar?</string>
+    <string name="apagar">Apagar</string>
+    <string name="cancelar">Cancelar</string>
 
     //error
     <string name="error_campo_obrigatorio">Campo obrigatório</string>
     <string name="error_confirma_senha">As senhas devem ser iguais</string>
+    <string name="error_selecione_cor">Escolha uma cor</string>
 </resources>

@@ -1,7 +1,9 @@
 package com.ricky.desbravatask.presentation.main
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -9,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.DrawerValue
@@ -41,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import com.ricky.desbravatask.R
 import com.ricky.desbravatask.presentation.auth.login.components.BtnCompose
 import com.ricky.desbravatask.presentation.main.components.DialogAddDepartamento
+import com.ricky.desbravatask.presentation.main.components.DialogRemover
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -92,13 +96,24 @@ fun MainScreen(
                                 ),
                             ),
                             badge = {
-                                IconButton(onClick = {
-                                    onEvent(MainEvent.OnUpdateDepartamento(departamento))
-                                }) {
-                                    Icon(
-                                        Icons.Default.Edit,
-                                        contentDescription = null
-                                    )
+                                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                    IconButton(onClick = {
+                                        onEvent(MainEvent.OnUpdateDepartamento(departamento))
+                                    }) {
+                                        Icon(
+                                            Icons.Default.Edit,
+                                            contentDescription = null
+                                        )
+                                    }
+                                    IconButton(onClick = {
+                                        onEvent(MainEvent.OnDeleteDepartamento(departamento))
+                                    }) {
+                                        Icon(
+                                            Icons.Default.Delete,
+                                            contentDescription = null
+                                        )
+                                    }
+
                                 }
                             },
                             shape = RoundedCornerShape(10.dp),
@@ -136,7 +151,18 @@ fun MainScreen(
                     onChangeColor = { onEvent(MainEvent.OnChangeCorDepartamento(it)) },
                     onChangeValue = { onEvent(MainEvent.OnChangeNomeDepartamento(it)) },
                     onDismissRequest = { onEvent(MainEvent.OnDismissDialogDepartamento) },
-                    onSave = { onEvent(MainEvent.AddDepartamento) }
+                    onSave = { onEvent(MainEvent.SaveDepartamento) }
+                )
+            }
+
+            if(state.isDialogDeleteDepartamento){
+                DialogRemover(
+                    onDimiss = {
+                        onEvent(MainEvent.OnDialogDeleteDepartamento)
+                    },
+                    onRemover = {
+                        onEvent(MainEvent.DeleteDepartamento)
+                    }
                 )
             }
             Scaffold(
