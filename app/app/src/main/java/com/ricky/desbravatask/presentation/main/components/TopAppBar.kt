@@ -35,10 +35,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ricky.desbravatask.R
 import com.ricky.desbravatask.domain.enums.TarefaStatusEnum
 
 @Preview
@@ -51,7 +53,7 @@ private fun TopAppBarPrev() {
 @Composable
 fun TopAppBar(
     modifier: Modifier = Modifier,
-    title: String = "Teste",
+    title: String = stringResource(R.string.app_name),
     onMenu: () -> Unit = {},
     onSettings: () -> Unit = {},
     onChangeEnum: (TarefaStatusEnum) -> Unit = {}
@@ -139,7 +141,8 @@ fun TopAppBar(
                 }
 
                 AnimatedContent(
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier
+                        .weight(1f)
                         .pointerInput(Unit) {
                             detectHorizontalDragGestures(
                                 onDragEnd = {
@@ -155,6 +158,7 @@ fun TopAppBar(
                                                 isGestureProcessed = true
                                             }
                                         }
+
                                         dragAmount < -10 -> {
                                             isEsqueda = false
                                             if (enumSelected < listEnums.size - 1) {

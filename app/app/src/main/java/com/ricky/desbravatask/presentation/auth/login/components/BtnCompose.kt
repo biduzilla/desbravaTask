@@ -13,10 +13,12 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -32,8 +34,9 @@ fun BtnCompose(
     onClick: () -> Unit,
     enabled: Boolean = true,
     loading: Boolean = false,
+    iconColor: Color = MaterialTheme.colorScheme.onPrimary,
     colors: ButtonColors = ButtonDefaults.buttonColors(
-        containerColor = MaterialTheme.colorScheme.primary
+        containerColor = MaterialTheme.colorScheme.primaryContainer
     )
 ) {
     Button(
@@ -50,12 +53,14 @@ fun BtnCompose(
             if (loading) {
                 CircularProgressIndicator(
                     modifier = Modifier.size(24.dp),
-                    strokeWidth = 4.dp
+                    strokeWidth = 4.dp,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             } else {
                 if (icon != null) {
                     Icon(
                         imageVector = icon,
+                        tint = iconColor,
                         contentDescription = if (text != null) stringResource(text) else null
                     )
                     Spacer(Modifier.width(8.dp))
@@ -65,7 +70,8 @@ fun BtnCompose(
                     Text(
                         text = stringResource(id = text),
                         style = MaterialTheme.typography.titleLarge.copy(
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            color = iconColor
                         )
                     )
                 }
@@ -81,8 +87,8 @@ private fun BtnComposePrev() {
     BtnCompose(
         text = R.string.app_name,
         onClick = {},
-        loading = true,
-        enabled = false
+        loading = false,
+        enabled = true
 //        icon = Icons.Default.Anchor
     )
 }

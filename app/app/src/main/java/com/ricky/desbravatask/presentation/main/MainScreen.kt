@@ -8,14 +8,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -49,7 +47,6 @@ import com.ricky.desbravatask.presentation.auth.login.components.BtnCompose
 import com.ricky.desbravatask.presentation.main.components.DialogAddDepartamento
 import com.ricky.desbravatask.presentation.main.components.DialogRemover
 import com.ricky.desbravatask.presentation.main.components.TopAppBar
-import com.ricky.desbravatask.sample.DepartamentoSample.departamentosSample
 import kotlinx.coroutines.launch
 
 @Composable
@@ -89,7 +86,7 @@ fun MainScreen(
                         HorizontalDivider()
                     }
                     Spacer(Modifier.height(8.dp))
-                    departamentosSample.forEachIndexed { index, departamento ->
+                    state.departamentos.forEachIndexed { index, departamento ->
                         NavigationDrawerItem(modifier = Modifier.padding(horizontal = 16.dp),
                             colors = NavigationDrawerItemDefaults.colors(
                                 selectedContainerColor = Color(departamento.cor),
@@ -193,6 +190,7 @@ fun MainScreen(
                             scope.launch {
                                 if (drawerState.isClosed) {
                                     drawerState.open()
+                                    onEvent(MainEvent.OnResume)
                                 } else {
                                     drawerState.close()
                                 }

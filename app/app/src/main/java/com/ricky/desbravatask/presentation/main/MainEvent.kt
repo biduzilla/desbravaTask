@@ -15,5 +15,4 @@ sealed interface MainEvent {
     data object OnDismissDialogDepartamento : MainEvent
     data object OnDialogDeleteDepartamento : MainEvent
     data object OnResume : MainEvent
-
 }
