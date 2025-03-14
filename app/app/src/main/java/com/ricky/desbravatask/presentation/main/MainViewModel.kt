@@ -36,7 +36,7 @@ class MainViewModel @Inject constructor(
             dataStoreUtil.getToken()
                 .filterNotNull()
                 .collect { token ->
-                    _state.update {currentState ->
+                    _state.update { currentState ->
                         currentState.copy(
                             userId = token.idUser
                         )
@@ -117,80 +117,84 @@ class MainViewModel @Inject constructor(
     }
 
     private fun updateDepartarmento() {
-        departamentoManager.update(
-            _state.value.departamentoEscolhido
-        ).onEach { result ->
-            when (result) {
-                is Resource.Error -> {
-                    _state.value = _state.value.copy(
-                        isLoading = false,
-                        error = result.message ?: "Error"
-                    )
+        _state.value.departamentoEscolhido?.let { departamentoEscolhido ->
+            departamentoManager.update(
+                departamentoEscolhido
+            ).onEach { result ->
+                when (result) {
+                    is Resource.Error -> {
+                        _state.value = _state.value.copy(
+                            isLoading = false,
+                            error = result.message ?: "Error"
+                        )
+                    }
+
+                    is Resource.Loading -> {
+                        _state.value = _state.value.copy(
+                            isLoading = true,
+                        )
+                    }
+
+                    is Resource.Success -> {
+                        result.data?.let {
+                            val departamento =
+                                _state.value.departamentos.find { it.id == result.data.id }
+
+                            if (departamento != null) {
+                                _state.update { currentState ->
+                                    currentState.copy(
+                                        isLoading = false,
+                                        departamentos = currentState.departamentos.map {
+                                            if (it.id == result.data.id) result.data else it
+                                        },
+                                        isDialogDepartamento = false,
+                                        corDepartamento = null,
+                                        nomeDepartamento = ""
+                                    )
+                                }
+                            }
+                        }
+                    }
                 }
 
-                is Resource.Loading -> {
-                    _state.value = _state.value.copy(
-                        isLoading = true,
-                    )
-                }
+            }.launchIn(viewModelScope)
+        }
+    }
 
-                is Resource.Success -> {
-                    result.data?.let {
-                        val departamento =
-                            _state.value.departamentos.find { it.id == result.data.id }
+    private fun deleteDepartarmento() {
+        _state.value.departamentoEscolhido?.let { departamentoEscolhido ->
+            val index = _state.value.departamentos.indexOf(_state.value.departamentoEscolhido)
+            departamentoManager.delete(
+                departamentoEscolhido.id
+            ).onEach { result ->
+                when (result) {
+                    is Resource.Error -> {
+                        _state.value = _state.value.copy(
+                            isLoading = false,
+                            error = result.message ?: "Error"
+                        )
+                    }
 
-                        if (departamento != null) {
+                    is Resource.Loading -> {
+                        _state.value = _state.value.copy(
+                            isLoading = true,
+                        )
+                    }
+
+                    is Resource.Success -> {
+                        if (index != -1) {
                             _state.update { currentState ->
                                 currentState.copy(
                                     isLoading = false,
-                                    departamentos = currentState.departamentos.map {
-                                        if (it.id == result.data.id) result.data else it
-                                    },
-                                    isDialogDepartamento = false,
-                                    corDepartamento = null,
-                                    nomeDepartamento = ""
+                                    departamentos = currentState.departamentos.filterIndexed { i, _ -> i != index }
                                 )
                             }
                         }
                     }
                 }
-            }
 
-        }.launchIn(viewModelScope)
-    }
-
-    private fun deleteDepartarmento() {
-        val index = _state.value.departamentos.indexOf(_state.value.departamentoEscolhido)
-        departamentoManager.delete(
-            _state.value.departamentoEscolhido.id
-        ).onEach { result ->
-            when (result) {
-                is Resource.Error -> {
-                    _state.value = _state.value.copy(
-                        isLoading = false,
-                        error = result.message ?: "Error"
-                    )
-                }
-
-                is Resource.Loading -> {
-                    _state.value = _state.value.copy(
-                        isLoading = true,
-                    )
-                }
-
-                is Resource.Success -> {
-                    if (index != -1) {
-                        _state.update { currentState ->
-                            currentState.copy(
-                                isLoading = false,
-                                departamentos = currentState.departamentos.filterIndexed { i, _ -> i != index }
-                            )
-                        }
-                    }
-                }
-            }
-
-        }.launchIn(viewModelScope)
+            }.launchIn(viewModelScope)
+        }
     }
 
     fun onEvent(event: MainEvent) {
@@ -274,8 +278,9 @@ class MainViewModel @Inject constructor(
                 }
 
                 if (_state.value.isUpdateDepartamento) {
-                    _state.value.departamentoEscolhido.cor = _state.value.corDepartamento!!.toArgb()
-                    _state.value.departamentoEscolhido.nome = _state.value.nomeDepartamento
+                    _state.value.departamentoEscolhido?.cor =
+                        _state.value.corDepartamento!!.toArgb()
+                    _state.value.departamentoEscolhido?.nome = _state.value.nomeDepartamento
                     updateDepartarmento()
                 } else {
                     saveDepartarmento()

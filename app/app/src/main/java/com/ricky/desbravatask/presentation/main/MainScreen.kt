@@ -52,7 +52,6 @@ import com.ricky.desbravatask.presentation.main.components.TopAppBar
 import com.ricky.desbravatask.sample.DepartamentoSample.departamentosSample
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     state: MainState,
@@ -101,18 +100,13 @@ fun MainScreen(
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Spacer(Modifier.width(8.dp))
-                                    Surface(
-                                        shape = CircleShape,
-                                        color = MaterialTheme.colorScheme.onPrimary
-                                    ) {
-                                        Text(
-                                            text = departamento.qtdTarefas.toString(),
-                                            modifier = Modifier.padding(
-                                                vertical = 4.dp,
-                                                horizontal = 8.dp
-                                            ),
-                                        )
-                                    }
+                                    Text(
+                                        text = departamento.qtdTarefas.toString(),
+                                        modifier = Modifier.padding(
+                                            vertical = 4.dp,
+                                            horizontal = 8.dp
+                                        ),
+                                    )
                                     IconButton(onClick = {
                                         onEvent(MainEvent.OnUpdateDepartamento(departamento))
                                     }) {
@@ -140,7 +134,7 @@ fun MainScreen(
                                     text = departamento.nome,
                                     style = TextStyle(
                                         fontWeight = FontWeight.Bold,
-                                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                                        color = MaterialTheme.colorScheme.onPrimary
                                     ),
                                 )
 

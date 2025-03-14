@@ -1,6 +1,7 @@
 package com.ricky.desbravaTask.dto
 
 import com.ricky.desbravaTask.entity.Tarefa
+import com.ricky.desbravaTask.enums.TarefaPrioridadeEnum
 import com.ricky.desbravaTask.enums.TarefaStatusEnum
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotBlank
@@ -19,8 +20,11 @@ data class TarefaDTO(
     @Schema(description = "Descrição detalhada da tarefa", example = "Revisar o documento para enviar ao cliente", required = true)
     var description: String = "",
 
-    @Schema(description = "Status atual da tarefa", example = "A_FAZER", required = true)
+    @Schema(description = "Status atual da tarefa", example = "A_FAZER")
     var status: TarefaStatusEnum = TarefaStatusEnum.A_FAZER,
+
+    @Schema(description = "Prioridade atual da tarefa", example = "BAIXA")
+    var prioridade: TarefaPrioridadeEnum = TarefaPrioridadeEnum.BAIXA,
 
     @NotNull(message = "{departamento.obrigatorio}")
     @Schema(description = "Departamento responsável pela tarefa", required = true)
@@ -43,6 +47,7 @@ data class TarefaDTO(
             name = name,
             description = description,
             status = status,
+            prioridade = prioridade,
             departamento = departamento.toModel(),
             criadoPor = criadoPor.toModel(),
             responsavel = responsavel.toModel()

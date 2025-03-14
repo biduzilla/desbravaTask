@@ -1,6 +1,7 @@
 package com.ricky.desbravaTask.entity
 
 import com.ricky.desbravaTask.dto.TarefaDTO
+import com.ricky.desbravaTask.enums.TarefaPrioridadeEnum
 import com.ricky.desbravaTask.enums.TarefaStatusEnum
 import jakarta.persistence.*
 
@@ -18,6 +19,9 @@ data class Tarefa(
     @Column(name = "STATUS")
     @Enumerated(EnumType.STRING)
     var status: TarefaStatusEnum = TarefaStatusEnum.A_FAZER,
+    @Column(name = "PRIORIDADE")
+    @Enumerated(EnumType.STRING)
+    var prioridade: TarefaPrioridadeEnum = TarefaPrioridadeEnum.BAIXA,
     @ManyToOne
     @JoinColumn(name = "DEPARTAMENTO_ID", nullable = false)
     var departamento: Departamento = Departamento(),
@@ -34,6 +38,7 @@ data class Tarefa(
             name = name,
             description = description,
             status = status,
+            prioridade = prioridade,
             departamento = departamento.toDTO(),
             criadoPor = criadoPor.toDTO(),
             responsavel = responsavel.toDTO(),
