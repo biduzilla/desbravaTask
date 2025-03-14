@@ -68,7 +68,7 @@ fun MainScreen(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        val drawerState = rememberDrawerState(initialValue = DrawerValue.Open)
+        val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
         val scope = rememberCoroutineScope()
         var selectedItemIndex by rememberSaveable {
             mutableIntStateOf(0)

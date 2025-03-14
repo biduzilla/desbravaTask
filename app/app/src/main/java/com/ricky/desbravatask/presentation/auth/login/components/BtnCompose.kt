@@ -49,8 +49,8 @@ fun BtnCompose(
         ) {
             if (loading) {
                 CircularProgressIndicator(
-                    modifier = Modifier.size(20.dp),
-                    strokeWidth = 6.dp
+                    modifier = Modifier.size(24.dp),
+                    strokeWidth = 4.dp
                 )
             } else {
                 if (icon != null) {

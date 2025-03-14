@@ -90,7 +90,7 @@ class LoginViewModel @Inject constructor(
             is LoginEvent.OnChangeEmail -> {
                 _state.update {
                     it.copy(
-                        email = event.email,
+                        email = event.email.trim(),
                         onErrorEmail = false
                     )
                 }
@@ -99,7 +99,7 @@ class LoginViewModel @Inject constructor(
             is LoginEvent.OnChangeSenha -> {
                 _state.update {
                     it.copy(
-                        senha = event.senha,
+                        senha = event.senha.trim(),
                         onErrorSenha = false
                     )
                 }
