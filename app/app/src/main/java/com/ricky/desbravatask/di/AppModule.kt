@@ -14,8 +14,8 @@ import com.ricky.desbravatask.data.repositoryImpl.UsuarioRepositoryImpl
 import com.ricky.desbravatask.domain.repository.DepartamentoRepository
 import com.ricky.desbravatask.domain.repository.TokenRepository
 import com.ricky.desbravatask.domain.repository.UsuarioRepository
-import com.ricky.desbravatask.utils.LocalDateTimeAdapter
 import com.ricky.desbravatask.utils.Constants
+import com.ricky.desbravatask.utils.LocalDateTimeAdapter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

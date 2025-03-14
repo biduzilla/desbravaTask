@@ -1,6 +1,5 @@
 package com.ricky.desbravatask.data.network.interceptor
 
-import android.util.Log
 import com.ricky.desbravatask.data.local.DataStoreUtil
 import com.ricky.desbravatask.domain.usercase.usuario.UseCaseRefreshToken
 import kotlinx.coroutines.CoroutineScope

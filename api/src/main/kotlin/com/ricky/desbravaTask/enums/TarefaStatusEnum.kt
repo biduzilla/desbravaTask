@@ -6,6 +6,4 @@ enum class TarefaStatusEnum {
     BLOQUEADA,
     EM_REVISAO,
     CONCLUIDA,
-    CANCELADA
-
 }
