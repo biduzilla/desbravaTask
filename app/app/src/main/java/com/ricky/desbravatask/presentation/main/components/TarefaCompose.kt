@@ -137,14 +137,13 @@ fun TarefaCompose(
                                     }
 
                                     TarefaPrioridadeEnum.MEDIA -> {
-                                        Color.Yellow
+                                        Color(0xFFFFA500)
                                     }
 
                                     TarefaPrioridadeEnum.ALTA -> {
                                         Color.Red
                                     }
                                 }
-
                             )
 
                             Text(
@@ -170,7 +169,7 @@ fun TarefaCompose(
                         )
                         Text(
                             modifier = Modifier
-                                .padding(vertical = 8.dp),
+                                .padding(vertical = 2.dp),
                             text = tarefa.responsavel.name,
                             style = MaterialTheme.typography.titleMedium
                         )
@@ -189,7 +188,7 @@ fun TarefaCompose(
                         tarefa.departamento.createdAt?.let {
                             Text(
                                 modifier = Modifier
-                                    .padding(vertical = 8.dp),
+                                    .padding(vertical = 2.dp),
                                 text = it.formatLocalDateTimeToString(),
                                 style = MaterialTheme.typography.titleMedium
                             )

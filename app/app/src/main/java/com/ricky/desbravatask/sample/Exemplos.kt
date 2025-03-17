@@ -45,7 +45,7 @@ object Exemplos {
             name = "Atualizar sistema interno",
             description = "Realizar manutenção e atualizar o sistema ERP.",
             status = TarefaStatusEnum.CONCLUIDA,
-            prioridade = TarefaPrioridadeEnum.ALTA,
+            prioridade = TarefaPrioridadeEnum.BAIXA,
             departamento = departamentosSample[2],
             criadoPor = UsuarioUpdate(id = "104", name = "Roberto Lima"),
             responsavel = UsuarioUpdate(id = "105", name = "Fernanda Costa"),

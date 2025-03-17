@@ -1,19 +1,27 @@
 package com.ricky.desbravatask.presentation.main
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -46,7 +54,9 @@ import com.ricky.desbravatask.R
 import com.ricky.desbravatask.presentation.auth.login.components.BtnCompose
 import com.ricky.desbravatask.presentation.main.components.DialogAddDepartamento
 import com.ricky.desbravatask.presentation.main.components.DialogRemover
+import com.ricky.desbravatask.presentation.main.components.TarefaCompose
 import com.ricky.desbravatask.presentation.main.components.TopAppBar
+import com.ricky.desbravatask.sample.Exemplos.tarefaSample
 import kotlinx.coroutines.launch
 
 @Composable
@@ -197,9 +207,53 @@ fun MainScreen(
                             }
                         }
                     )
+                },
+                floatingActionButton = {
+                    FloatingActionButton(
+                        onClick = { },
+                        shape = CircleShape,
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .size(70.dp),
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onPrimary
+                        )
+                    }
                 }
             ) { paddingValues ->
-                Box(Modifier.padding(paddingValues))
+                if (state.isLoading) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        CircularProgressIndicator(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(16.dp)
+                                .wrapContentSize(align = Alignment.Center)
+                        )
+                    }
+
+                } else {
+                    LazyColumn(
+                        modifier = Modifier
+                            .padding(paddingValues)
+                            .padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        items(tarefaSample) {
+                            TarefaCompose(tarefa = it)
+                        }
+                    }
+                }
             }
 
         }
