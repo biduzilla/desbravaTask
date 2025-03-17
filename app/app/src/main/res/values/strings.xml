@@ -18,6 +18,10 @@
     <string name="confirmar_senha">Confirmar a senha</string>
     <string name="add_novo">Adicionar novo</string>
     <string name="departamentos">Departamentos</string>
+    <string name="departamento">Departamento</string>
+    <string name="prioridade">Prioridade</string>
+    <string name="responsavel">Responsável</string>
+    <string name="criada_em">Criada em</string>
     <string name="criar_departamentos">Criar departamentos</string>
     <string name="atualizar_departamentos">Atualizar departamentos</string>
     <string name="escolher_cor">Escolha uma cor:</string>
