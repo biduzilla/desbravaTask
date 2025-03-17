@@ -9,6 +9,7 @@ import com.ricky.desbravatask.R
 import com.ricky.desbravatask.data.local.DataStoreUtil
 import com.ricky.desbravatask.domain.models.Departamento
 import com.ricky.desbravatask.domain.usercase.DepartamentoManager
+import com.ricky.desbravatask.domain.usercase.TarefaManager
 import com.ricky.desbravatask.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -25,6 +26,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val departamentoManager: DepartamentoManager,
     private val dataStoreUtil: DataStoreUtil,
+    private val tarefaManager: TarefaManager,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
     private val _state = MutableStateFlow(MainState())
@@ -44,6 +46,42 @@ class MainViewModel @Inject constructor(
                     getDepartamentos()
                 }
         }
+    }
+
+    private fun getTarefasByDepartamento() {
+        val idDepartamento =
+            _state.value.departamentoEscolhido?.id
+                ?: _state.value.departamentos[0].id
+        tarefaManager.getByDepartamento(idDepartamento)
+            .onEach { result ->
+                when (result) {
+                    is Resource.Error -> {
+                        _state.value = _state.value.copy(
+                            isLoading = false,
+                            error = result.message ?: "Error"
+                        )
+                    }
+
+                    is Resource.Loading -> {
+                        _state.value = _state.value.copy(
+                            isLoading = true,
+                        )
+                    }
+
+                    is Resource.Success -> {
+                        result.data?.let {
+                            _state.update {
+                                it.copy(
+                                    isLoading = false,
+                                    tarefas = result.data
+                                )
+                            }
+                        }
+
+                    }
+                }
+
+            }.launchIn(viewModelScope)
     }
 
     private fun getDepartamentos() {
@@ -70,6 +108,7 @@ class MainViewModel @Inject constructor(
                                 departamentos = result.data
                             )
                         }
+                        getTarefasByDepartamento()
                     }
 
                 }
@@ -223,6 +262,7 @@ class MainViewModel @Inject constructor(
                         departamentoEscolhido = event.departamento
                     )
                 }
+                getTarefasByDepartamento()
             }
 
             is MainEvent.OnChangeNomeDepartamento -> {
@@ -306,6 +346,15 @@ class MainViewModel @Inject constructor(
                         isDialogDeleteDepartamento = !_state.value.isDialogDeleteDepartamento
                     )
                 }
+            }
+
+            is MainEvent.OnChangeEnum -> {
+                _state.update {
+                    it.copy(
+                        tarefaEnum = event.enum
+                    )
+                }
+
             }
         }
     }

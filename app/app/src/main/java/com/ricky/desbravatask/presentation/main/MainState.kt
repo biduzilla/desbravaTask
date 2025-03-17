@@ -3,6 +3,7 @@ package com.ricky.desbravatask.presentation.main
 import androidx.compose.ui.graphics.Color
 import com.ricky.desbravatask.domain.enums.TarefaStatusEnum
 import com.ricky.desbravatask.domain.models.Departamento
+import com.ricky.desbravatask.domain.models.Tarefa
 
 data class MainState(
     var error: String = "",
@@ -14,6 +15,7 @@ data class MainState(
     var onErrorNomeDepartamento: Boolean = false,
     var onErrorCorDepartamento: Boolean = false,
     var departamentos: List<Departamento> = emptyList(),
+    var tarefas: List<Tarefa> = emptyList(),
     var departamentoEscolhido: Departamento? = null,
     var isDialogDepartamento: Boolean = false,
     var isDialogDeleteDepartamento: Boolean = false,

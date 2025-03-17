@@ -196,6 +196,8 @@ fun MainScreen(
             Scaffold(
                 topBar = {
                     TopAppBar(
+                        title = state.departamentoEscolhido?.nome
+                            ?: stringResource(R.string.app_name),
                         onMenu = {
                             scope.launch {
                                 if (drawerState.isClosed) {
@@ -205,6 +207,9 @@ fun MainScreen(
                                     drawerState.close()
                                 }
                             }
+                        },
+                        onChangeEnum = {
+                            onEvent(MainEvent.OnChangeEnum(it))
                         }
                     )
                 },
