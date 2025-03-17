@@ -6,12 +6,15 @@ import com.google.gson.GsonBuilder
 import com.ricky.desbravatask.data.local.DataStoreUtil
 import com.ricky.desbravatask.data.network.api.DepartamentoAPI
 import com.ricky.desbravatask.data.network.api.RefreshTokenAPI
+import com.ricky.desbravatask.data.network.api.TarefaAPI
 import com.ricky.desbravatask.data.network.api.UsuarioAPI
 import com.ricky.desbravatask.data.network.interceptor.AuthInterceptor
 import com.ricky.desbravatask.data.repositoryImpl.DepartamentoRepositoryImpl
+import com.ricky.desbravatask.data.repositoryImpl.TarefaRepositoryImpl
 import com.ricky.desbravatask.data.repositoryImpl.TokenRepositoryImpl
 import com.ricky.desbravatask.data.repositoryImpl.UsuarioRepositoryImpl
 import com.ricky.desbravatask.domain.repository.DepartamentoRepository
+import com.ricky.desbravatask.domain.repository.TarefaRepository
 import com.ricky.desbravatask.domain.repository.TokenRepository
 import com.ricky.desbravatask.domain.repository.UsuarioRepository
 import com.ricky.desbravatask.utils.Constants
@@ -57,7 +60,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideDepartamentoApi(authInterceptor: AuthInterceptor,gson: Gson): DepartamentoAPI {
+    fun provideDepartamentoApi(authInterceptor: AuthInterceptor, gson: Gson): DepartamentoAPI {
         val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(authInterceptor)
             .build()
@@ -68,6 +71,21 @@ object AppModule {
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(DepartamentoAPI::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideTarefaApi(authInterceptor: AuthInterceptor, gson: Gson): TarefaAPI {
+        val okHttpClient = OkHttpClient.Builder()
+            .addInterceptor(authInterceptor)
+            .build()
+
+        return Retrofit.Builder()
+            .baseUrl(Constants.BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+            .create(TarefaAPI::class.java)
     }
 
     @Singleton
@@ -103,5 +121,9 @@ object AppModule {
         api: DepartamentoAPI,
     ): DepartamentoRepository = DepartamentoRepositoryImpl(api)
 
-
+    @Singleton
+    @Provides
+    fun provideTarefaRepository(
+        api: TarefaAPI,
+    ): TarefaRepository = TarefaRepositoryImpl(api)
 }
