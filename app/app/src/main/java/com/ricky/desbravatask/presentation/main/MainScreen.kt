@@ -56,7 +56,6 @@ import com.ricky.desbravatask.presentation.main.components.DialogAddDepartamento
 import com.ricky.desbravatask.presentation.main.components.DialogRemover
 import com.ricky.desbravatask.presentation.main.components.TarefaCompose
 import com.ricky.desbravatask.presentation.main.components.TopAppBar
-import com.ricky.desbravatask.sample.Exemplos.tarefaSample
 import kotlinx.coroutines.launch
 
 @Composable
@@ -231,6 +230,8 @@ fun MainScreen(
                     }
                 }
             ) { paddingValues ->
+                val tarefas = state.tarefas.filter { it.status == state.tarefaEnum }
+
                 if (state.isLoading) {
                     Column(
                         modifier = Modifier
@@ -254,13 +255,12 @@ fun MainScreen(
                             .padding(16.dp),
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        items(tarefaSample) {
+                        items(tarefas) {
                             TarefaCompose(tarefa = it)
                         }
                     }
                 }
             }
-
         }
     }
 }

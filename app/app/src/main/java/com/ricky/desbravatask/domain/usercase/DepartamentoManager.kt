@@ -2,11 +2,11 @@ package com.ricky.desbravatask.domain.usercase
 
 
 import com.ricky.desbravatask.domain.models.Departamento
-import com.ricky.desbravatask.domain.usercase.tarefa.UseCaseDelete
-import com.ricky.desbravatask.domain.usercase.tarefa.UseCaseGetAll
-import com.ricky.desbravatask.domain.usercase.tarefa.UseCaseGetById
-import com.ricky.desbravatask.domain.usercase.tarefa.UseCaseSave
-import com.ricky.desbravatask.domain.usercase.tarefa.UseCaseUpdate
+import com.ricky.desbravatask.domain.usercase.departamento.UseCaseDelete
+import com.ricky.desbravatask.domain.usercase.departamento.UseCaseGetAll
+import com.ricky.desbravatask.domain.usercase.departamento.UseCaseGetById
+import com.ricky.desbravatask.domain.usercase.departamento.UseCaseSave
+import com.ricky.desbravatask.domain.usercase.departamento.UseCaseUpdate
 import com.ricky.desbravatask.utils.Resource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

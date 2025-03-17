@@ -3,6 +3,7 @@
     <string name="email">E-mail</string>
     <string name="senha">Senha</string>
     <string name="login">Login</string>
+    <string name="descricao">Descrição</string>
     <string name="esqueci_senha">Esqueci a senha</string>
     <string name="lembrar_senha">Lembrar a senha</string>
     <string name="nao_tem_conta">Ainda não tem conta?</string>
@@ -22,8 +23,10 @@
     <string name="prioridade">Prioridade</string>
     <string name="responsavel">Responsável</string>
     <string name="criada_em">Criada em</string>
-    <string name="criar_departamentos">Criar departamentos</string>
-    <string name="atualizar_departamentos">Atualizar departamentos</string>
+    <string name="criar_departamentos">Criar departamento</string>
+    <string name="criar_tarefa">Criar tarefa</string>
+    <string name="atualizar_departamentos">Atualizar departamento</string>
+    <string name="atualizar_tarefa">Atualizar tarefa</string>
     <string name="escolher_cor">Escolha uma cor:</string>
     <string name="salvar">Salvar</string>
     <string name="atualizar">Atualizar</string>
@@ -35,4 +38,5 @@
     <string name="error_campo_obrigatorio">Campo obrigatório</string>
     <string name="error_confirma_senha">As senhas devem ser iguais</string>
     <string name="error_selecione_cor">Escolha uma cor</string>
+    <string name="error_escolha_responsavel">Escolha o responsável da tarefa</string>
 </resources>
