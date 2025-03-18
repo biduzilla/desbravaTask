@@ -2,6 +2,7 @@ package com.ricky.desbravatask.data.repositoryImpl
 
 import com.ricky.desbravatask.data.network.api.UsuarioAPI
 import com.ricky.desbravatask.domain.models.Login
+import com.ricky.desbravatask.domain.models.PageModel
 import com.ricky.desbravatask.domain.models.ResetSenha
 import com.ricky.desbravatask.domain.models.Token
 import com.ricky.desbravatask.domain.models.Usuario
@@ -24,6 +25,14 @@ class UsuarioRepositoryImpl @Inject constructor(
 
     override suspend fun alterarSenha(resetSenha: ResetSenha): Response<Void> =
         usuarioAPI.alterarSenha(resetSenha)
+
+    override suspend fun getAll(
+        search: String?,
+        size: Int,
+        page: Int
+    ): Response<PageModel<UsuarioUpdate>> {
+        return usuarioAPI.getAll(search, size, page)
+    }
 
     override suspend fun save(model: Usuario): Response<UsuarioUpdate> =
         usuarioAPI.save(model)

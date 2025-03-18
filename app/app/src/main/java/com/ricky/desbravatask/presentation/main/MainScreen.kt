@@ -54,6 +54,7 @@ import com.ricky.desbravatask.R
 import com.ricky.desbravatask.presentation.auth.login.components.BtnCompose
 import com.ricky.desbravatask.presentation.main.components.DialogAddDepartamento
 import com.ricky.desbravatask.presentation.main.components.DialogRemover
+import com.ricky.desbravatask.presentation.main.components.DialogTarefa
 import com.ricky.desbravatask.presentation.main.components.TarefaCompose
 import com.ricky.desbravatask.presentation.main.components.TopAppBar
 import kotlinx.coroutines.launch
@@ -192,6 +193,48 @@ fun MainScreen(
                     }
                 )
             }
+
+            if (state.isDialogTarefa) {
+                DialogTarefa(
+                    isUpdate = state.isUpdateTarefa,
+                    isLoading = state.isLoading,
+                    nome = state.nomeTarefa,
+                    nomeResponsavel = state.nomeResponsavel,
+                    descricao = state.descricaoTarefa,
+                    prioridadeEnum = state.tarefaPrioridade,
+                    departamentos = state.departamentos,
+                    usuarios = state.usuarios,
+                    departamento = state.departamentoTarefa,
+                    isErrorNome = state.onErrorNomeTarefa,
+                    isErrorDescricao = state.onErrorDescricaoTarefa,
+                    isErrorResponsavel = state.onErrorResponsavel,
+                    onNomeChange = {
+                        onEvent(MainEvent.OnChangeNomeTarefa(it))
+                    },
+                    onNomeResponsavelChange = {
+                        onEvent(MainEvent.OnChangeNomeResponsavel(it))
+                    },
+                    onResponsavelChange = {
+                        onEvent(MainEvent.OnChangeResponsavel(it))
+                    },
+                    onDescricaoChange = {
+                        onEvent(MainEvent.OnChangeDescricaoTarefa(it))
+                    },
+                    onDepartamentoChange = {
+                        onEvent(MainEvent.OnChangeDepartamentoTarefa(it))
+                    },
+                    onPrioridadeChange = {
+                        onEvent(MainEvent.OnChangePrioridade(it))
+                    },
+                    onDismiss = {
+                        onEvent(MainEvent.OnDismissTarefa)
+                    },
+                    onFinish = {
+                        onEvent(MainEvent.OnSaveTarefa)
+                    }
+                )
+            }
+
             Scaffold(
                 topBar = {
                     TopAppBar(
@@ -214,7 +257,7 @@ fun MainScreen(
                 },
                 floatingActionButton = {
                     FloatingActionButton(
-                        onClick = { },
+                        onClick = { onEvent(MainEvent.OnDialogTarefa) },
                         shape = CircleShape,
                         modifier = Modifier
                             .padding(16.dp)

@@ -8,11 +8,16 @@ import androidx.lifecycle.viewModelScope
 import com.ricky.desbravatask.R
 import com.ricky.desbravatask.data.local.DataStoreUtil
 import com.ricky.desbravatask.domain.models.Departamento
+import com.ricky.desbravatask.domain.models.Tarefa
+import com.ricky.desbravatask.domain.models.UsuarioUpdate
 import com.ricky.desbravatask.domain.usercase.DepartamentoManager
 import com.ricky.desbravatask.domain.usercase.TarefaManager
+import com.ricky.desbravatask.domain.usercase.UsuarioManager
 import com.ricky.desbravatask.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filterNotNull
@@ -27,11 +32,12 @@ class MainViewModel @Inject constructor(
     private val departamentoManager: DepartamentoManager,
     private val dataStoreUtil: DataStoreUtil,
     private val tarefaManager: TarefaManager,
+    private val usuarioManager: UsuarioManager,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
     private val _state = MutableStateFlow(MainState())
     val state = _state.asStateFlow()
-
+    private var getUsuarioJob: Job? = null
 
     init {
         viewModelScope.launch {
@@ -46,6 +52,116 @@ class MainViewModel @Inject constructor(
                     getDepartamentos()
                 }
         }
+    }
+
+    private fun updateTarefa() {
+        tarefaManager.update(_state.value.tarefa)
+            .onEach { result ->
+                when (result) {
+                    is Resource.Error -> {
+                        _state.value = _state.value.copy(
+                            isLoading = false,
+                            error = result.message ?: "Error"
+                        )
+                    }
+
+                    is Resource.Loading -> {
+                        _state.value = _state.value.copy(
+                            isLoading = true,
+                        )
+                    }
+
+                    is Resource.Success -> {
+                        result.data?.let {
+                            _state.update {
+                                it.copy(
+                                    isLoading = false,
+                                    isDialogTarefa = false,
+                                )
+                            }
+                            getTarefasByDepartamento()
+                        }
+
+                    }
+                }
+
+            }
+    }
+
+    private fun saveTarefa() {
+        tarefaManager.save(
+            Tarefa(
+                name = _state.value.nomeTarefa,
+                description = _state.value.descricaoTarefa,
+                prioridade = _state.value.tarefaPrioridade,
+                responsavel = _state.value.responsavelTarefa!!,
+                departamento = _state.value.departamentoTarefa,
+                criadoPor = UsuarioUpdate(id = _state.value.userId)
+            )
+        )
+            .onEach { result ->
+                when (result) {
+                    is Resource.Error -> {
+                        _state.value = _state.value.copy(
+                            isLoading = false,
+                            error = result.message ?: "Error"
+                        )
+                    }
+
+                    is Resource.Loading -> {
+                        _state.value = _state.value.copy(
+                            isLoading = true,
+                        )
+                    }
+
+                    is Resource.Success -> {
+                        result.data?.let {
+                            _state.update {
+                                it.copy(
+                                    isLoading = false,
+                                    isDialogTarefa = false,
+                                )
+                            }
+                            getTarefasByDepartamento()
+                        }
+
+                    }
+                }
+
+            }
+    }
+
+    private fun getUsuarios() {
+        usuarioManager.getAll(_state.value.nomeResponsavel)
+            .onEach { result ->
+                when (result) {
+                    is Resource.Error -> {
+                        _state.value = _state.value.copy(
+                            isLoading = false,
+                            error = result.message ?: "Error"
+                        )
+                    }
+
+                    is Resource.Loading -> {
+                        _state.value = _state.value.copy(
+                            isLoading = true,
+                        )
+                    }
+
+                    is Resource.Success -> {
+                        result.data?.let {
+                            _state.update {
+                                it.copy(
+                                    isLoading = false,
+                                    usuarios = result.data.content
+                                )
+                            }
+                        }
+
+                    }
+                }
+
+            }.launchIn(viewModelScope)
     }
 
     private fun getTarefasByDepartamento() {
@@ -355,6 +471,135 @@ class MainViewModel @Inject constructor(
                     )
                 }
 
+            }
+
+            is MainEvent.OnChangeDepartamentoTarefa -> {
+                _state.update {
+                    it.copy(
+                        departamentoTarefa = event.departamento
+                    )
+                }
+            }
+
+            is MainEvent.OnChangeDescricaoTarefa -> {
+                _state.update {
+                    it.copy(
+                        descricaoTarefa = event.descricao,
+                        onErrorDescricaoTarefa = false
+                    )
+                }
+            }
+
+            is MainEvent.OnChangeNomeResponsavel -> {
+                _state.update {
+                    it.copy(
+                        nomeResponsavel = event.nome,
+                    )
+                }
+
+                if (_state.value.nomeResponsavel.trim().isBlank()) {
+                    _state.value.usuarios = emptyList()
+                } else {
+                    getUsuarioJob?.cancel()
+
+                    getUsuarioJob = viewModelScope.launch {
+                        delay(1000)
+                        getUsuarios()
+                    }
+                }
+            }
+
+            is MainEvent.OnChangeNomeTarefa -> {
+                _state.update {
+                    it.copy(
+                        nomeTarefa = event.nome,
+                    )
+                }
+            }
+
+            is MainEvent.OnChangePrioridade -> {
+                _state.update {
+                    it.copy(
+                        tarefaPrioridade = event.prioridade,
+                    )
+                }
+            }
+
+            is MainEvent.OnChangeResponsavel -> {
+                _state.update {
+                    it.copy(
+                        responsavelTarefa = event.usuarioUpdate,
+                        onErrorResponsavel = false
+                    )
+                }
+            }
+
+            MainEvent.OnDialogTarefa -> {
+                _state.update {
+                    it.copy(
+                        isDialogTarefa = !_state.value.isDialogTarefa,
+                    )
+                }
+            }
+
+            MainEvent.OnDismissTarefa -> {
+                _state.update {
+                    it.copy(
+                        isDialogTarefa = false,
+                    )
+                }
+            }
+
+            MainEvent.OnSaveTarefa -> {
+                if (_state.value.nomeTarefa.trim().isBlank()) {
+                    _state.update {
+                        it.copy(
+                            onErrorNomeTarefa = true
+                        )
+                    }
+                    return
+                }
+
+                if (_state.value.descricaoTarefa.trim().isBlank()) {
+                    _state.update {
+                        it.copy(
+                            onErrorDescricaoTarefa = true
+                        )
+                    }
+                    return
+                }
+
+                if (_state.value.responsavelTarefa == null) {
+                    _state.update {
+                        it.copy(
+                            error = context.getString(R.string.error_escolha_responsavel)
+                        )
+                    }
+                    return
+                }
+
+                if (_state.value.departamentoTarefa.id.isBlank()) {
+                    _state.update {
+                        it.copy(
+                            error = context.getString(R.string.error_escolha_departamento)
+                        )
+                    }
+                    return
+                }
+
+                if (_state.value.isUpdateTarefa) {
+                    _state.value.tarefa.apply {
+                        name = _state.value.nomeTarefa
+                        description = _state.value.descricaoTarefa
+                        responsavel = _state.value.responsavelTarefa!!
+                        departamento = _state.value.departamentoTarefa
+                        prioridade = _state.value.tarefaPrioridade
+                        updateTarefa()
+                    }
+                    updateTarefa()
+                } else {
+                    saveTarefa()
+                }
             }
         }
     }

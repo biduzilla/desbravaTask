@@ -39,4 +39,5 @@
     <string name="error_confirma_senha">As senhas devem ser iguais</string>
     <string name="error_selecione_cor">Escolha uma cor</string>
     <string name="error_escolha_responsavel">Escolha o responsável da tarefa</string>
+    <string name="error_escolha_departamento">Escolha o departamento da tarefa</string>
 </resources>

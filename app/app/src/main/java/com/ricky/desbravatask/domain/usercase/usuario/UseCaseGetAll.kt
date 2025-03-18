@@ -2,6 +2,7 @@ package com.ricky.desbravatask.domain.usercase.usuario
 
 import com.google.gson.Gson
 import com.ricky.desbravatask.domain.models.ErrorRequest
+import com.ricky.desbravatask.domain.models.PageModel
 import com.ricky.desbravatask.domain.models.UsuarioUpdate
 import com.ricky.desbravatask.domain.repository.UsuarioRepository
 import com.ricky.desbravatask.utils.Resource
@@ -11,11 +12,15 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class UseCaseGetById @Inject constructor(private val repository: UsuarioRepository) {
-    operator fun invoke(id: String):Flow<Resource<UsuarioUpdate>> = flow {
+class UseCaseGetAll @Inject constructor(private val repository: UsuarioRepository) {
+    operator fun invoke(
+        search: String?,
+        size: Int = 0,
+        page: Int = 0
+    ): Flow<Resource<PageModel<UsuarioUpdate>>> = flow {
         try {
             emit(Resource.Loading())
-            repository.getById(id).let { result ->
+            repository.getAll(search, size, page).let { result ->
                 if (result.isSuccessful) {
                     result.body()?.let { response ->
                         emit(Resource.Success(response))

@@ -32,7 +32,7 @@ import com.ricky.desbravatask.presentation.auth.login.components.TextFieldCompos
 
 @Preview
 @Composable
-fun DialogTarefaPrev() {
+private fun DialogTarefaPrev() {
     DialogTarefa()
 }
 

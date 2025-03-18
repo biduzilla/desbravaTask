@@ -1,15 +1,16 @@
 package com.ricky.desbravatask.domain.usercase
 
 import com.ricky.desbravatask.domain.models.Login
+import com.ricky.desbravatask.domain.models.PageModel
 import com.ricky.desbravatask.domain.models.ResetSenha
 import com.ricky.desbravatask.domain.models.Token
 import com.ricky.desbravatask.domain.models.Usuario
 import com.ricky.desbravatask.domain.models.UsuarioUpdate
 import com.ricky.desbravatask.domain.usercase.usuario.UseCaseAlterarSenha
 import com.ricky.desbravatask.domain.usercase.usuario.UseCaseDelete
+import com.ricky.desbravatask.domain.usercase.usuario.UseCaseGetAll
 import com.ricky.desbravatask.domain.usercase.usuario.UseCaseGetById
 import com.ricky.desbravatask.domain.usercase.usuario.UseCaseLogin
-import com.ricky.desbravatask.domain.usercase.usuario.UseCaseRefreshToken
 import com.ricky.desbravatask.domain.usercase.usuario.UseCaseResetSenha
 import com.ricky.desbravatask.domain.usercase.usuario.UseCaseSave
 import com.ricky.desbravatask.domain.usercase.usuario.UseCaseUpdate
@@ -23,7 +24,7 @@ class UsuarioManager @Inject constructor(
     private val useCaseDelete: UseCaseDelete,
     private val useCaseGetById: UseCaseGetById,
     private val useCaseLogin: UseCaseLogin,
-    private val useCaseRefreshToken: UseCaseRefreshToken,
+    private val useCaseGetAll: UseCaseGetAll,
     private val useCaseResetSenha: UseCaseResetSenha,
     private val usercaseSave: UseCaseSave,
     private val useCaseUpdate: UseCaseUpdate,
@@ -31,6 +32,12 @@ class UsuarioManager @Inject constructor(
 ) {
     fun alterarSenha(resetSenha: ResetSenha): Flow<Resource<Boolean>> =
         useCaseAlterarSenha(resetSenha)
+
+    fun getAll(
+        search: String?,
+        size: Int = 0,
+        page: Int = 0
+    ): Flow<Resource<PageModel<UsuarioUpdate>>> = useCaseGetAll(search, size, page)
 
     fun delete(id: String): Flow<Resource<Boolean>> = useCaseDelete(id)
     fun getById(id: String): Flow<Resource<UsuarioUpdate>> = useCaseGetById(id)
