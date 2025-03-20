@@ -41,6 +41,20 @@ class ExceptionHandler(private val i18n: I18n) {
         )
     }
 
+    @ExceptionHandler(DepartamentoJaCadastradoException::class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    fun handleDepartmantoJaCadastrado(
+        exception: DepartamentoJaCadastradoException,
+        request: HttpServletRequest
+    ): ErrorView {
+        return ErrorView(
+            status = HttpStatus.BAD_REQUEST.value(),
+            error = HttpStatus.BAD_REQUEST.name,
+            message = exception.message,
+            path = request.servletPath
+        )
+    }
+
     @ExceptionHandler(LoginJaCadastradoException::class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     fun handleLoginJaCadastrado(

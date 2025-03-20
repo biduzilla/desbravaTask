@@ -1,6 +1,5 @@
 package com.ricky.desbravatask.data.network.api
 
-import com.ricky.desbravatask.domain.models.Departamento
 import com.ricky.desbravatask.domain.models.PageModel
 import com.ricky.desbravatask.domain.models.Tarefa
 import com.ricky.desbravatask.utils.Constants

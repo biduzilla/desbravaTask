@@ -6,7 +6,7 @@ object Constants {
     private const val IP: String = "192.168.0.11"
     const val BASE_URL: String = "http://$IP:8080"
     const val USER_TOKEN: String = "user_token"
-    const val USER_LOGIN: String = "user_token"
+    const val USER_LOGIN: String = "user_login"
     const val USER_ENDPOINT: String = "$BASE_URL/usuario"
     const val DEPARTAMENTO_ENDPOINT: String = "$BASE_URL/departamentos"
     const val TAREFA_ENDPOINT: String = "$BASE_URL/tarefas"

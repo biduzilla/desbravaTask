@@ -15,7 +15,7 @@ import javax.inject.Inject
 class UseCaseGetAll @Inject constructor(private val repository: UsuarioRepository) {
     operator fun invoke(
         search: String?,
-        size: Int = 0,
+        size: Int = 15,
         page: Int = 0
     ): Flow<Resource<PageModel<UsuarioUpdate>>> = flow {
         try {

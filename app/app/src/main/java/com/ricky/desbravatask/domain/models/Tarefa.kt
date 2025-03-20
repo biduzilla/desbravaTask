@@ -2,8 +2,6 @@ package com.ricky.desbravatask.domain.models
 
 import com.ricky.desbravatask.domain.enums.TarefaPrioridadeEnum
 import com.ricky.desbravatask.domain.enums.TarefaStatusEnum
-import com.ricky.desbravatask.domain.models.Departamento
-import com.ricky.desbravatask.domain.models.UsuarioUpdate
 import java.time.LocalDateTime
 
 data class Tarefa(

@@ -28,7 +28,6 @@ import androidx.compose.ui.unit.dp
 import com.ricky.desbravatask.R
 import com.ricky.desbravatask.domain.enums.EnumWithValue
 import com.ricky.desbravatask.domain.enums.TarefaPrioridadeEnum
-import com.ricky.desbravatask.ui.theme.OnPrimaryDark
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -67,10 +66,10 @@ fun <T> DropdownCompose(
                     disabledIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
-                    focusedTextColor = OnPrimaryDark,
-                    unfocusedTextColor = OnPrimaryDark,
-                    focusedTrailingIconColor = OnPrimaryDark,
-                    unfocusedTrailingIconColor = OnPrimaryDark,
+                    focusedTextColor = MaterialTheme.colorScheme.onPrimary,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onPrimary,
+                    focusedTrailingIconColor = MaterialTheme.colorScheme.primaryContainer,
+                    unfocusedTrailingIconColor = MaterialTheme.colorScheme.primaryContainer,
                 ),
                 value = value,
                 onValueChange = {},

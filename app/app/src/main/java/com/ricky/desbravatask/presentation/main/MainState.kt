@@ -27,13 +27,11 @@ data class MainState(
     var departamentoTarefa: Departamento = Departamento(),
     var usuarios: List<UsuarioUpdate> = emptyList(),
     var tarefas: List<Tarefa> = emptyList(),
-    var tarefa: Tarefa = Tarefa(),
     var departamentoEscolhido: Departamento? = null,
     var responsavelTarefa: UsuarioUpdate? = null,
     var isDialogDepartamento: Boolean = false,
     var isDialogTarefa: Boolean = false,
     var isDialogDeleteDepartamento: Boolean = false,
     var isUpdateDepartamento: Boolean = false,
-    var isUpdateTarefa: Boolean = false,
     var isLoading: Boolean = false,
 )

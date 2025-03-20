@@ -54,40 +54,6 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private fun updateTarefa() {
-        tarefaManager.update(_state.value.tarefa)
-            .onEach { result ->
-                when (result) {
-                    is Resource.Error -> {
-                        _state.value = _state.value.copy(
-                            isLoading = false,
-                            error = result.message ?: "Error"
-                        )
-                    }
-
-                    is Resource.Loading -> {
-                        _state.value = _state.value.copy(
-                            isLoading = true,
-                        )
-                    }
-
-                    is Resource.Success -> {
-                        result.data?.let {
-                            _state.update {
-                                it.copy(
-                                    isLoading = false,
-                                    isDialogTarefa = false,
-                                )
-                            }
-                            getTarefasByDepartamento()
-                        }
-
-                    }
-                }
-
-            }
-    }
-
     private fun saveTarefa() {
         tarefaManager.save(
             Tarefa(
@@ -149,6 +115,11 @@ class MainViewModel @Inject constructor(
                     }
 
                     is Resource.Success -> {
+                        _state.update {
+                            it.copy(
+                                isLoading = false,
+                            )
+                        }
                         result.data?.let {
                             _state.update {
                                 it.copy(
@@ -185,10 +156,14 @@ class MainViewModel @Inject constructor(
                     }
 
                     is Resource.Success -> {
+                        _state.update {
+                            it.copy(
+                                isLoading = false,
+                            )
+                        }
                         result.data?.let {
                             _state.update {
                                 it.copy(
-                                    isLoading = false,
                                     tarefas = result.data
                                 )
                             }
@@ -224,7 +199,9 @@ class MainViewModel @Inject constructor(
                                 departamentos = result.data
                             )
                         }
-                        getTarefasByDepartamento()
+                        if (result.data.isNotEmpty()) {
+                            getTarefasByDepartamento()
+                        }
                     }
 
                 }
@@ -341,6 +318,7 @@ class MainViewModel @Inject constructor(
                             _state.update { currentState ->
                                 currentState.copy(
                                     isLoading = false,
+                                    isDialogDeleteDepartamento = false,
                                     departamentos = currentState.departamentos.filterIndexed { i, _ -> i != index }
                                 )
                             }
@@ -496,12 +474,11 @@ class MainViewModel @Inject constructor(
                         nomeResponsavel = event.nome,
                     )
                 }
+                getUsuarioJob?.cancel()
 
                 if (_state.value.nomeResponsavel.trim().isBlank()) {
                     _state.value.usuarios = emptyList()
                 } else {
-                    getUsuarioJob?.cancel()
-
                     getUsuarioJob = viewModelScope.launch {
                         delay(1000)
                         getUsuarios()
@@ -587,19 +564,7 @@ class MainViewModel @Inject constructor(
                     return
                 }
 
-                if (_state.value.isUpdateTarefa) {
-                    _state.value.tarefa.apply {
-                        name = _state.value.nomeTarefa
-                        description = _state.value.descricaoTarefa
-                        responsavel = _state.value.responsavelTarefa!!
-                        departamento = _state.value.departamentoTarefa
-                        prioridade = _state.value.tarefaPrioridade
-                        updateTarefa()
-                    }
-                    updateTarefa()
-                } else {
-                    saveTarefa()
-                }
+                saveTarefa()
             }
         }
     }

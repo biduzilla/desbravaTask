@@ -15,7 +15,7 @@ interface UsuarioRepository : BaseRepository<Usuario, UsuarioUpdate> {
     suspend fun alterarSenha(resetSenha: ResetSenha): Response<Void>
     suspend fun getAll(
         search: String?,
-        size: Int = 0,
+        size: Int = 15,
         page: Int = 0
     ): Response<PageModel<UsuarioUpdate>>
 }

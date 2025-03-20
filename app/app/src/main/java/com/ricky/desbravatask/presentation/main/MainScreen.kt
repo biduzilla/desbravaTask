@@ -109,6 +109,7 @@ fun MainScreen(
                                     Spacer(Modifier.width(8.dp))
                                     Text(
                                         text = departamento.qtdTarefas.toString(),
+                                        color = MaterialTheme.colorScheme.primaryContainer,
                                         modifier = Modifier.padding(
                                             vertical = 4.dp,
                                             horizontal = 8.dp
@@ -120,7 +121,7 @@ fun MainScreen(
                                         Icon(
                                             Icons.Default.Edit,
                                             contentDescription = null,
-                                            tint = MaterialTheme.colorScheme.onPrimary
+                                            tint = MaterialTheme.colorScheme.primaryContainer
                                         )
                                     }
                                     IconButton(onClick = {
@@ -129,10 +130,9 @@ fun MainScreen(
                                         Icon(
                                             Icons.Default.Delete,
                                             contentDescription = null,
-                                            tint = MaterialTheme.colorScheme.onPrimary
+                                            tint = MaterialTheme.colorScheme.primaryContainer
                                         )
                                     }
-
                                 }
                             },
                             shape = RoundedCornerShape(10.dp),
@@ -141,7 +141,7 @@ fun MainScreen(
                                     text = departamento.nome,
                                     style = TextStyle(
                                         fontWeight = FontWeight.Bold,
-                                        color = MaterialTheme.colorScheme.onPrimary
+                                        color = MaterialTheme.colorScheme.primaryContainer
                                     ),
                                 )
 
@@ -196,7 +196,6 @@ fun MainScreen(
 
             if (state.isDialogTarefa) {
                 DialogTarefa(
-                    isUpdate = state.isUpdateTarefa,
                     isLoading = state.isLoading,
                     nome = state.nomeTarefa,
                     nomeResponsavel = state.nomeResponsavel,
@@ -236,6 +235,7 @@ fun MainScreen(
             }
 
             Scaffold(
+                containerColor = MaterialTheme.colorScheme.onPrimary,
                 topBar = {
                     TopAppBar(
                         title = state.departamentoEscolhido?.nome
@@ -298,7 +298,7 @@ fun MainScreen(
                             .padding(16.dp),
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        items(tarefas) {
+                        items(state.tarefas) {
                             TarefaCompose(tarefa = it)
                         }
                     }

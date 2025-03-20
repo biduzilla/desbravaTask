@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
@@ -30,34 +29,36 @@ fun SplashScreen(
     state: SplashState
 ) {
     if (state.isLoaded) {
-        navController.navigate(Screens.LoginScreen.route)
+        navController.navigate(Screens.LoginScreen.route){
+            popUpTo(Screens.SplashScreen.route) { inclusive = true }
+        }
     }
+
+    if (state.isLembrarSenha) {
+        navController.navigate(Screens.MainScreen.route){
+            popUpTo(Screens.SplashScreen.route) { inclusive = true }
+        }
+    }
+
     Column(
         Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.primary)
+            .background(MaterialTheme.colorScheme.primary),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Bottom,
-            modifier = Modifier.weight(1f).fillMaxWidth()
-        ) {
-            Image(
-                modifier = Modifier.size(250.dp),
-                painter = painterResource(R.drawable.logo),
-                contentDescription = null,
-            )
-            Spacer(Modifier.height(16.dp))
-            Text(
-                text = stringResource(id = R.string.app_name),
-                style = MaterialTheme.typography.headlineLarge.copy(
-                    fontWeight = FontWeight.Bold
-                ),
-                color = MaterialTheme.colorScheme.onPrimary
-            )
-        }
-        Spacer(
-            modifier = Modifier.weight(1f)
+        Image(
+            modifier = Modifier.size(250.dp),
+            painter = painterResource(R.drawable.logo),
+            contentDescription = null,
+        )
+        Spacer(Modifier.height(16.dp))
+        Text(
+            text = stringResource(id = R.string.app_name),
+            style = MaterialTheme.typography.headlineLarge.copy(
+                fontWeight = FontWeight.Bold
+            ),
+            color = MaterialTheme.colorScheme.onPrimary
         )
     }
 }

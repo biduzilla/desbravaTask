@@ -1,6 +1,7 @@
 package com.ricky.desbravatask.data.local
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -37,7 +38,10 @@ class DataStoreUtil(private val context: Context) {
 
     suspend fun saveLogin(login: Login) {
         val json = Gson().toJson(login)
-        context.dataStore.edit { p -> p[LOGIN] = json }
+        Log.i("infoteste", "saveLogin: $json")
+        context.dataStore.edit { preferences ->
+            preferences[LOGIN] = json
+        }
     }
 
     fun getTheme(): Flow<Boolean> {

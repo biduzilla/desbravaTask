@@ -6,18 +6,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Description
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -109,44 +105,55 @@ fun DialogTarefa(
                 DropdownCompose(
                     label = R.string.departamentos,
                     value = departamento.nome,
-                    list = departamentos.toTypedArray()
+                    list = departamentos.map { it.nome }.toTypedArray()
                 ) {
-                    onDepartamentoChange(it)
+                    onDepartamentoChange(departamentos.first { departamento -> departamento.nome == it })
                 }
 
-                ExposedDropdownMenuBox(
-                    expanded = usuarios.isNotEmpty(),
-                    onExpandedChange = { }
-                ) {
-                    TextFieldCompose(
-                        value = nomeResponsavel,
-                        isError = isErrorResponsavel,
-                        label = R.string.responsavel,
-                        icon = Icons.Default.Person,
-                        keyboardType = KeyboardType.Text,
-                        ime = ImeAction.Next,
-                        errorText = R.string.error_escolha_responsavel
-                    ) { onNomeChange(it) }
-                    ExposedDropdownMenu(
-                        expanded = usuarios.isNotEmpty(),
-                        onDismissRequest = {},
-                    ) {
-                        usuarios.forEach { item ->
-                            DropdownMenuItem(
-                                text = {
-                                    Text(
-                                        text = item.name,
-                                        style = TextStyle(
-                                            color = MaterialTheme.colorScheme.onPrimaryContainer
-                                        )
-                                    )
-                                },
-                                onClick = {
-                                    onResponsavelChange(item)
-                                })
-                        }
+                TextFieldAutoComplete(
+                    value = nomeResponsavel,
+                    isErrorResponsavel = isErrorResponsavel,
+                    usuarios = usuarios,
+                    onChange = { onNomeResponsavelChange(it) },
+                    onSelected = {
+                        onNomeResponsavelChange(it.name)
                     }
-                }
+                )
+
+//                ExposedDropdownMenuBox(
+//                    expanded = usuarios.isNotEmpty(),
+//                    onExpandedChange = { }
+//                ) {
+//                    TextFieldCompose(
+//                        modifier = Modifier.focusRequester(focusRequester),
+//                        value = nomeResponsavel,
+//                        isError = isErrorResponsavel,
+//                        label = R.string.responsavel,
+//                        icon = Icons.Default.Person,
+//                        keyboardType = KeyboardType.Text,
+//                        ime = ImeAction.Next,
+//                        errorText = R.string.error_escolha_responsavel
+//                    ) { onNomeResponsavelChange(it) }
+//                    ExposedDropdownMenu(
+//                        expanded = usuarios.isNotEmpty(),
+//                        onDismissRequest = { },
+//                    ) {
+//                        usuarios.forEach { item ->
+//                            DropdownMenuItem(
+//                                text = {
+//                                    Text(
+//                                        text = item.name,
+//                                        style = TextStyle(
+//                                            color = MaterialTheme.colorScheme.onPrimaryContainer
+//                                        )
+//                                    )
+//                                },
+//                                onClick = {
+//                                    onResponsavelChange(item)
+//                                })
+//                        }
+//                    }
+//                }
 
                 BtnCompose(
                     text = if (isUpdate) R.string.atualizar else R.string.salvar,

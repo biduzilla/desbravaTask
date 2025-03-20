@@ -23,7 +23,7 @@ interface UsuarioAPI {
     @GET(Constants.USER_ENDPOINT)
     suspend fun getAll(
         @Query("search") search: String?,
-        @Query("size") size: Int = 0,
+        @Query("size") size: Int = 15,
         @Query("page") page: Int = 0
     ): Response<PageModel<UsuarioUpdate>>
 

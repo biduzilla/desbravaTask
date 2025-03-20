@@ -35,7 +35,7 @@ class UsuarioManager @Inject constructor(
 
     fun getAll(
         search: String?,
-        size: Int = 0,
+        size: Int = 15,
         page: Int = 0
     ): Flow<Resource<PageModel<UsuarioUpdate>>> = useCaseGetAll(search, size, page)
 

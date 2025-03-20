@@ -10,7 +10,6 @@ import com.ricky.desbravatask.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
@@ -26,22 +25,6 @@ class LoginViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-        viewModelScope.launch {
-            dataStoreUtil.getLogin()
-                .filterNotNull()
-                .collect { login ->
-                    if (login.login.isNotBlank() && login.senha.isNotBlank()) {
-                        _state.update { currentState ->
-                            currentState.copy(
-                                email = login.login,
-                                senha = login.senha,
-                                isLembrarSenha = true
-                            )
-                        }
-                        login()
-                    }
-                }
-        }
     }
 
     private fun login() {
@@ -67,12 +50,15 @@ class LoginViewModel @Inject constructor(
                     }
 
                     is Resource.Success -> {
+                        Log.i("infoteste", "salvar senha: ${_state.value.isLembrarSenha}")
                         if (_state.value.isLembrarSenha) {
-                            dataStoreUtil.saveLogin(login)
+                            viewModelScope.launch {
+                                Log.i("infoteste", "login para salvar: $login")
+                                dataStoreUtil.saveLogin(login)
+                            }
                         }
 
                         result.data?.let {
-                            Log.i("infoteste", "login: result.data")
                             dataStoreUtil.saveToken(result.data)
                         }
 

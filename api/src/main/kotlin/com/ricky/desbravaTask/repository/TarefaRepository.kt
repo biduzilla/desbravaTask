@@ -40,7 +40,7 @@ interface TarefaRepository : JpaRepository<Tarefa, String> {
 
     @Query(
         "select t from Tarefa t " +
-                " where t.departamento.id = :idDepartamento " +
+                " where t.departamento.id = :departamentoId " +
                 " and t.responsavel.id = :usuarioId"
     )
     fun findByDepartamentoIdAndUsuarioId(@Param("departamentoId") departamentoId: String,@Param("usuarioId") usuarioId:String):List<Tarefa>

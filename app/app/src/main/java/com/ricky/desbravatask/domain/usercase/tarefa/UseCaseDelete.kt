@@ -2,7 +2,6 @@ package com.ricky.desbravatask.domain.usercase.tarefa
 
 import com.google.gson.Gson
 import com.ricky.desbravatask.domain.models.ErrorRequest
-import com.ricky.desbravatask.domain.repository.DepartamentoRepository
 import com.ricky.desbravatask.domain.repository.TarefaRepository
 import com.ricky.desbravatask.utils.Resource
 import kotlinx.coroutines.flow.Flow
