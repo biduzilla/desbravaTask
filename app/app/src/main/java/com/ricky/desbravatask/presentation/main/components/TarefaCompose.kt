@@ -133,15 +133,13 @@ fun TarefaCompose(
                                 contentDescription = stringResource(R.string.prioridade),
                                 tint = when (tarefa.prioridade) {
                                     TarefaPrioridadeEnum.BAIXA -> {
-                                        Color.Green
+                                        Color(0xFF006400) // Verde escuro
                                     }
-
                                     TarefaPrioridadeEnum.MEDIA -> {
-                                        Color(0xFFFFA500)
+                                        Color(0xFFCC5500) // Laranja escuro
                                     }
-
                                     TarefaPrioridadeEnum.ALTA -> {
-                                        Color.Red
+                                        Color(0xFF8B0000) // Vermelho escuro
                                     }
                                 }
                             )

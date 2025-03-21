@@ -304,10 +304,10 @@ fun MainScreen(
                         modifier = Modifier
                             .padding(paddingValues)
                             .padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         items(state.tarefas) {
                             TarefaCompose(tarefa = it)
+                            Spacer(Modifier.height(16.dp))
                         }
                     }
                 }
