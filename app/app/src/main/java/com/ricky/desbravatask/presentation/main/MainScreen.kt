@@ -42,8 +42,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -79,6 +81,7 @@ fun MainScreen(
         var selectedItemIndex by rememberSaveable {
             mutableIntStateOf(0)
         }
+        val focusManager: FocusManager = LocalFocusManager.current
 
         ModalNavigationDrawer(
             drawerState = drawerState,
@@ -242,6 +245,7 @@ fun MainScreen(
                             ?: stringResource(R.string.app_name),
                         onMenu = {
                             scope.launch {
+                                focusManager.clearFocus()
                                 if (drawerState.isClosed) {
                                     drawerState.open()
                                     onEvent(MainEvent.OnResume)
@@ -252,12 +256,16 @@ fun MainScreen(
                         },
                         onChangeEnum = {
                             onEvent(MainEvent.OnChangeEnum(it))
+                            focusManager.clearFocus()
                         }
                     )
                 },
                 floatingActionButton = {
                     FloatingActionButton(
-                        onClick = { onEvent(MainEvent.OnDialogTarefa) },
+                        onClick = {
+                            onEvent(MainEvent.OnDialogTarefa)
+                            focusManager.clearFocus()
+                        },
                         shape = CircleShape,
                         modifier = Modifier
                             .padding(16.dp)

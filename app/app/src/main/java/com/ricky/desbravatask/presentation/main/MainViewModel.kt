@@ -86,6 +86,11 @@ class MainViewModel @Inject constructor(
                                 it.copy(
                                     isLoading = false,
                                     isDialogTarefa = false,
+                                    nomeResponsavel = "",
+                                    descricaoTarefa = "",
+                                    nomeTarefa = "",
+                                    responsavelTarefa = null,
+                                    departamentoTarefa = Departamento()
                                 )
                             }
                             getTarefasByDepartamento()
@@ -93,8 +98,7 @@ class MainViewModel @Inject constructor(
 
                     }
                 }
-
-            }
+            }.launchIn(viewModelScope)
     }
 
     private fun getUsuarios() {
@@ -472,6 +476,7 @@ class MainViewModel @Inject constructor(
                 _state.update {
                     it.copy(
                         nomeResponsavel = event.nome,
+                        usuarios = emptyList()
                     )
                 }
                 getUsuarioJob?.cancel()
@@ -506,7 +511,9 @@ class MainViewModel @Inject constructor(
                 _state.update {
                     it.copy(
                         responsavelTarefa = event.usuarioUpdate,
-                        onErrorResponsavel = false
+                        onErrorResponsavel = false,
+                        usuarios = emptyList(),
+                        nomeResponsavel = event.usuarioUpdate.name
                     )
                 }
             }
