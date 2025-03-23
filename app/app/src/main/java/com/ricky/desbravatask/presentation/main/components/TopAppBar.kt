@@ -56,6 +56,7 @@ fun TopAppBar(
     title: String = stringResource(R.string.app_name),
     onMenu: () -> Unit = {},
     onSettings: () -> Unit = {},
+    onEsquerda: (Boolean) -> Unit = {},
     onChangeEnum: (TarefaStatusEnum) -> Unit = {}
 ) {
     val listEnums = TarefaStatusEnum.entries
@@ -128,6 +129,7 @@ fun TopAppBar(
                             enumSelected--
                             isEsqueda = true
                             onChangeEnum(listEnums[enumSelected])
+                            onEsquerda(true)
                         }
                     ) {
                         Icon(
@@ -197,6 +199,7 @@ fun TopAppBar(
                             enumSelected++
                             isEsqueda = false
                             onChangeEnum(listEnums[enumSelected])
+                            onEsquerda(false)
                         }
                     ) {
                         Icon(

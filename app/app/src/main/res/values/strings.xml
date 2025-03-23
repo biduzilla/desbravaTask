@@ -23,6 +23,7 @@
     <string name="prioridade">Prioridade</string>
     <string name="responsavel">Responsável</string>
     <string name="criada_em">Criada em</string>
+    <string name="criada_por">Criada por</string>
     <string name="criar_departamentos">Criar departamento</string>
     <string name="criar_tarefa">Criar tarefa</string>
     <string name="atualizar_departamentos">Atualizar departamento</string>

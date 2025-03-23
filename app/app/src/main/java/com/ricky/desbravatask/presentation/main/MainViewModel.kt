@@ -1,6 +1,7 @@
 package com.ricky.desbravatask.presentation.main
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModel
@@ -26,6 +27,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import android.util.Log as Log1
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
@@ -447,12 +449,13 @@ class MainViewModel @Inject constructor(
             }
 
             is MainEvent.OnChangeEnum -> {
+                Log.i("infoteste", "onEvent: OnChangeEnum ${event.enum}")
                 _state.update {
                     it.copy(
                         tarefaEnum = event.enum
                     )
                 }
-
+                Log.i("infoteste", "onEvent: state ${_state.value}")
             }
 
             is MainEvent.OnChangeDepartamentoTarefa -> {

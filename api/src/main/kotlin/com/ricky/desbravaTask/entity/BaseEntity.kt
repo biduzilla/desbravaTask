@@ -9,6 +9,7 @@ import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedBy
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
+import java.io.Serializable
 import java.time.LocalDateTime
 
 @MappedSuperclass
@@ -30,4 +31,4 @@ abstract class BaseEntity(
     @field:LastModifiedBy
     @Column(insertable = false, name = "UPDATED_BY")
     var updatedBy: String? = null,
-)
+):Serializable

@@ -1,6 +1,15 @@
 package com.ricky.desbravatask.presentation.main
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,6 +46,8 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -61,6 +72,7 @@ import com.ricky.desbravatask.presentation.main.components.TarefaCompose
 import com.ricky.desbravatask.presentation.main.components.TopAppBar
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainScreen(
     state: MainState,
@@ -70,6 +82,10 @@ fun MainScreen(
 
     BackHandler(enabled = true) {
         // Não faz nada, bloqueando o botão de voltar
+    }
+
+    var isEsqueda by remember {
+        mutableStateOf(false)
     }
 
     Surface(
@@ -254,6 +270,9 @@ fun MainScreen(
                                 }
                             }
                         },
+                        onEsquerda = {
+                            isEsqueda = it
+                        },
                         onChangeEnum = {
                             onEvent(MainEvent.OnChangeEnum(it))
                             focusManager.clearFocus()
@@ -281,7 +300,6 @@ fun MainScreen(
                     }
                 }
             ) { paddingValues ->
-                val tarefas = state.tarefas.filter { it.status == state.tarefaEnum }
 
                 if (state.isLoading) {
                     Column(
@@ -305,8 +323,12 @@ fun MainScreen(
                             .padding(paddingValues)
                             .padding(16.dp),
                     ) {
-                        items(state.tarefas) {
-                            TarefaCompose(tarefa = it)
+                        items(state.tarefas.filter { it.status == state.tarefaEnum },
+                            key = { it.id }) { tarefa ->
+                            TarefaCompose(
+                                Modifier.animateItemPlacement(),
+                                tarefa = tarefa
+                            )
                             Spacer(Modifier.height(16.dp))
                         }
                     }
