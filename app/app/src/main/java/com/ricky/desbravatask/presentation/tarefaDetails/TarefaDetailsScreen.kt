@@ -7,17 +7,17 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForwardIos
-import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.AddComment
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.FilterList
-import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -45,6 +45,8 @@ import com.ricky.desbravatask.R
 import com.ricky.desbravatask.domain.enums.TarefaPrioridadeEnum
 import com.ricky.desbravatask.presentation.auth.login.components.BtnCompose
 import com.ricky.desbravatask.presentation.auth.login.components.TextFieldCompose
+import com.ricky.desbravatask.presentation.tarefaDetails.components.ComentarioItem
+import com.ricky.desbravatask.sample.Exemplos.comentarios
 import com.ricky.desbravatask.utils.formatLocalDateTimeToString
 
 @Preview
@@ -67,21 +69,16 @@ fun TarefaDetailsScreen(
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary
+                    containerColor = Color.Transparent
                 ),
                 title = {
-                    Text(
-                        text = state.tarefa.name,
-                        style = MaterialTheme.typography.headlineSmall,
-                        color = MaterialTheme.colorScheme.onPrimary
-                    )
                 },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
                             imageVector = Icons.Default.ArrowBackIosNew,
                             contentDescription = "Voltar",
-                            tint = MaterialTheme.colorScheme.onPrimary
+                            tint = MaterialTheme.colorScheme.primary
                         )
                     }
                 },
@@ -90,14 +87,14 @@ fun TarefaDetailsScreen(
                         Icon(
                             imageVector = Icons.Default.Edit,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onPrimary
+                            tint = MaterialTheme.colorScheme.primary
                         )
                     }
                     IconButton(onClick = { /*TODO*/ }) {
                         Icon(
                             imageVector = Icons.Default.Delete,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onPrimary
+                            tint = MaterialTheme.colorScheme.primary
                         )
                     }
                 }
@@ -261,10 +258,14 @@ fun TarefaDetailsScreen(
             item {
                 Spacer(Modifier.height(48.dp))
                 Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center,
                 ) {
                     BtnCompose(
+                        modifier = Modifier
+                            .weight(1f),
                         onClick = {},
                         icon = Icons.Default.ArrowBackIosNew,
                         enabled = !state.isLoading,
@@ -273,7 +274,9 @@ fun TarefaDetailsScreen(
                     Surface(
                         shape = RoundedCornerShape(10.dp),
                         color = MaterialTheme.colorScheme.onPrimary,
-                        modifier = Modifier.padding(horizontal = 8.dp)
+                        modifier = Modifier
+                            .weight(2f)
+                            .padding(horizontal = 8.dp)
                     ) {
                         Text(
                             modifier = Modifier
@@ -283,6 +286,8 @@ fun TarefaDetailsScreen(
                         )
                     }
                     BtnCompose(
+                        modifier = Modifier
+                            .weight(1f),
                         onClick = {},
                         icon = Icons.AutoMirrored.Filled.ArrowForwardIos,
                         enabled = !state.isLoading,
@@ -292,30 +297,25 @@ fun TarefaDetailsScreen(
             }
             item {
                 Spacer(Modifier.height(28.dp))
-                Surface(
-                    color = MaterialTheme.colorScheme.primary,
-                    shape = RoundedCornerShape(20.dp),
-                    modifier = Modifier.padding(2.dp)
-                ) {
-                    Row {
-                        TextFieldCompose(
-                            value = state.comentario,
-                            label = R.string.comentario,
-                            icon = Icons.Default.AddComment,
-                            keyboardType = KeyboardType.Text,
-                            ime = ImeAction.Done,
-                            isError = false,
-                            onDone = { onEvent(TarefaDetailsEvent.SaveComentario) }
-                        ) { onEvent(TarefaDetailsEvent.OnChangeComentario(it)) }
-                        BtnCompose(
-                            onClick = { onEvent(TarefaDetailsEvent.SaveComentario) },
-                            icon = Icons.AutoMirrored.Filled.Send,
-                            enabled = !state.isLoading,
-                            loading = state.isLoading
-                        )
-                    }
+                TextFieldCompose(
+                    value = state.comentario,
+                    label = R.string.comentario,
+                    icon = Icons.Default.AddComment,
+                    keyboardType = KeyboardType.Text,
+//                            colors = TextFieldDefaults.colors(
+//                                focusedContainerColor = MaterialTheme.colorScheme.primary,
+//                                unfocusedContainerColor = MaterialTheme.colorScheme.primary,
+//                                focusedIndicatorColor = Color.Transparent,
+//                                unfocusedIndicatorColor = Color.Transparent,
+//                            ),
+                    ime = ImeAction.Done,
+                    isError = false,
+                    onDone = { onEvent(TarefaDetailsEvent.SaveComentario) }
+                ) { onEvent(TarefaDetailsEvent.OnChangeComentario(it)) }
 
-                }
+            }
+            items(comentarios) { item ->
+                ComentarioItem(comentario = item)
             }
         }
     }
