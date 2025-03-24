@@ -10,10 +10,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForwardIos
+import androidx.compose.material.icons.automirrored.filled.Send
+import androidx.compose.material.icons.filled.AddComment
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.FilterList
+import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,12 +36,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ricky.desbravatask.R
 import com.ricky.desbravatask.domain.enums.TarefaPrioridadeEnum
+import com.ricky.desbravatask.presentation.auth.login.components.BtnCompose
+import com.ricky.desbravatask.presentation.auth.login.components.TextFieldCompose
 import com.ricky.desbravatask.utils.formatLocalDateTimeToString
 
 @Preview
@@ -114,6 +121,7 @@ fun TarefaDetailsScreen(
                             fontWeight = FontWeight.Bold
                         ),
                 )
+                Spacer(Modifier.height(16.dp))
             }
             item {
                 Card(
@@ -246,6 +254,65 @@ fun TarefaDetailsScreen(
                                 style = MaterialTheme.typography.titleMedium
                             )
                         }
+                    }
+
+                }
+            }
+            item {
+                Spacer(Modifier.height(48.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center,
+                ) {
+                    BtnCompose(
+                        onClick = {},
+                        icon = Icons.Default.ArrowBackIosNew,
+                        enabled = !state.isLoading,
+                        loading = state.isLoading
+                    )
+                    Surface(
+                        shape = RoundedCornerShape(10.dp),
+                        color = MaterialTheme.colorScheme.onPrimary,
+                        modifier = Modifier.padding(horizontal = 8.dp)
+                    ) {
+                        Text(
+                            modifier = Modifier
+                                .padding(horizontal = 16.dp, vertical = 8.dp),
+                            text = state.tarefa.status.value,
+                            style = MaterialTheme.typography.titleMedium,
+                        )
+                    }
+                    BtnCompose(
+                        onClick = {},
+                        icon = Icons.AutoMirrored.Filled.ArrowForwardIos,
+                        enabled = !state.isLoading,
+                        loading = state.isLoading
+                    )
+                }
+            }
+            item {
+                Spacer(Modifier.height(28.dp))
+                Surface(
+                    color = MaterialTheme.colorScheme.primary,
+                    shape = RoundedCornerShape(20.dp),
+                    modifier = Modifier.padding(2.dp)
+                ) {
+                    Row {
+                        TextFieldCompose(
+                            value = state.comentario,
+                            label = R.string.comentario,
+                            icon = Icons.Default.AddComment,
+                            keyboardType = KeyboardType.Text,
+                            ime = ImeAction.Done,
+                            isError = false,
+                            onDone = { onEvent(TarefaDetailsEvent.SaveComentario) }
+                        ) { onEvent(TarefaDetailsEvent.OnChangeComentario(it)) }
+                        BtnCompose(
+                            onClick = { onEvent(TarefaDetailsEvent.SaveComentario) },
+                            icon = Icons.AutoMirrored.Filled.Send,
+                            enabled = !state.isLoading,
+                            loading = state.isLoading
+                        )
                     }
 
                 }

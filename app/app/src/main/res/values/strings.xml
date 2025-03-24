@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">DesbravaTask</string>
     <string name="email">E-mail</string>
+    <string name="comentario">Comentário</string>
     <string name="senha">Senha</string>
     <string name="login">Login</string>
     <string name="descricao">Descrição</string>
