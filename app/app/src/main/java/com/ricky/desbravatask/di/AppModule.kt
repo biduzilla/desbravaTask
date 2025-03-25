@@ -4,15 +4,18 @@ import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.ricky.desbravatask.data.local.DataStoreUtil
+import com.ricky.desbravatask.data.network.api.ComentarioAPI
 import com.ricky.desbravatask.data.network.api.DepartamentoAPI
 import com.ricky.desbravatask.data.network.api.RefreshTokenAPI
 import com.ricky.desbravatask.data.network.api.TarefaAPI
 import com.ricky.desbravatask.data.network.api.UsuarioAPI
 import com.ricky.desbravatask.data.network.interceptor.AuthInterceptor
+import com.ricky.desbravatask.data.repositoryImpl.ComentarioRepositoryImpl
 import com.ricky.desbravatask.data.repositoryImpl.DepartamentoRepositoryImpl
 import com.ricky.desbravatask.data.repositoryImpl.TarefaRepositoryImpl
 import com.ricky.desbravatask.data.repositoryImpl.TokenRepositoryImpl
 import com.ricky.desbravatask.data.repositoryImpl.UsuarioRepositoryImpl
+import com.ricky.desbravatask.domain.repository.ComentarioRepository
 import com.ricky.desbravatask.domain.repository.DepartamentoRepository
 import com.ricky.desbravatask.domain.repository.TarefaRepository
 import com.ricky.desbravatask.domain.repository.TokenRepository
@@ -75,6 +78,21 @@ object AppModule {
 
     @Singleton
     @Provides
+    fun provideComentarioApi(authInterceptor: AuthInterceptor, gson: Gson): ComentarioAPI {
+        val okHttpClient = OkHttpClient.Builder()
+            .addInterceptor(authInterceptor)
+            .build()
+
+        return Retrofit.Builder()
+            .baseUrl(Constants.BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+            .create(ComentarioAPI::class.java)
+    }
+
+    @Singleton
+    @Provides
     fun provideTarefaApi(authInterceptor: AuthInterceptor, gson: Gson): TarefaAPI {
         val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(authInterceptor)
@@ -126,4 +144,10 @@ object AppModule {
     fun provideTarefaRepository(
         api: TarefaAPI,
     ): TarefaRepository = TarefaRepositoryImpl(api)
+
+    @Singleton
+    @Provides
+    fun provideComentarioRepository(
+        api: ComentarioAPI,
+    ): ComentarioRepository = ComentarioRepositoryImpl(api)
 }
