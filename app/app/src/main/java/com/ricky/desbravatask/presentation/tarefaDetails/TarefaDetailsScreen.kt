@@ -49,6 +49,8 @@ import com.ricky.desbravatask.domain.enums.TarefaPrioridadeEnum
 import com.ricky.desbravatask.domain.enums.TarefaStatusEnum
 import com.ricky.desbravatask.presentation.auth.login.components.BtnCompose
 import com.ricky.desbravatask.presentation.auth.login.components.TextFieldCompose
+import com.ricky.desbravatask.presentation.main.components.DialogRemover
+import com.ricky.desbravatask.presentation.main.components.DialogTarefa
 import com.ricky.desbravatask.presentation.tarefaDetails.components.ComentarioItem
 import com.ricky.desbravatask.sample.Exemplos.comentarios
 import com.ricky.desbravatask.utils.formatLocalDateTimeToString
@@ -71,6 +73,10 @@ fun TarefaDetailsScreen(
 ) {
     val status = TarefaStatusEnum.entries
     val focusManager: FocusManager = LocalFocusManager.current
+
+    if (state.isVoltar) {
+        navController.popBackStack()
+    }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -113,6 +119,57 @@ fun TarefaDetailsScreen(
             )
         }
     ) { paddingValues ->
+        if (state.isDialogDelete) {
+            DialogRemover(
+                onRemover = {
+                    onEvent(TarefaDetailsEvent.DeleteTarefa)
+                },
+                onDimiss = {
+                    onEvent(TarefaDetailsEvent.DialogDelete)
+                }
+            )
+        }
+
+        if (state.isDialogEdit) {
+            DialogTarefa(
+                isLoading = state.isLoading,
+                nome = state.nomeTarefa,
+                nomeResponsavel = state.nomeResponsavel,
+                descricao = state.descricaoTarefa,
+                prioridadeEnum = state.tarefaPrioridade,
+                departamentos = state.departamentos,
+                usuarios = state.usuarios,
+                departamento = state.departamentoTarefa,
+                isErrorNome = state.onErrorNomeTarefa,
+                isErrorDescricao = state.onErrorDescricaoTarefa,
+                isErrorResponsavel = state.onErrorResponsavel,
+                onNomeChange = {
+                    onEvent(TarefaDetailsEvent.OnChangeNomeTarefa(it))
+                },
+                onNomeResponsavelChange = {
+                    onEvent(TarefaDetailsEvent.OnChangeNomeResponsavel(it))
+                },
+                onResponsavelChange = {
+                    onEvent(TarefaDetailsEvent.OnChangeResponsavel(it))
+                },
+                onDescricaoChange = {
+                    onEvent(TarefaDetailsEvent.OnChangeDescricaoTarefa(it))
+                },
+                onDepartamentoChange = {
+                    onEvent(TarefaDetailsEvent.OnChangeDepartamentoTarefa(it))
+                },
+                onPrioridadeChange = {
+                    onEvent(TarefaDetailsEvent.OnChangePrioridade(it))
+                },
+                onDismiss = {
+                    onEvent(TarefaDetailsEvent.DialogEdit)
+                },
+                onFinish = {
+                    onEvent(TarefaDetailsEvent.OnSaveTarefa)
+                }
+            )
+        }
+
         LazyColumn(
             Modifier
                 .padding(paddingValues)
