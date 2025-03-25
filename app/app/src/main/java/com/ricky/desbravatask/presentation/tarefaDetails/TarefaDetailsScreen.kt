@@ -1,18 +1,19 @@
 package com.ricky.desbravatask.presentation.tarefaDetails
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForwardIos
+import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.AddComment
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Delete
@@ -32,8 +33,10 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -43,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ricky.desbravatask.R
 import com.ricky.desbravatask.domain.enums.TarefaPrioridadeEnum
+import com.ricky.desbravatask.domain.enums.TarefaStatusEnum
 import com.ricky.desbravatask.presentation.auth.login.components.BtnCompose
 import com.ricky.desbravatask.presentation.auth.login.components.TextFieldCompose
 import com.ricky.desbravatask.presentation.tarefaDetails.components.ComentarioItem
@@ -65,6 +69,8 @@ fun TarefaDetailsScreen(
     onEvent: (TarefaDetailsEvent) -> Unit = {},
     navController: NavController
 ) {
+    val status = TarefaStatusEnum.entries
+    val focusManager: FocusManager = LocalFocusManager.current
     Scaffold(
         topBar = {
             TopAppBar(
@@ -83,14 +89,20 @@ fun TarefaDetailsScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = {
+                        focusManager.clearFocus()
+                        onEvent(TarefaDetailsEvent.DialogEdit)
+                    }) {
                         Icon(
                             imageVector = Icons.Default.Edit,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.primary
                         )
                     }
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = {
+                        focusManager.clearFocus()
+                        onEvent(TarefaDetailsEvent.DialogDelete)
+                    }) {
                         Icon(
                             imageVector = Icons.Default.Delete,
                             contentDescription = null,
@@ -263,14 +275,28 @@ fun TarefaDetailsScreen(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center,
                 ) {
-                    BtnCompose(
-                        modifier = Modifier
-                            .weight(1f),
-                        onClick = {},
-                        icon = Icons.Default.ArrowBackIosNew,
-                        enabled = !state.isLoading,
-                        loading = state.isLoading
-                    )
+                    if (state.tarefa.status != TarefaStatusEnum.A_FAZER) {
+                        BtnCompose(
+                            modifier = Modifier
+                                .weight(1f),
+                            onClick = {
+                                focusManager.clearFocus()
+                                val statusUpdateIndex = status.indexOf(state.tarefa.status) - 1
+                                onEvent(
+                                    TarefaDetailsEvent.OnChangeStatus(status[statusUpdateIndex])
+                                )
+                            },
+                            icon = Icons.Default.ArrowBackIosNew,
+                            enabled = !state.isLoading,
+                            loading = state.isLoading
+                        )
+
+                    } else {
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                        )
+                    }
                     Surface(
                         shape = RoundedCornerShape(10.dp),
                         color = MaterialTheme.colorScheme.onPrimary,
@@ -288,7 +314,13 @@ fun TarefaDetailsScreen(
                     BtnCompose(
                         modifier = Modifier
                             .weight(1f),
-                        onClick = {},
+                        onClick = {
+                            focusManager.clearFocus()
+                            val statusUpdateIndex = status.indexOf(state.tarefa.status) + 1
+                            onEvent(
+                                TarefaDetailsEvent.OnChangeStatus(status[statusUpdateIndex])
+                            )
+                        },
                         icon = Icons.AutoMirrored.Filled.ArrowForwardIos,
                         enabled = !state.isLoading,
                         loading = state.isLoading
@@ -309,9 +341,19 @@ fun TarefaDetailsScreen(
 //                                unfocusedIndicatorColor = Color.Transparent,
 //                            ),
                     ime = ImeAction.Done,
+                    iconAction = Icons.AutoMirrored.Filled.Send,
                     isError = false,
-                    onDone = { onEvent(TarefaDetailsEvent.SaveComentario) }
-                ) { onEvent(TarefaDetailsEvent.OnChangeComentario(it)) }
+                    onAction = {
+                        focusManager.clearFocus()
+                        onEvent(TarefaDetailsEvent.SaveComentario)
+                    },
+                    onDone = {
+                        focusManager.clearFocus()
+                        onEvent(TarefaDetailsEvent.SaveComentario)
+                    }
+                ) {
+                    onEvent(TarefaDetailsEvent.OnChangeComentario(it))
+                }
 
             }
             items(comentarios) { item ->

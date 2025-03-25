@@ -39,10 +39,13 @@ interface TarefaRepository : JpaRepository<Tarefa, String> {
     fun deleteByUsuarioId(@Param("usuarioId") usuarioId: String)
 
     @Query(
-        "select t from Tarefa t " +
-                " where t.departamento.id = :departamentoId " +
-                " and t.responsavel.id = :usuarioId"
+        "SELECT t FROM Tarefa t " +
+                "WHERE t.departamento.id = :departamentoId " +
+                "AND ((t.responsavel.id = :usuarioId AND (t.status = 'A_FAZER' OR t.status = 'EM_ANDAMENTO')) " +
+                "OR (t.criadoPor.id = :usuarioId and (t.status = 'EM_REVISAO' OR t.status = 'CONCLUIDA')))"
     )
-    fun findByDepartamentoIdAndUsuarioId(@Param("departamentoId") departamentoId: String,@Param("usuarioId") usuarioId:String):List<Tarefa>
-
+    fun findByDepartamentoIdAndUsuarioId(
+        @Param("departamentoId") departamentoId: String,
+        @Param("usuarioId") usuarioId: String
+    ): List<Tarefa>
 }

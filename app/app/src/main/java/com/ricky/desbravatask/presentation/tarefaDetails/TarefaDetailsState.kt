@@ -8,4 +8,5 @@ data class TarefaDetailsState(
     val error: String = "",
     val isLoading: Boolean = false,
     val comentario:String="",
+    val isDialogEdit:Boolean = false,
 )

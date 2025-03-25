@@ -48,10 +48,12 @@ fun TextFieldCompose(
     @StringRes label: Int? = null,
     keyboardType: KeyboardType = KeyboardType.Text,
     icon: ImageVector? = null,
+    iconAction: ImageVector? = null,
     isPassword: Boolean = false,
     ime: ImeAction = ImeAction.Next,
     onDone: () -> Unit = {},
     onNext: () -> Unit = {},
+    onAction: () -> Unit = {},
     enable: Boolean = true,
     colors: TextFieldColors = TextFieldDefaults.colors(
         focusedContainerColor = Color.Transparent,
@@ -126,6 +128,11 @@ fun TextFieldCompose(
                         val iconShow =
                             if (hiddenPassword) Icons.Default.VisibilityOff else Icons.Default.Visibility
                         Icon(imageVector = iconShow, contentDescription = null)
+                    }
+                }
+                if (iconAction != null) {
+                    IconButton(onClick = { onAction() }) {
+                        Icon(imageVector = iconAction, contentDescription = null)
                     }
                 }
             },
