@@ -18,4 +18,6 @@ object Constants {
     const val USER_VERIFICAR_COD_ENDPOINT: String = "$USER_ENDPOINT/verificar-cod"
     const val USER_RESET_SENHA_ENDPOINT: String = "$USER_ENDPOINT/reset-senha"
     const val USER_ALTERAR_SENHA_ENDPOINT: String = "$USER_ENDPOINT/alterar-senha"
+
+    const val PARAM_TAREFA_ID:String="tarefa_id"
 }
