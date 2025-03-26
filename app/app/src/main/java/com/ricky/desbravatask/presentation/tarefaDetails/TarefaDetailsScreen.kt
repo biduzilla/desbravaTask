@@ -133,9 +133,9 @@ fun TarefaDetailsScreen(
         if (state.isDialogEdit) {
             DialogTarefa(
                 isLoading = state.isLoading,
-                nome = state.nomeTarefa,
+                nome = state.tarefa.name,
                 nomeResponsavel = state.nomeResponsavel,
-                descricao = state.descricaoTarefa,
+                descricao = state.tarefa.name,
                 prioridadeEnum = state.tarefaPrioridade,
                 departamentos = state.departamentos,
                 usuarios = state.usuarios,

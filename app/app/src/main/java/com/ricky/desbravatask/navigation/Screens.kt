@@ -20,4 +20,8 @@ sealed class Screens(val route:String) {
     data object MainScreen: Screens(
         route="main"
     )
+
+    data object TarefaDetailsScreen: Screens(
+        route="tarefa_details"
+    )
 }

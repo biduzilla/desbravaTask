@@ -22,6 +22,9 @@ import com.ricky.desbravatask.presentation.main.MainScreen
 import com.ricky.desbravatask.presentation.main.MainViewModel
 import com.ricky.desbravatask.presentation.splash.SplashScreen
 import com.ricky.desbravatask.presentation.splash.SplashViewModel
+import com.ricky.desbravatask.presentation.tarefaDetails.TarefaDetailsScreen
+import com.ricky.desbravatask.presentation.tarefaDetails.TarefaDetailsViewModel
+import com.ricky.desbravatask.utils.Constants
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -75,6 +78,16 @@ fun AppNav() {
             val viewModel = hiltViewModel<MainViewModel>()
             val state by viewModel.state.collectAsState()
             MainScreen(
+                navController = navController,
+                state = state,
+                onEvent = viewModel::onEvent
+            )
+        }
+
+        composableSlideHorizontally(route = Screens.TarefaDetailsScreen.route + Constants.PARAM_TAREFA_ID) {
+            val viewModel = hiltViewModel<TarefaDetailsViewModel>()
+            val state by viewModel.state.collectAsState()
+            TarefaDetailsScreen(
                 navController = navController,
                 state = state,
                 onEvent = viewModel::onEvent

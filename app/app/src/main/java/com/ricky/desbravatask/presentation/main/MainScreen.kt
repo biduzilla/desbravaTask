@@ -1,15 +1,8 @@
 package com.ricky.desbravatask.presentation.main
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -64,6 +57,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ricky.desbravatask.R
+import com.ricky.desbravatask.navigation.Screens
 import com.ricky.desbravatask.presentation.auth.login.components.BtnCompose
 import com.ricky.desbravatask.presentation.main.components.DialogAddDepartamento
 import com.ricky.desbravatask.presentation.main.components.DialogRemover
@@ -326,8 +320,12 @@ fun MainScreen(
                         items(state.tarefas.filter { it.status == state.tarefaEnum },
                             key = { it.id }) { tarefa ->
                             TarefaCompose(
-                                Modifier.animateItemPlacement(),
-                                tarefa = tarefa
+                                Modifier
+                                    .animateItemPlacement()
+                                    .clickable {
+                                        navController.navigate(Screens.TarefaDetailsScreen.route + tarefa.id)
+                                    },
+                                tarefa = tarefa,
                             )
                             Spacer(Modifier.height(16.dp))
                         }
