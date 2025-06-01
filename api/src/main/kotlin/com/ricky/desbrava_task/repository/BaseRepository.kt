@@ -16,4 +16,6 @@ interface BaseRepository<T : BaseModel, ID> : JpaRepository<T, ID> {
     override fun deleteAll(entities: MutableIterable<T>) {
         saveAll(entities.map { it.apply { isExcluido = true } })
     }
+
+
 }
