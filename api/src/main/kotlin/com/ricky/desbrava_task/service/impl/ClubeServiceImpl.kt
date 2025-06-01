@@ -4,6 +4,7 @@ import com.ricky.desbrava_task.exceptions.DesbravaTaskErrorException
 import com.ricky.desbrava_task.models.Clube
 import com.ricky.desbrava_task.repository.ClubeRepository
 import com.ricky.desbrava_task.service.BaseService
+import com.ricky.desbrava_task.service.ClubeService
 import com.ricky.desbrava_task.utils.I18n
 import com.ricky.desbrava_task.utils.getPageable
 import org.springframework.data.domain.Page
@@ -13,12 +14,12 @@ import org.springframework.stereotype.Service
 class ClubeServiceImpl(
     private val clubeRepository: ClubeRepository,
     private val i18n: I18n
-) : BaseService<Clube> {
+) : ClubeService {
     override fun save(entity: Clube): Clube {
         return clubeRepository.save(entity)
     }
 
-    override fun findById(id: String): Clube {
+    override fun findById(id: String): Clube? {
         return clubeRepository.findById(id)
             .orElseThrow {
                 DesbravaTaskErrorException(i18n.getMessage("error.clube.nao.encontrado"))

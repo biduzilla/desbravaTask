@@ -4,7 +4,7 @@ import org.springframework.data.domain.Page
 
 interface BaseService<T> {
     fun save(entity: T): T
-    fun findById(id: String): T
+    fun findById(id: String): T?
 
     fun findAll(search: String?, qtd: Int, page: Int): Page<T>
     fun findAll(): List<T>
