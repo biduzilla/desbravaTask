@@ -1,9 +1,11 @@
 package com.ricky.desbrava_task.models
 
 import jakarta.persistence.*
+import org.hibernate.annotations.SQLRestriction
 
 @Entity
 @Table(name = "CLUBE")
+@SQLRestriction("is_excluido = false")
 data class Clube(
     @Id
     @Column(name = "ID_CLUBE")
