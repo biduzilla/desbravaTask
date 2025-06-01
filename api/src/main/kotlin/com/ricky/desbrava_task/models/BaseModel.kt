@@ -31,5 +31,5 @@ abstract class BaseModel(
     var updatedBy: Usuario? = null,
 
     @Column(name = "IS_EXCLUIDO")
-    var isExcluido: Boolean
+    var isExcluido: Boolean=false
 ) : Serializable
