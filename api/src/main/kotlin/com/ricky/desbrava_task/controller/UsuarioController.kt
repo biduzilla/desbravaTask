@@ -1,7 +1,9 @@
 package com.ricky.desbrava_task.controller
 
 import com.ricky.desbrava_task.dto.ClubeDTO
+import com.ricky.desbrava_task.dto.UsuarioDTO
 import com.ricky.desbrava_task.service.ClubeService
+import com.ricky.desbrava_task.service.UsuarioService
 import com.ricky.desbrava_task.utils.CacheConstants
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -14,16 +16,16 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/clube")
+@RequestMapping("/usuario")
 @Tag(
-    name = "Clube",
-    description = "Operações relacionadas ao gerenciamento de clubes"
+    name = "Usuario",
+    description = "Operações relacionadas ao gerenciamento de usuários"
 )
-class ClubeController(
-    private val clubeService: ClubeService
+class UsuarioController(
+    private val usuarioService: UsuarioService
 ) {
     @GetMapping
-    @Cacheable(CacheConstants.CLUBES_CACHE)
+    @Cacheable(CacheConstants.USUARIOS_CACHE)
     @Operation(
         summary = "Buscar todos os usuários",
         description = "API para buscar todos os clubes com suporte a filtros e paginação."
@@ -37,8 +39,8 @@ class ClubeController(
         @RequestParam(required = false) search: String?,
         @RequestParam(defaultValue = "15") size: Int,
         @RequestParam(defaultValue = "0") page: Int
-    ): Page<ClubeDTO> {
-        return clubeService.findAll(
+    ): Page<UsuarioDTO> {
+        return usuarioService.findAll(
             search = search,
             qtd = size,
             page = page
@@ -46,61 +48,61 @@ class ClubeController(
     }
 
     @Operation(
-        summary = "Buscar clubes por ID",
-        description = "API para buscar um clube específico pelo ID."
+        summary = "Buscar usuários por ID",
+        description = "API para buscar um usuário específico pelo ID."
     )
     @ApiResponses(
         value = [
-            ApiResponse(responseCode = "200", description = "Clube encontrado"),
+            ApiResponse(responseCode = "200", description = "Usuário encontrado"),
         ]
     )
     @GetMapping("/{id}")
-    fun findById(@PathVariable id: String): ClubeDTO {
-        return clubeService.findById(id).toDTO()
+    fun findById(@PathVariable id: String): UsuarioDTO {
+        return usuarioService.findById(id).toDTO()
     }
 
     @Operation(
-        summary = "Criar novo clube",
-        description = "API para criar um novo clube no sistema."
+        summary = "Criar novo usuário",
+        description = "API para criar um novo usuário no sistema."
     )
     @ApiResponses(
         value = [
-            ApiResponse(responseCode = "201", description = "Clube criado com sucesso"),
+            ApiResponse(responseCode = "201", description = "Usuário criado com sucesso"),
         ]
     )
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @CacheEvict(value = [CacheConstants.CLUBES_CACHE], allEntries = true)
-    fun save(@RequestBody clubeDTO: ClubeDTO): ClubeDTO {
-        return clubeService.save(clubeDTO.toModel()).toDTO()
+    @CacheEvict(value = [CacheConstants.USUARIOS_CACHE], allEntries = true)
+    fun save(@RequestBody usuarioDTO: UsuarioDTO): UsuarioDTO {
+        return usuarioService.save(usuarioDTO.toModel()).toDTO()
     }
 
     @Operation(
-        summary = "Atualizar clube",
-        description = "API para atualizar os dados de um clube."
+        summary = "Atualizar usuário",
+        description = "API para atualizar os dados de um usuário."
     )
     @ApiResponses(
         value = [
-            ApiResponse(responseCode = "200", description = "Clube atualizado com sucesso"),
+            ApiResponse(responseCode = "200", description = "Usuário atualizado com sucesso"),
         ]
     )
     @PutMapping
-    fun update(@RequestBody clubeDTO: ClubeDTO): ClubeDTO {
-        return clubeService.update(clubeDTO.toModel()).toDTO()
+    fun update(@RequestBody usuarioDTO: UsuarioDTO): UsuarioDTO {
+        return usuarioService.update(usuarioDTO.toModel()).toDTO()
     }
 
     @Operation(
-        summary = "Excluir clube",
-        description = "API para excluir os dados de um clube."
+        summary = "Excluir usuário",
+        description = "API para excluir os dados de um usuário."
     )
     @ApiResponses(
         value = [
-            ApiResponse(responseCode = "200", description = "Clube excluido com sucesso"),
+            ApiResponse(responseCode = "200", description = "Usuário excluido com sucesso"),
         ]
     )
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteById(@PathVariable id: String) {
-        clubeService.deleteById(id)
+        usuarioService.deleteById(id)
     }
 }

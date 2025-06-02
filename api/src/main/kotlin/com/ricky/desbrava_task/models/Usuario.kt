@@ -1,5 +1,6 @@
 package com.ricky.desbrava_task.models
 
+import com.ricky.desbrava_task.dto.UsuarioDTO
 import jakarta.persistence.*
 
 @Entity
@@ -15,11 +16,20 @@ data class Usuario(
     var clube: Clube? = null,
 
     @Column(name = "NOME", length = 50)
-    var nome: String,
+    var nome: String = "",
 
     @Column(name = "EMAIL", length = 20)
-    var email: String,
+    var email: String = "",
 
     @Column(name = "SENHA", length = 100)
-    var senha: String,
-) : BaseModel()
+    var senha: String = "",
+) : BaseModel() {
+    fun toDTO(): UsuarioDTO {
+        return UsuarioDTO(
+            idUsuario = idUsuario,
+            clube = clube,
+            nome = nome,
+            email = email
+        )
+    }
+}

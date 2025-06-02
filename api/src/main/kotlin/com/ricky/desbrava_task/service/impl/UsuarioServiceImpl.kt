@@ -1,12 +1,12 @@
 package com.ricky.desbrava_task.service.impl
 
-import com.ricky.desbrava_task.exceptions.DesbravaTaskErrorException
 import com.ricky.desbrava_task.exceptions.NotFoundException
 import com.ricky.desbrava_task.models.Usuario
 import com.ricky.desbrava_task.repository.UsuarioRepository
 import com.ricky.desbrava_task.service.UsuarioService
 import com.ricky.desbrava_task.utils.I18n
 import com.ricky.desbrava_task.utils.getPageable
+import org.springframework.beans.BeanUtils
 import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service
 
@@ -19,11 +19,19 @@ class UsuarioServiceImpl(
         return usuarioRepository.save(entity)
     }
 
-    override fun findById(id: String): Usuario? {
-        return usuarioRepository.findById(id)
-            .orElseThrow {
-                NotFoundException(i18n.getMessage("error.usuario.nao.encontrado"))
-            }
+    override fun update(entity: Usuario): Usuario {
+        val usuario = findById(entity.idUsuario)
+        BeanUtils.copyProperties(entity, usuario)
+        return save(entity)
+    }
+
+    override fun findById(id: String?): Usuario {
+        id?.let {
+            return usuarioRepository.findById(id)
+                .orElseThrow {
+                    NotFoundException(i18n.getMessage("error.usuario.nao.encontrado"))
+                }
+        } ?: throw NotFoundException(i18n.getMessage("error.usuario.nao.encontrado"))
     }
 
     override fun findAll(search: String?, qtd: Int, page: Int): Page<Usuario> {
