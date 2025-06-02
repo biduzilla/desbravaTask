@@ -11,6 +11,7 @@ import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 data class TarefaDTO(
     @Schema(description = "ID único da tarefa", example = "12345")
@@ -45,6 +46,12 @@ data class TarefaDTO(
 
     @Schema(description = "Código do status atual da tarefa", example = "1")
     var status: TarefaStatusEnum = TarefaStatusEnum.A_FAZER,
+
+    @Schema(description = "Data de publicação do comentário")
+    var createdAt: LocalDateTime? = null,
+
+    @Schema(description = "Usuário que criou a tarefa", required = true)
+    var criadoPor: UsuarioDTO? = null,
 ) {
     fun toModel(): Tarefa {
         return Tarefa(

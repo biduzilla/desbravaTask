@@ -1,5 +1,6 @@
 package com.ricky.desbrava_task.models
 
+import com.ricky.desbrava_task.dto.ComentarioDTO
 import jakarta.persistence.*
 
 @Entity
@@ -15,5 +16,15 @@ data class Comentario(
 
     @ManyToOne
     @JoinColumn(name = "ID_TAREFA")
-    var tarafa: Tarefa? = null
-) : BaseModel()
+    var tarefa: Tarefa? = null
+) : BaseModel() {
+    fun toDTO(): ComentarioDTO {
+        return ComentarioDTO(
+            idComentario = idComentario,
+            comentario = comentario,
+            tarefa = tarefa?.toDTO(),
+            createdAt = createdAt,
+            usuario = createdBy?.toDTO()
+        )
+    }
+}

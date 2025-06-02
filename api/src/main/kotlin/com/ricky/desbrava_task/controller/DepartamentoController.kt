@@ -26,7 +26,7 @@ class DepartamentoController(
     @Cacheable(CacheConstants.DEPARTAMENTOS_CACHE)
     @Operation(
         summary = "Buscar todos os departamentos",
-        description = "API para buscar todos os departamentos com suporte a filtros e paginação."
+        description = "API para buscar todos os departamentos."
     )
     @ApiResponses(
         value = [

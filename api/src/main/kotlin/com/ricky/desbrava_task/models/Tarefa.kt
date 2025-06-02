@@ -48,7 +48,9 @@ data class Tarefa(
             nome = nome,
             descricao = descricao,
             status = status,
-            prioridade = prioridade
+            prioridade = prioridade,
+            criadoPor = createdBy?.toDTO(),
+            createdAt = createdAt
         )
     }
 }
