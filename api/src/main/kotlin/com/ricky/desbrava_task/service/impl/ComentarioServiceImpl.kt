@@ -1,6 +1,7 @@
 package com.ricky.desbrava_task.service.impl
 
 import com.ricky.desbrava_task.exceptions.DesbravaTaskErrorException
+import com.ricky.desbrava_task.exceptions.NotFoundException
 import com.ricky.desbrava_task.models.Comentario
 import com.ricky.desbrava_task.repository.ComentarioRepository
 import com.ricky.desbrava_task.service.ComentarioService
@@ -21,7 +22,7 @@ class ComentarioServiceImpl(
     override fun findById(id: String): Comentario? {
         return comentarioRepository.findById(id)
             .orElseThrow {
-                DesbravaTaskErrorException(i18n.getMessage("error.comentario.nao.encontrado"))
+                NotFoundException(i18n.getMessage("error.comentario.nao.encontrado"))
             }
     }
 

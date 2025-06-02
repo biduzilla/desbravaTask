@@ -1,6 +1,7 @@
 package com.ricky.desbrava_task.service.impl
 
 import com.ricky.desbrava_task.exceptions.DesbravaTaskErrorException
+import com.ricky.desbrava_task.exceptions.NotFoundException
 import com.ricky.desbrava_task.models.Departamento
 import com.ricky.desbrava_task.repository.DepartamentoRepository
 import com.ricky.desbrava_task.service.DepartamentoService
@@ -21,7 +22,7 @@ class DepartamentoServiceImpl(
     override fun findById(id: String): Departamento? {
         return departamentoRepository.findById(id)
             .orElseThrow {
-                DesbravaTaskErrorException(i18n.getMessage("error.departamento.nao.encontrado"))
+                NotFoundException(i18n.getMessage("error.departamento.nao.encontrado"))
             }
     }
 

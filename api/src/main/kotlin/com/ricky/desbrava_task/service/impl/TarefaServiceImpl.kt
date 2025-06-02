@@ -1,6 +1,7 @@
 package com.ricky.desbrava_task.service.impl
 
 import com.ricky.desbrava_task.exceptions.DesbravaTaskErrorException
+import com.ricky.desbrava_task.exceptions.NotFoundException
 import com.ricky.desbrava_task.models.Tarefa
 import com.ricky.desbrava_task.repository.TarefaRepository
 import com.ricky.desbrava_task.service.TarefaService
@@ -21,7 +22,7 @@ class TarefaServiceImpl(
     override fun findById(id: String): Tarefa? {
         return tarefaRepository.findById(id)
             .orElseThrow {
-                DesbravaTaskErrorException(i18n.getMessage("error.tarefa.nao.encontrado"))
+                NotFoundException(i18n.getMessage("error.tarefa.nao.encontrado"))
             }
     }
 

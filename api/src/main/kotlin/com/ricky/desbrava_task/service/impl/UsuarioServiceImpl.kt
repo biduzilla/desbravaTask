@@ -1,6 +1,7 @@
 package com.ricky.desbrava_task.service.impl
 
 import com.ricky.desbrava_task.exceptions.DesbravaTaskErrorException
+import com.ricky.desbrava_task.exceptions.NotFoundException
 import com.ricky.desbrava_task.models.Usuario
 import com.ricky.desbrava_task.repository.UsuarioRepository
 import com.ricky.desbrava_task.service.UsuarioService
@@ -21,7 +22,7 @@ class UsuarioServiceImpl(
     override fun findById(id: String): Usuario? {
         return usuarioRepository.findById(id)
             .orElseThrow {
-                DesbravaTaskErrorException(i18n.getMessage("error.usuario.nao.encontrado"))
+                NotFoundException(i18n.getMessage("error.usuario.nao.encontrado"))
             }
     }
 

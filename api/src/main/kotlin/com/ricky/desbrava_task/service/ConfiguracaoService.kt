@@ -1,7 +1,10 @@
 package com.ricky.desbrava_task.service
 
-import com.ricky.desbrava_task.models.Tarefa
+import com.ricky.desbravaTask.enums.ConfiguracaoEnum
+import com.ricky.desbrava_task.models.Configuracao
 
-interface ConfiguracaoService : BaseService<Tarefa> {
+interface ConfiguracaoService {
+    fun findById(id: ConfiguracaoEnum): Configuracao?
 
+    fun findAll(): List<Configuracao>
 }
