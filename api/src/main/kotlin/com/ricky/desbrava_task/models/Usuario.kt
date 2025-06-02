@@ -2,13 +2,17 @@ package com.ricky.desbrava_task.models
 
 import com.ricky.desbrava_task.dto.UsuarioDTO
 import jakarta.persistence.*
+import org.hibernate.annotations.SQLDelete
+import org.hibernate.annotations.SQLRestriction
 
 @Entity
 @Table(name = "DEPARTAMENTO")
+@SQLDelete(sql = "UPDATE Usuario SET flagExcluido = true WHERE idUsuario=?")
+@SQLRestriction("flagExcluido <> true")
 data class Usuario(
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "ID_USUARIO")
+    @Column(name = "IDUSUARIO")
     val idUsuario: String? = null,
 
     @ManyToOne

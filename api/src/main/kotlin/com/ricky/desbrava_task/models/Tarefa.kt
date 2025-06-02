@@ -4,12 +4,16 @@ import com.ricky.desbravaTask.enums.TarefaPrioridadeEnum
 import com.ricky.desbravaTask.enums.TarefaStatusEnum
 import com.ricky.desbrava_task.dto.TarefaDTO
 import jakarta.persistence.*
+import org.hibernate.annotations.SQLDelete
+import org.hibernate.annotations.SQLRestriction
 
 @Entity
 @Table(name = "TAREFA")
+@SQLDelete(sql = "UPDATE Tarefa SET flagExcluido = true WHERE idTarefa=?")
+@SQLRestriction("flagExcluido <> true")
 data class Tarefa(
     @Id
-    @Column(name = "ID_TAREFA")
+    @Column(name = "IDTAREFA")
     @GeneratedValue(strategy = GenerationType.UUID)
     val idTarefa: String? = null,
 

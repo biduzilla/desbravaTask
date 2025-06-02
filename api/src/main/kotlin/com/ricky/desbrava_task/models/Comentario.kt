@@ -2,12 +2,16 @@ package com.ricky.desbrava_task.models
 
 import com.ricky.desbrava_task.dto.ComentarioDTO
 import jakarta.persistence.*
+import org.hibernate.annotations.SQLDelete
+import org.hibernate.annotations.SQLRestriction
 
 @Entity
 @Table(name = "COMENTARIO")
+@SQLDelete(sql = "UPDATE Comentario SET flagExcluido = true WHERE idComentario=?")
+@SQLRestriction("flagExcluido <> true")
 data class Comentario(
     @Id
-    @Column(name = "ID_COMENTARIO")
+    @Column(name = "IDCOMENTARIO")
     @GeneratedValue(strategy = GenerationType.UUID)
     val idComentario: String? = null,
 

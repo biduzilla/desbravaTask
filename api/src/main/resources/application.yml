@@ -1,0 +1,60 @@
+#server:
+#  port: 8080
+#spring:
+#  rabbitmq:
+#    host: localhost
+#    port: 5672
+#    username: guest
+#    password: guest
+#  application:
+#    name: desbravaTask
+#  flyway:
+#    depends-on: entityManagerFactory
+#  datasource:
+#    username: root
+#    url: jdbc:mysql://localhost:3306/desbravataskdb?allowPublicKeyRetrieval=true
+#    driverClassName: com.mysql.cj.jdbc.Driver
+#    password: bolinhaBranca19
+#
+#  jpa:
+#    #    hibernate:
+#    #      ddl-auto: update
+#    hibernate:
+#      naming:
+#        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+#    database-platform: org.hibernate.dialect.MySQLDialect
+#    properties:
+#      hibernate:
+#        format_sql: 'true'
+#        show_sql: 'true'
+#    show-sql: 'true'
+#
+#security:
+#  jwt:
+#    key: dGVuaG8gcXVlIHBhc3NlYXIgY29tIGVsZXM=
+#    expiracao: '30'
+#
+#
+
+spring:
+  application:
+    name: desbravaTask
+  flyway:
+    depends-on: entityManagerFactory
+  datasource:
+    username: toddy
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    password: toddy
+  h2:
+    console:
+      enabled: 'true'
+      path: /h2-console
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    properties:
+      hibernate:
+        format_sql: 'true'
+        show_sql: 'true'
+    hibernate:
+      ddl-auto: update

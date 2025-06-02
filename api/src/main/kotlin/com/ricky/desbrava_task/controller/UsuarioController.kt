@@ -11,6 +11,7 @@ import jakarta.validation.Valid
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
@@ -39,11 +40,14 @@ class UsuarioController(
         @RequestParam(defaultValue = "15") size: Int,
         @RequestParam(defaultValue = "0") page: Int
     ): Page<UsuarioDTO> {
-        return usuarioService.findAll(
+        val usuarios = usuarioService.findAll(
             search = search,
             qtd = size,
             page = page
-        ).map { it.toDTO() }
+        )
+        val result = usuarios.map { it.toDTO() }
+
+        return PageImpl(result.content, result.pageable, result.totalElements)
     }
 
     @Operation(

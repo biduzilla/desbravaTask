@@ -7,10 +7,8 @@ import com.ricky.desbrava_task.models.Departamento
 import com.ricky.desbrava_task.models.Tarefa
 import com.ricky.desbrava_task.models.Usuario
 import io.swagger.v3.oas.annotations.media.Schema
-import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
-import java.time.LocalDate
 import java.time.LocalDateTime
 
 data class TarefaDTO(
