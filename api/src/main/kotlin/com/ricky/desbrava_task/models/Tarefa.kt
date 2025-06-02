@@ -2,8 +2,8 @@ package com.ricky.desbrava_task.models
 
 import com.ricky.desbravaTask.enums.TarefaPrioridadeEnum
 import com.ricky.desbravaTask.enums.TarefaStatusEnum
+import com.ricky.desbrava_task.dto.TarefaDTO
 import jakarta.persistence.*
-import java.time.LocalDate
 
 @Entity
 @Table(name = "TAREFA")
@@ -35,11 +35,20 @@ data class Tarefa(
     @Column(name = "PRIORIDADE")
     var prioridade: TarefaPrioridadeEnum = TarefaPrioridadeEnum.BAIXA,
 
-    @Column(name = "PRAZO")
-    @Temporal(value = TemporalType.TIMESTAMP)
-    var prazo: LocalDate? = null,
-
     @Enumerated(value = EnumType.ORDINAL)
     @Column(name = "STATUS")
     var status: TarefaStatusEnum = TarefaStatusEnum.A_FAZER,
-) : BaseModel()
+) : BaseModel() {
+    fun toDTO(): TarefaDTO {
+        return TarefaDTO(
+            idTarefa = idTarefa,
+            usuario = usuario,
+            departamento = departamento,
+            clube = clube,
+            nome = nome,
+            descricao = descricao,
+            status = status,
+            prioridade = prioridade
+        )
+    }
+}

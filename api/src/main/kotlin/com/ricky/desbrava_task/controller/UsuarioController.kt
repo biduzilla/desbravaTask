@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.validation.Valid
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
@@ -71,7 +72,7 @@ class UsuarioController(
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @CacheEvict(value = [CacheConstants.USUARIOS_CACHE], allEntries = true)
-    fun save(@RequestBody usuarioDTO: UsuarioDTO): UsuarioDTO {
+    fun save(@RequestBody @Valid usuarioDTO: UsuarioDTO): UsuarioDTO {
         return usuarioService.save(usuarioDTO.toModel()).toDTO()
     }
 
@@ -85,7 +86,7 @@ class UsuarioController(
         ]
     )
     @PutMapping
-    fun update(@RequestBody usuarioDTO: UsuarioDTO): UsuarioDTO {
+    fun update(@RequestBody @Valid usuarioDTO: UsuarioDTO): UsuarioDTO {
         return usuarioService.update(usuarioDTO.toModel()).toDTO()
     }
 

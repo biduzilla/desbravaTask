@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.validation.Valid
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
@@ -71,7 +72,7 @@ class ClubeController(
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @CacheEvict(value = [CacheConstants.CLUBES_CACHE], allEntries = true)
-    fun save(@RequestBody clubeDTO: ClubeDTO): ClubeDTO {
+    fun save(@RequestBody @Valid clubeDTO: ClubeDTO): ClubeDTO {
         return clubeService.save(clubeDTO.toModel()).toDTO()
     }
 
@@ -85,7 +86,7 @@ class ClubeController(
         ]
     )
     @PutMapping
-    fun update(@RequestBody clubeDTO: ClubeDTO): ClubeDTO {
+    fun update(@RequestBody @Valid clubeDTO: ClubeDTO): ClubeDTO {
         return clubeService.update(clubeDTO.toModel()).toDTO()
     }
 
