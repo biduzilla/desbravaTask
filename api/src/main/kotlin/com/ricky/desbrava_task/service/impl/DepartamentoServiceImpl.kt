@@ -1,12 +1,12 @@
 package com.ricky.desbrava_task.service.impl
 
-import com.ricky.desbrava_task.exceptions.DesbravaTaskErrorException
 import com.ricky.desbrava_task.exceptions.NotFoundException
 import com.ricky.desbrava_task.models.Departamento
 import com.ricky.desbrava_task.repository.DepartamentoRepository
 import com.ricky.desbrava_task.service.DepartamentoService
 import com.ricky.desbrava_task.utils.I18n
 import com.ricky.desbrava_task.utils.getPageable
+import org.springframework.beans.BeanUtils
 import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service
 
@@ -19,11 +19,20 @@ class DepartamentoServiceImpl(
         return departamentoRepository.save(entity)
     }
 
-    override fun findById(id: String): Departamento? {
-        return departamentoRepository.findById(id)
-            .orElseThrow {
-                NotFoundException(i18n.getMessage("error.departamento.nao.encontrado"))
-            }
+    override fun findById(id: String?): Departamento {
+        id?.let {
+            return departamentoRepository.findById(id)
+                .orElseThrow {
+                    NotFoundException(i18n.getMessage("error.departamento.nao.encontrado"))
+                }
+        } ?: throw NotFoundException(i18n.getMessage("error.departamento.nao.encontrado"))
+
+    }
+
+    override fun update(entity: Departamento): Departamento {
+        val departamento = findById(entity.idDepertamento)
+        BeanUtils.copyProperties(entity, departamento)
+        return save(departamento)
     }
 
     override fun findAll(search: String?, qtd: Int, page: Int): Page<Departamento> {

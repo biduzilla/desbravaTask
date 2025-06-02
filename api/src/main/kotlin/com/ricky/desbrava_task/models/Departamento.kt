@@ -1,5 +1,6 @@
 package com.ricky.desbrava_task.models
 
+import com.ricky.desbrava_task.dto.DepartamentoDTO
 import jakarta.persistence.*
 
 @Entity
@@ -16,4 +17,12 @@ data class Departamento(
     @Column(name = "COR")
     var cor: Int = 0
 
-) : BaseModel()
+) : BaseModel(){
+    fun toDTO(): DepartamentoDTO {
+        return DepartamentoDTO(
+            idDepertamento = idDepertamento,
+            cor = cor,
+            nome = nome
+        )
+    }
+}

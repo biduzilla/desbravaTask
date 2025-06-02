@@ -1,8 +1,6 @@
 package com.ricky.desbrava_task.controller
 
-import com.ricky.desbrava_task.dto.ClubeDTO
 import com.ricky.desbrava_task.dto.UsuarioDTO
-import com.ricky.desbrava_task.service.ClubeService
 import com.ricky.desbrava_task.service.UsuarioService
 import com.ricky.desbrava_task.utils.CacheConstants
 import io.swagger.v3.oas.annotations.Operation
@@ -28,11 +26,11 @@ class UsuarioController(
     @Cacheable(CacheConstants.USUARIOS_CACHE)
     @Operation(
         summary = "Buscar todos os usuários",
-        description = "API para buscar todos os clubes com suporte a filtros e paginação."
+        description = "API para buscar todos os usuários com suporte a filtros e paginação."
     )
     @ApiResponses(
         value = [
-            ApiResponse(responseCode = "200", description = "Clubes encontrados"),
+            ApiResponse(responseCode = "200", description = "Usuário encontrados"),
         ]
     )
     fun findAll(
