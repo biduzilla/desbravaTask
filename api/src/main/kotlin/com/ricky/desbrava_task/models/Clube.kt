@@ -1,11 +1,12 @@
 package com.ricky.desbrava_task.models
 
+import com.ricky.desbrava_task.dto.ClubeDTO
 import jakarta.persistence.*
 import org.hibernate.annotations.SQLRestriction
 
 @Entity
 @Table(name = "CLUBE")
-@SQLRestriction("is_excluido = false")
+@SQLRestriction("flagExcluido <> true")
 data class Clube(
     @Id
     @Column(name = "ID_CLUBE")
@@ -17,4 +18,12 @@ data class Clube(
 
     @Column(name = "COD")
     var cod: Long = 0L
-) : BaseModel()
+) : BaseModel() {
+    fun toDTO(): ClubeDTO {
+        return ClubeDTO(
+            idClube = idClube,
+            nome = nome,
+            cod = cod
+        )
+    }
+}
