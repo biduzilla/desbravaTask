@@ -31,7 +31,7 @@ data class Usuario(
     fun toDTO(): UsuarioDTO {
         return UsuarioDTO(
             idUsuario = idUsuario,
-            clube = clube,
+            clube = clube?.toDTO(),
             nome = nome,
             email = email
         )

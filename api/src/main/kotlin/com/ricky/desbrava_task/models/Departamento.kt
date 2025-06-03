@@ -15,6 +15,10 @@ data class Departamento(
     @GeneratedValue(strategy = GenerationType.UUID)
     val idDepertamento: String? = null,
 
+    @ManyToOne
+    @JoinColumn(name = "IDCLUBE")
+    var clube: Clube? = null,
+
     @Column(name = "NOME")
     var nome: String = "",
 

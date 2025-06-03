@@ -2,10 +2,7 @@ package com.ricky.desbrava_task.dto
 
 import com.ricky.desbravaTask.enums.TarefaPrioridadeEnum
 import com.ricky.desbravaTask.enums.TarefaStatusEnum
-import com.ricky.desbrava_task.models.Clube
-import com.ricky.desbrava_task.models.Departamento
 import com.ricky.desbrava_task.models.Tarefa
-import com.ricky.desbrava_task.models.Usuario
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
@@ -17,15 +14,19 @@ data class TarefaDTO(
 
     @field:NotNull(message = "{responsavel.obrigatorio}")
     @Schema(description = "Usuário responsável pela execução da tarefa", required = true)
-    var usuario: Usuario? = null,
+    var usuario: UsuarioDTO? = null,
+
+    @field:NotNull(message = "{usuario.obrigatorio}")
+    @Schema(description = "Usuário responsável pela execução da tarefa", required = true)
+    var responsavel: UsuarioDTO? = null,
 
     @field:NotNull(message = "{departamento.obrigatorio}")
     @Schema(description = "Departamento responsável pela tarefa", required = true)
-    var departamento: Departamento? = null,
+    var departamento: DepartamentoDTO? = null,
 
     @field:NotNull(message = "{clube.obrigatorio}")
     @Schema(description = "Clube responsável pela tarefa", required = true)
-    var clube: Clube? = null,
+    var clube: ClubeDTO? = null,
 
     @field:NotBlank(message = "{comentario.obrigatorio}")
     @Schema(description = "Nome da tarefa", example = "Revisar Documento", required = true)
@@ -54,9 +55,10 @@ data class TarefaDTO(
     fun toModel(): Tarefa {
         return Tarefa(
             idTarefa = idTarefa,
-            usuario = usuario,
-            departamento = departamento,
-            clube = clube,
+            usuario = usuario?.toModel(),
+            responsavel = responsavel?.toModel(),
+            departamento = departamento?.toModel(),
+            clube = clube?.toModel(),
             nome = nome,
             descricao = descricao,
             status = status,

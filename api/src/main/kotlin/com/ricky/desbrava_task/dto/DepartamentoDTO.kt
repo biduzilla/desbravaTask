@@ -1,5 +1,6 @@
 package com.ricky.desbrava_task.dto
 
+import com.ricky.desbrava_task.models.Clube
 import com.ricky.desbrava_task.models.Departamento
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotBlank
@@ -23,6 +24,10 @@ data class DepartamentoDTO(
 
     @Schema(description = "Quantidade de tarefas atribuídas ao responsável")
     var qtdTarefas: Int = 0,
+
+    @Schema(description = "Clube cadastrado no usuário", example = "João Silva")
+    @field:NotNull(message = "{clube.obrigatorio}")
+    var clube: ClubeDTO? = null,
 ) {
     fun toModel(): Departamento {
         return Departamento(

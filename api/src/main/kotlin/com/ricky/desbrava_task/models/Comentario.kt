@@ -19,8 +19,12 @@ data class Comentario(
     var comentario: String = "",
 
     @ManyToOne
-    @JoinColumn(name = "ID_TAREFA")
-    var tarefa: Tarefa? = null
+    @JoinColumn(name = "IDTAREFA")
+    var tarefa: Tarefa? = null,
+
+    @ManyToOne
+    @JoinColumn(name = "IDUSUARIO")
+    var usuario: Usuario? = null
 ) : BaseModel() {
     fun toDTO(): ComentarioDTO {
         return ComentarioDTO(
@@ -28,7 +32,7 @@ data class Comentario(
             comentario = comentario,
             tarefa = tarefa?.toDTO(),
             createdAt = createdAt,
-            usuario = createdBy?.toDTO()
+            usuario = usuario?.toDTO()
         )
     }
 }

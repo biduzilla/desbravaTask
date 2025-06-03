@@ -18,15 +18,19 @@ data class Tarefa(
     val idTarefa: String? = null,
 
     @ManyToOne
-    @JoinColumn(name = "ID_USUARIO")
+    @JoinColumn(name = "IDUSUARIO")
     var usuario: Usuario? = null,
 
     @ManyToOne
-    @JoinColumn(name = "ID_DEPARTAMENTO")
+    @JoinColumn(name = "IDRESPONSAVEL")
+    var responsavel: Usuario? = null,
+
+    @ManyToOne
+    @JoinColumn(name = "IDDEPARTAMENTO")
     var departamento: Departamento? = null,
 
     @ManyToOne
-    @JoinColumn(name = "ID_CLUBE")
+    @JoinColumn(name = "IDCLUBE")
     var clube: Clube? = null,
 
     @Column(name = "NOME", length = 20)
@@ -46,14 +50,15 @@ data class Tarefa(
     fun toDTO(): TarefaDTO {
         return TarefaDTO(
             idTarefa = idTarefa,
-            usuario = usuario,
-            departamento = departamento,
-            clube = clube,
+            usuario = usuario?.toDTO(),
+            responsavel = responsavel?.toDTO(),
+            departamento = departamento?.toDTO(),
+            clube = clube?.toDTO(),
             nome = nome,
             descricao = descricao,
             status = status,
             prioridade = prioridade,
-            criadoPor = createdBy?.toDTO(),
+            criadoPor = usuario?.toDTO(),
             createdAt = createdAt
         )
     }
