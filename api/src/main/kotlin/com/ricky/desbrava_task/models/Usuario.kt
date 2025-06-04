@@ -13,7 +13,7 @@ data class Usuario(
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "IDUSUARIO")
-    val idUsuario: String? = null,
+    val idUsuario: String = "",
 
     @ManyToOne
     @JoinColumn(name = "IDCLUBE")
@@ -27,6 +27,9 @@ data class Usuario(
 
     @Column(name = "SENHA", length = 100)
     var senha: String = "",
+
+    @Column(name = "CODVERIFICACAO")
+    var codVerificacao: Int = 0,
 ) : BaseModel() {
     fun toDTO(): UsuarioDTO {
         return UsuarioDTO(

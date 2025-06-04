@@ -1,6 +1,5 @@
 package com.ricky.desbrava_task.dto
 
-import com.ricky.desbrava_task.models.Clube
 import com.ricky.desbrava_task.models.Departamento
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotBlank
